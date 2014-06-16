@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Admin Portal for Shopvizr.com">
+    <meta name="author" content="Shopvizr.com">
+    <link rel="shortcut icon" href="/images/favicon.png">
+    <title>Sittercity - Marketplace</title>
+    <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
+    <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
+    <%= csrf_meta_tags %>
+  </head>
+  <body data-controller="<%= controller_name %>" data-action="<%= action_name %>" >
+    <%= render :partial => "/layouts/header" %>
+    
+    <div class="row-fluid">
+      <!-- placeholder for flash messages -->
+      <%= render :partial => 'layouts/flash', :locals => {:flash => flash} %>
+    </div>
+      
+    <div class="container">
+      <!-- placeholder for core app functionality -->
+      <%= yield %>
+    </div>
+    
+    <footer>
+      <%= render :partial => "/layouts/footer" %>
+    </footer>
+    
+  </body>
+</html>
