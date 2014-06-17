@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140614214801) do
+ActiveRecord::Schema.define(version: 20140616210001) do
 
   create_table "members", force: true do |t|
     t.string   "type"
@@ -48,7 +48,7 @@ ActiveRecord::Schema.define(version: 20140614214801) do
     t.integer  "rate_cents",                                           default: 0,     null: false
     t.string   "rate_currency",                                        default: "USD", null: false
     t.datetime "started_at"
-    t.decimal  "duration",                    precision: 10, scale: 0
+    t.decimal  "duration",                    precision: 10, scale: 4
     t.integer  "service_fee_amount_cents",                             default: 0,     null: false
     t.string   "service_fee_amount_currency",                          default: "USD", null: false
     t.string   "processor_transaction_id"

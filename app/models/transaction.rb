@@ -21,7 +21,7 @@ class Transaction < ActiveRecord::Base
     !payment_token.nil? && !amount_cents.nil? && !service_fee_amount_cents.nil? 
   end
   
-  #
+  #submit transaction if possible
   def submit
     if submitable?
       process_transaction 
@@ -29,19 +29,21 @@ class Transaction < ActiveRecord::Base
       contact_seeker unless authorized?
     end
   end
+  #end submit
   
   def transaction_from_processor
     Braintree::Transaction.find(self.processor_transaction_id) unless self.processor_transaction_id.nil?
   end
   
-  
-  def request_payment_immediately(seeker, started_at, duration, rate)
+  #request payment to as soon as possible
+  def request_payment_now(seeker, started_at, duration, rate)
     update_attributes(:seeker => seeker,
                       :started_at => started_at,
                       :duration => duration,
                       :rate => rate)
     contact_seeker
   end
+  #end request_payment_now
   
   private
   
@@ -68,6 +70,7 @@ class Transaction < ActiveRecord::Base
     end
     t
   end
+  #end process_transaction
   
   def contact_seeker
     logger.debug "#{seeker.last_name.titleize} family contacted."

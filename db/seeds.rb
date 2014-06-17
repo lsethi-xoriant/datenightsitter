@@ -5,8 +5,7 @@
 #
 #   cities = City.create([{ name: 'Chicago' }, { name: 'Copenhagen' }])
 #   Mayor.create(name: 'Emanuel', city: cities.first)
-Member.create(type: "Provider",
-              email: "aconrad@sittercity.com",
+Provider.create(email: "aconrad@sittercity.com",
               phone: "6174708045",
               password_hash: "$2a$10$M5LLFR0ymNj3U9Xsp9CZ6.H.JATKg8jUWCnuGq3CXp5g.5zAskI3q",
               first_name: "approve_me",
@@ -19,8 +18,7 @@ Member.create(type: "Provider",
               merchant_account_id: "6625a600c378e4fa82efe6cca55f877b"
 )
 
-Member.create(type: "Seeker",
-              email: "mhickey@sittercity.com",
+Seeker.create(email: "mhickey@sittercity.com",
               phone: "3125551212",
               password_hash: "$2a$10$A.KaPBZdTX2G3ff9mtEIb.TEaPWLnD2WNvsqBjXxOMI...",
               first_name: "Marty",

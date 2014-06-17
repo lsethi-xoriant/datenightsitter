@@ -1,29 +1,19 @@
 class Provider < Member
   has_many :transactions
   
-  def add_seeker(last_name, email, mobile)
-    nil
-  end
   
-  def get_seeker(seeker)
-    add_seeker(nil, nil, nil)
-  end
-  
-  def request_payment(seeker, rate, started_at, duration)
-    e = create_transaction(s, rate, start_at)
-    e.duration = duration
-    e.save
-  end
-  
-  def create_transaction(seeker, rate, duration, started_at)
+  def request_payment_now(seeker, started_at, duration, rate)
     t = transactions.create(:merchant_account_id => self.merchant_account_id)
-    t.request_payment_immediately(seeker, rate, duration, started_at)
+    t.request_payment_now(seeker, started_at, duration, rate)
+    t
   end
   
   #get merchant account
   def merchant_account
-    Braintree::MerchantAccount.find(self.merchant_account_id) unless self.merchant_account_id.nil?
+    ma = Braintree::MerchantAccount.find(self.merchant_account_id) unless self.merchant_account_id.nil?
+    ma if ma && ma.status == "active" #only return an active merchant account, otherwise nil
   end
+  #end merchant_account
   
   #create a merchant account for the provider
   def create_merchant_account(account_number, routing_number, tos_accepted)
@@ -58,7 +48,8 @@ class Provider < Member
       self.merchant_account_id = ma.id
       self.save
     else
-      logger.debug "Creating merchant account failed.\n #{result.errors.to_s}"
+      logger.debug "Creating merchant account failed."
+      result.errors.each {|e|  logger.debug "error code: #{e.code};  #{e.message}"}
       ma = result.errors
     end
     ma

@@ -1,0 +1,33 @@
+  
+  <div class='col-lg-12'>
+    All finished babysitting?  Great!  let's settle-up with your family:
+    <br />
+    <br />
+  </div>
+  <%= form_tag(submit_bill_member_path(@provider), :method => :post, :class => "form-inline") do %>
+    <div class="form-group row">
+      <div class="col-xs-5 col-lg-3 col-lg-offset-3"><%= label_tag(:started_at, "Started At:") %></div>
+      <div class="col-xs-7 col-lg-9"><%= text_field_tag(:started_at, nil,:required => true) %></div>
+    </div>
+    <div class="form-group row">
+      <div class="col-xs-5 col-lg-3 col-lg-offset-3"><%= label_tag(:ended_at, "Ended At:") %></div>
+      <div class="col-xs-7 col-lg-3"><%= text_field_tag(:ended_at, nil, :required => true) %></div>
+    </div>
+    <div class="form-group row">
+      <div class="col-xs-5 col-lg-3 col-lg-offset-3"><%= label_tag(:rate, "Typical Hourly Rate") %></div>
+      <div class="col-xs-7 col-lg-3"><%= number_field_tag(:rate, nil, :required => true, :maxlength => 2, :in => 5.0..30.0, :step => 0.25) %></div>
+    </div>
+    <div class="form-group row">
+      <div class="col-xs-5 col-lg-3 col-lg-offset-3"><%= label_tag(:seeker_phone, "Parent's Mobile #") %></div>
+      <div class="col-xs-7 col-lg-3"><%= phone_field_tag(:seeker_phone, nil, :required => true) %></div>
+    </div>
+    <div class="form-group row">
+      <div class="col-xs-5 col-lg-3 col-lg-offset-3"><%= label_tag(:seeker_last_name, "Parent's Last Name") %></div>
+      <div class="col-xs-7 col-lg-3"><%= text_field_tag(:seeker_last_name, nil, :required => true, :maxlength => 20) %></div>
+    </div>
+    <div class="form-group row">
+      <div class="col-xs-5 col-lg-3 col-lg-offset-3"><%= label_tag(:seeker_last_name, "Parent Note") %></div>
+      <div class="col-xs-7 col-lg-3"><%= text_area_tag(:seeker_note, "Thanks! looking forward to coming back!", :rows => 3) %></div>
+    </div>
+    <div class="row-fluid"><%= submit_tag("Submit", :class=>"btn btn-primary") %></div>
+  <% end %>

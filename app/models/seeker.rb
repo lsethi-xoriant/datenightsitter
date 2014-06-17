@@ -1,10 +1,6 @@
 class Seeker < Member
   has_many :transactions
   
-  def full_name
-    self.first_name + " " + self.last_name
-  end
-  
   #get payment account from Braintree if it exists (else nil)
   def payment_account
     Braintree::Customer.find(self.payment_account_id) unless self.payment_account_id.nil?
@@ -34,7 +30,8 @@ class Seeker < Member
       self.payment_account_id = pa.id
       self.save
     else
-      logger.debug "Creating payment account failed.\n #{result.errors.to_s}"
+      logger.debug "Creating payment account failed."
+      result.errors.each {|e|  logger.debug "error code: #{e.code};  #{e.message}"}
       pa = result.errors
     end
     pa
