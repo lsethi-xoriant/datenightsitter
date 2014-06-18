@@ -12,9 +12,10 @@ set :deploy_to, '/www/sites/sittermarketplace/'
 set :format, :pretty     #Default  :pretty
 set :log_level, :info   #Default  :debug
 set :pty, true    #Default false
-# set :linked_files, %w{config/database.yml}  #Default is []
 
-# set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}   #default is []
+
+set :linked_files, %w{config/database.yml config/secrets.yml}  #Default is []
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}   #default is []
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }    # Default is  {}
 set :keep_releases, 5   #Default 5
 
@@ -22,10 +23,6 @@ set :keep_releases, 5   #Default 5
 set :user, "ec2-user"
 set :ssh_options, { forward_agent: true  }
 
-
-
-#set :deploy_via, :remote_cache
-#set :use_sudo, false
 
 
 

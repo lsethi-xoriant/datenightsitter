@@ -12,6 +12,7 @@ default: &default
 
 development:
   <<: *default
+  host: localhost
   database: sit_mkt_dev
   username: sittercity_dev
   password: sitter123
@@ -21,12 +22,15 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
+  host: localhost
   database: sit_mkt_test
   username: sittercity_test
   password: sitter123
 
+#TODO: (AC 2014Jun17) - NEED TO REMOVE FROM GIT AND LOAD FROM ENVIRONMENT
 production:
   <<: *default
+  host: db.sittercitypay.us
   database: sit_mkt
   username: sittercity
   password: sitter123
