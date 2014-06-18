@@ -6,9 +6,8 @@ gem 'rails', '~> 4.1.1'
 #gem 'sqlite3'      # Use sqlite3 as the database for Active Record
 gem 'mysql2', '~> 0.3.13'    # Using Mysql Server
 
-
+#Prepocessing and compression for assets
 gem 'sass-rails', '~> 4.0.3'   # Use SCSS for stylesheets
-
 gem 'uglifier', '>= 1.3.0'  # Use Uglifier as compressor for JavaScript assets
 gem 'coffee-rails', '~> 4.0.0' # Use CoffeeScript for .js.coffee assets and views
 
@@ -23,14 +22,14 @@ gem 'bootstrap-sass', '~> 3.1.1'
 gem 'font-awesome-rails', '~> 4.0'
 gem 'simple_form', '~> 3.0.2'
 
-
 gem 'turbolinks', '~> 2.2.2'  # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 
 
 #application features
 gem 'money-rails', '~> 0.11'
 gem 'braintree', '~> 2.30'
-gem 'bcrypt-ruby', '~> 3.1'
+gem 'twilio-ruby', '~> 3.11.5'
+gem 'bcrypt', '~> 3.1'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
@@ -39,8 +38,6 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',  group: :doc
 
-# Use ActiveModel has_secure_password
-gem 'bcrypt', '~> 3.1.7'
 
 # Use unicorn as the app server
 # gem 'unicorn'
