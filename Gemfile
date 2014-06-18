@@ -13,7 +13,7 @@ gem 'coffee-rails', '~> 4.0.0' # Use CoffeeScript for .js.coffee assets and view
 
 
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
-# gem 'therubyracer',  platforms: :ruby
+gem 'therubyracer', '~> 0.12.1'
 
 #Responsive Web UI
 gem 'jquery-rails', '~> 3.1'    # Use jquery as the JavaScript library
