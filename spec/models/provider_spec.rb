@@ -31,7 +31,7 @@ RSpec.describe Provider, :type => :model do
     end
     
     it "can request payment now" do
-      seeker = FactoryGirl.create(:seeker)
+      seeker = FactoryGirl.create(:seeker, :phone => '+13129700557')   #this phone definitely works with twitter
       seeker.create_payment_account("4111111111111111", "333", "11/2017")
       t = @provider.request_payment_now(seeker, (DateTime.now - (4.0 / 24.0 )), 4.5, 15)
       expect(t).to be_a(Transaction)

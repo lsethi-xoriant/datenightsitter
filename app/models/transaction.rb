@@ -41,7 +41,7 @@ class Transaction < ActiveRecord::Base
                       :started_at => started_at,
                       :duration => duration,
                       :rate => rate)
-    contact_seeker
+
   end
   #end request_payment_now
   
@@ -72,7 +72,4 @@ class Transaction < ActiveRecord::Base
   end
   #end process_transaction
   
-  def contact_seeker
-    logger.debug "#{seeker.last_name.titleize} family contacted."
-  end
 end

@@ -5,6 +5,9 @@ class Provider < Member
   def request_payment_now(seeker, started_at, duration, rate)
     t = transactions.create(:merchant_account_id => self.merchant_account_id)
     t.request_payment_now(seeker, started_at, duration, rate)
+    
+    notify_seeker(seeker, t)
+    
     t
   end
   
@@ -54,5 +57,21 @@ class Provider < Member
     end
     ma
   end
+  
+  private
+  
+  
+  def notify_seeker(seeker, trans)
+    logger.debug "seeker notification started"
+    type = seeker.phone.nil? ? "EmailMessage" : "SmsMessage"
+    
+    m = Message.create(:provider => self, :seeker => seeker, :direction => "to_seeker", :type => type )
+    
+    m.build_payment_request_notification(trans)
+    m.dispatch
+    logger.debug "#{seeker.last_name.titleize} family notified"
+    
+  end
+  
 
 end
