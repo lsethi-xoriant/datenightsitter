@@ -38,7 +38,7 @@ class Provider < Member
         :routing_number => routing_number
       },
       :tos_accepted => tos_accepted,
-      :master_merchant_account_id => APP_CONFIG["braintree"]["master_merchant_account_id"]
+      :master_merchant_account_id => Rails.application.secrets.braintree_master_merchant_account_id
     )
     
     ma = nil

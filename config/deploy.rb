@@ -14,7 +14,7 @@ set :log_level, :info   #Default  :debug
 set :pty, true    #Default false
 
 
-set :linked_files, %w{config/database.yml config/secrets.yml}  #Default is []
+#set :linked_files, %w{config/database.yml config/secrets.yml}  #Default is []
 set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}   #default is []
 # set :default_env, { path: "/opt/ruby/bin:$PATH" }    # Default is  {}
 set :keep_releases, 5   #Default 5
