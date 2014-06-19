@@ -18,11 +18,11 @@ Provider.create(email: "aconrad@sittercity.com",
               merchant_account_id: "6625a600c378e4fa82efe6cca55f877b"
 )
 
-Seeker.create(email: "mhickey@sittercity.com",
-              phone: "3125551212",
+Seeker.create(email: "andrewconrad.shop@gmail.com",
+              phone: "3129700557",
               password_hash: "$2a$10$A.KaPBZdTX2G3ff9mtEIb.TEaPWLnD2WNvsqBjXxOMI...",
-              first_name: "Marty",
-              last_name: "Hickey",
+              first_name: "Andrew",
+              last_name: "Conrad",
               address: "20 W Kinzie St.",
               city: "Chicago",
               state: "IL",
