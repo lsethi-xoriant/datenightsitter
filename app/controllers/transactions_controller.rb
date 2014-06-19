@@ -2,9 +2,10 @@ class TransactionsController < ApplicationController
 
   def review
     @trans = Transaction.find(params["id"]) unless params["id"].nil?
+    @proposed_amount = (@trans.amount > 0) ? @trans.amount : @trans.duration * @trans.rate.to_f
     @pa = @trans.seeker.payment_account
-    @round_up = ( @trans.amount.to_f / 10 ).ceil * 10   #round up to the nearest $10 
-    @bump = ( @trans.amount.to_f / 50 ).ceil * 5  #create a bump factor that starts at $5 and goes up by $5 after each $50 in transaction size
+    @round_up = ( @proposed_amount / 10 ).ceil * 10   #round up to the nearest $10 
+    @bump = ( @proposed_amount / 50 ).ceil * 5  #create a bump factor that starts at $5 and goes up by $5 after each $50 in transaction size
   end
 
   

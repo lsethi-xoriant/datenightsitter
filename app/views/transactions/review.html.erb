@@ -50,10 +50,10 @@
 
   <%=  form_tag(settle_up_path(@trans), :method => :put, :class => "form-inline", :id => "braintree-payment-form") do %>
     <%= simple_fields_for @trans, :class => "form-inline" do |f| %>
-    <div class="form-group row row-amount">
+    <div class="form-group row row-amountCreating merchant account succeeded. merchant_account.id ">
       <div class="col-xs-6">
         <span><%= f.label :amount, "Pay" %></span>&nbsp;&nbsp;
-          <span class='amount'>$<%= f.input_field :amount, :value => number_with_precision(f.object.duration * f.object.rate, precision: 0) %></span>
+          <span class='amount'>$<%= f.input_field :amount, :value => number_with_precision(@proposed_amount , precision: 0) %></span>
       </div>
       <div class="col-xs-6">
           <button id='round-up' type='button' data-amount='<%=@round_up %>' class="btn btn-info btn-sm btn-round-up">
