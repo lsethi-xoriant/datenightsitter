@@ -42,6 +42,31 @@ DOC_LOAD_ACTIONS_CONFIG = {
     },
   },
   
+  transactions: {
+    init: function() {
+      //controller-wide code
+    },
+    review: function() {
+      var braintree = Braintree.create(BRAINTREE_PAYMENT_CSE);
+      braintree.onSubmitEncryptForm('braintree-payment-form');
+      
+      //provides bump up functionality
+      $('#bump-up').click(function() {
+        cur_val = $("#transaction_amount").val();
+        amt = $('#bump-up').data('amount');
+        new_val = Number(cur_val) + Number(amt);
+        $("#transaction_amount").val(new_val);
+        return true;
+      });
+      
+      //provides round up functionality
+      $('#round-up').click(function() {
+        amt = $('#round-up').data('amount');
+        $("#transaction_amount").val(Number(amt));
+        return true;
+      });
+    }
+  }
 };
  
 //base controller functionality;  this should not need modification

@@ -6,9 +6,8 @@ class Transaction < ActiveRecord::Base
   monetize :service_fee_amount_cents
   monetize :rate_cents
   
-  def authorize(payment_token, amount)
+  def authorize(payment_token)
     self.payment_token = payment_token
-    self.amount = amount
     self.submit
   end
   
@@ -61,11 +60,11 @@ class Transaction < ActiveRecord::Base
     t = nil
     if result.success?
       t = result.transaction
-      logger.debug "Creating merchant account succeeded. merchant_account.id = #{t.id}"
+      logger.debug "Processing transaction succeeded. transaction.id = #{t.id}"
       self.processor_transaction_id = t.id
       self.save
     else
-      logger.debug "Creating merchant account failed.\n #{result.errors.to_s}"
+      logger.debug "Processing transaction failed failed.\n #{result.errors.to_s}"
       t = result.errors
     end
     t

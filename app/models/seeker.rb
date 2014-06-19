@@ -8,15 +8,17 @@ class Seeker < Member
   
   
   #create a payment account with Braintree
-  def create_payment_account(cc_number, cvv, expiration_date)
+  def create_payment_account(cc_number, cvv, expiration_month, expiration_year, zipcode)
     result = Braintree::Customer.create(
-      :first_name => self.first_name,
       :last_name => self.last_name,
       :credit_card => {
-        :cardholder_name => self.full_name,
+        :billing_address => {
+          :postal_code => zipcode
+        },
         :number => cc_number,
         :cvv => cvv,
-        :expiration_date => expiration_date,
+        :expiration_month => expiration_month,
+        :expiration_year => expiration_year,
         :options => {
           :verify_card => true
         }
@@ -32,7 +34,6 @@ class Seeker < Member
     else
       logger.debug "Creating payment account failed."
       result.errors.each {|e|  logger.debug "error code: #{e.code};  #{e.message}"}
-      pa = result.errors
     end
     pa
   end
