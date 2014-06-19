@@ -2,14 +2,6 @@ require 'rails_helper'
 
 RSpec.describe Member, :type => :model do
 
-  it "is invalid without an email address" do
-    expect { FactoryGirl.create(:member, :email => nil) }.to raise_error ActiveRecord::RecordInvalid
-  end
-  
-  it "is invalid without a phone number" do
-    expect { FactoryGirl.create(:member, :phone => nil) }.to raise_error ActiveRecord::RecordInvalid
-  end
-  
   context "after being created" do
     let!(:password) { Faker::Internet.password(8) }
     let!(:mem) { FactoryGirl.create(:member, :password => password) }
