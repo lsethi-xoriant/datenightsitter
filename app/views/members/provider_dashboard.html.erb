@@ -1,0 +1,19 @@
+  <div class='col-sm-12'>
+    <h3 style="margin-top: 0px;">Payments Dashboard</h3>
+    <p>Welcome <%= @member.full_name.titleize %>
+    </p>
+    <br />
+    <p>
+      <% if @member.merchant_account_id.nil? %>
+        <%= link_to("Add bank account", bank_account_member_path(@member), :class => "btn btn-primary") %>
+      <% else %>
+        <%= link_to("Wrap up and get paid", settle_up_member_path(@member), :class => "btn btn-primary") %>
+      <% end %>
+    </p>
+    <p style="height:210px">
+      &nbsp;
+    </p>
+    <p>
+        <%= link_to("Introduce Sittercity Payments to your Parent Network", "#goes_nowhere") %>
+    </p>
+  </div>

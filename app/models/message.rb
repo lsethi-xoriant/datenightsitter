@@ -27,7 +27,7 @@ class Message < ActiveRecord::Base
   end
   
   def transaction_url(trans)
-    "http://www.sittercitypay.us/transactions/#{trans.id}"
+    "http://www.sittercitypay.us/settle_up/#{trans.id}/review"
   end
   
 end

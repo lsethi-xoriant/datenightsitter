@@ -1,12 +1,12 @@
 class Member < ActiveRecord::Base
   include BCrypt
-  validates_confirmation_of :password_hash
-  validates_presence_of :password_hash, :on => :create
-  validates_format_of :email, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :on => :create
+  validates_format_of :email, :allow_nil => true, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :on => :create
   validates_uniqueness_of :email, :allow_nil => true
   validates_uniqueness_of :phone, :allow_nil => true
   has_many :transactions
   has_many :messages
+  
+  before_validation :check_password
   
   
   def password
@@ -27,6 +27,8 @@ class Member < ActiveRecord::Base
   end
   
   
+  
+  
   #Class Methods
 
   def self.authenticate(email, password)
@@ -37,5 +39,13 @@ class Member < ActiveRecord::Base
       nil
     end
   end
+  
+  
+  protected
+
+  def check_password
+    self.password_hash ||= Password.create(SecureRandom.hex(5).to_s)
+  end
+  
   
 end

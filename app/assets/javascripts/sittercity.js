@@ -19,9 +19,26 @@ DOC_LOAD_ACTIONS_CONFIG = {
     },
     
     settle_up: function() {
-      // load the cropzoom toolset
-      $('#started_at_timepicker').timepicker({dateFormat: 'mm/dd/yy'});
-      $('#ended_at_timepicker').timepicker({dateFormat: 'mm/dd/yy'});
+      //  http://jonthornton.github.io/jquery-timepicker/
+      //  http://jonthornton.github.io/jquery-timepicker/
+      // initialize input widgets first 
+
+      $('#durationPair .time').timepicker({
+          'showDuration': true,
+          'timeFormat': 'g:ia',
+          'step': 15,
+          'forceRoundTime': true
+          
+      });
+      
+      $('#durationPair .date').datepicker({
+          'format': 'yyyy-m-d',
+          'autoclose': true
+      });
+      
+      // initialize datepair
+      $('#durationPair').datepair();
+      
     },
   },
   

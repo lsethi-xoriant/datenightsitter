@@ -18,7 +18,7 @@ RSpec.describe Member, :type => :model do
     it "has a password_hash that is a BCrypt::Password" do
       expect(mem.password_hash).to be_a(BCrypt::Password)
     end
-  
+    
     context "has an authenticate method that" do
       it "succeeds when presented with the correct password" do
         expect(Member.authenticate(mem.email, password).id).to eq(mem.id)
@@ -28,7 +28,13 @@ RSpec.describe Member, :type => :model do
         expect(Member.authenticate(mem.email, Faker::Internet.password(8))).to be_nil
       end
     end
-
+  end
+  
+  it "sets a password when none is present" do
+    phone = "(312) 555-#{rand(1000..9999)}"
+    mem = Member.create(:phone => phone, :password => nil)
+    expect(mem).to be_a(Member)
+    expect(mem.password_hash).to be_a(BCrypt::Password)
   end
   
 end

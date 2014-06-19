@@ -13,6 +13,9 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.timepicker
+//= require jquery.datepair
+//= require bootstrap.datepicker
 //= require bootstrap
+//= require braintree
 //= require turbolinks
 //= require_tree .

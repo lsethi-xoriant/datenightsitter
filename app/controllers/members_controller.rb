@@ -15,25 +15,25 @@ class MembersController < ApplicationController
   end
   
   def update
-    redirect_to current_account.members.find(params[:id]).tap { |member|
+    redirect_to current_member.members.find(params[:id]).tap { |member|
       member.update!(member_params)
     }
   end
   
   def dashboard
     @member = current_member
-    render :sitter_dashboard if @member.is_a? Provider
-    render :parent_dashboard if @member.is_a? Seeker
+    render :provider_dashboard if @member.is_a? Provider
+    render :seeker_dashboard if @member.is_a? Seeker
   end
   
-  def sitter_dashboard
+  def provider_dashboard
     @member = current_member
-    render :sitter_dashboard
+    render :provider_dashboard
   end
   
-  def parent_dashboard
+  def seeker_dashboard
     @member = current_member
-    render :parent_dashboard
+    render :seeker_dashboard
   end
   
   def bank_account
@@ -45,7 +45,7 @@ class MembersController < ApplicationController
       @account_number = @fd ? ["**********",@fd.account_number_last_4].join : nil
       render :bank_account
     else
-      redirect_to(parent_dashboard_member_path(@provider),
+      redirect_to(dashboard_member_path(@provider),
                   :flash => { :danger => "Your account can not add a bank account at this time."})
     end
   end
@@ -56,7 +56,7 @@ class MembersController < ApplicationController
     if params["account_number"] &&  params["routing_number"] && params["tos"]
       @provider.create_merchant_account(params["account_number"],  params["routing_number"],  params["tos"])
       if @provider.merchant_account
-        redirect_to(sitter_dashboard_member_path(@provider),
+        redirect_to(dashboard_member_path(@provider),
                     :flash => { :success => "Your Account successfully added a merchant account"})
       else
         flash[:danger] = "There was an error submitting your account details.  Please try again."
@@ -80,11 +80,12 @@ class MembersController < ApplicationController
   
   def submit_bill
     @provider = current_member
-    seeker = Seeker.find_or_create_by_phone()
-    @provider.request_payment_now(seeker, started_at, duration, rate)
-    
+    seeker = Seeker.find_or_create_by(:phone => params[:seeker_phone])
+    seeker.update_attributes(:last_name => params[:seeker_last_name]) if seeker.last_name.nil?
+    @provider.request_payment_now(seeker, params["started_at"], params["duration"], params["rate"])
+    redirect_to(dashboard_member_path(@provider),
+                :flash => { :success => "Thanks! the #{seeker.last_name.titleize} family has been notified."})
   end
-  
   
   private
   
