@@ -30,6 +30,7 @@ gem 'money-rails', '~> 0.11'
 gem 'braintree', '~> 2.30'
 gem 'twilio-ruby', '~> 3.11.5'
 gem 'bcrypt', '~> 3.1'
+gem 'rest-client', '~> 1.6.7'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
