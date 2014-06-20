@@ -7,7 +7,6 @@ class TransactionsController < ApplicationController
     @round_up = ( @proposed_amount / 10 ).ceil * 10   #round up to the nearest $10 
     @bump = ( @proposed_amount / 50 ).ceil * 5  #create a bump factor that starts at $5 and goes up by $5 after each $50 in transaction size
   end
-
   
   def update
     @trans = Transaction.find(params[:id])  unless params["id"].nil?
@@ -25,17 +24,15 @@ class TransactionsController < ApplicationController
     
     if result
       flash[:success] = "Success!  you just paid #{@trans.provider.first_name.titleize} #{@trans.amount} and you should receive a receipt shortly."
-      redirect_to(dashboard_member_path(current_member))
+      redirect_to root_path
     else
       flash[:danger] = "Yikes! something was wrong with your credit card information.  try again."
       redirect review_settle_up_path(@trans)
     end
     
-    
   end
   
-  
-  private
+  private 
   
   def trans_params
     params.require(:transaction).permit(:amount)
