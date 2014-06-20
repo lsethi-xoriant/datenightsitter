@@ -12,7 +12,7 @@ class TransactionsController < ApplicationController
   def update
     @trans = Transaction.find(params[:id])  unless params["id"].nil?
     @provider = @trans.provider
-    @seeker = current_member
+    @seeker = @trans.seeker
     
     unless @trans.update!(trans_params) && @seeker.update!(seeker_params)  #if the transaction update fails, then return
       flash[:danger] = "Yikes! something went wrong updating your account information.  try again."
