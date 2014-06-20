@@ -53,7 +53,7 @@
     <div class="form-group row row-amountCreating merchant account succeeded. merchant_account.id ">
       <div class="col-xs-6">
         <span><%= f.label :amount, "Pay" %></span>&nbsp;&nbsp;
-          <span class='amount'>$<%= f.input_field :amount, :value => number_with_precision(@proposed_amount , precision: 0) %></span>
+          <span class='amount'>$<%= f.input_field :amount, :value => number_with_precision(@proposed_amount , precision: 0), :title => "Amount to be paid tot he sitter", :pattern => "[0-9]*", :inputmode => "numeric" %></span>
       </div>
       <div class="col-xs-6">
           <button id='round-up' type='button' data-amount='<%=@round_up %>' class="btn btn-info btn-sm btn-round-up">
@@ -76,11 +76,16 @@
     <div class="form-group row">
       <div class="col-xs-8">
         <%= label_tag(:credit_card, "Credit Card") %>
-        <%= text_field_tag(:card, nil, :data => {:encrypted_name => "number"}, :required => true, :maxlength => 16, :hint => "3722111122223333") %>
+        <%= text_field_tag(:card, nil, :data => {:encrypted_name => "number"}, :required => true,
+                           :maxlength => 16, :hint => "3722111122223333",
+                           :title => "Credit Card Number", :pattern => "[0-9]*",
+                           :inputmode => "numeric" ) %>
       </div>
       <div class="col-xs-4">
         <%= label_tag(:cvv, "CVV") %>
-        <%= text_field_tag(:cvv, nil, :data => {:encrypted_name => "cvv"}, :required => true, :maxlength => 4) %>
+        <%= text_field_tag(:cvv, nil, :data => {:encrypted_name => "cvv"}, :required => true,
+                           :maxlength => 4, :title => "CCV:  The 3-4 digit security number on your CC",
+                           :pattern => "[0-9]*", :inputmode => "numeric") %>
       </div>
     </div>
     <%= simple_fields_for @trans.seeker, :class => "form-inline" do |f| %>
@@ -94,7 +99,9 @@
       </div>
       <div class="col-xs-4">
         <%= f.label :zip, "Zip Code" %>
-        <%= f.input_field :zip, :required => true, :maxlength => 5 %>
+        <%= f.input_field :zip, :required => true, :maxlength => 5 ,
+                          :title => "Billing Zipcode",
+                           :pattern => "[0-9]*", :inputmode => "numeric" %>
       </div>
     </div>
     <div class="form-group row">

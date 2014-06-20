@@ -10,7 +10,7 @@ class TransactionsController < ApplicationController
 
   
   def update
-    @trans = current_member.transactions.find(params[:id])  unless params["id"].nil?
+    @trans = Transaction.find(params[:id])  unless params["id"].nil?
     @provider = @trans.provider
     @seeker = current_member
     
