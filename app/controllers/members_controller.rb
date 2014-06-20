@@ -82,7 +82,7 @@ class MembersController < ApplicationController
     @provider = current_member
     seeker = Seeker.find_or_create_by(:phone => params[:seeker_phone])
     seeker.update_attributes(:last_name => params[:seeker_last_name]) if seeker.last_name.nil?
-    @provider.request_payment_now(seeker, params["started_at"], params["duration"], params["rate"])
+    @provider.request_payment_now(seeker, params["started_at"], params["duration_hours"], params["rate"])
     redirect_to(dashboard_member_path(@provider),
                 :flash => { :success => "Thanks! the #{seeker.last_name.titleize} family has been notified."})
   end

@@ -20,24 +20,24 @@ DOC_LOAD_ACTIONS_CONFIG = {
     
     settle_up: function() {
       //  http://jonthornton.github.io/jquery-timepicker/
-      //  http://jonthornton.github.io/jquery-timepicker/
-      // initialize input widgets first 
+      //  http://jonthornton.github.io/jquery-datepair/
 
+      // initialize input widgets first 
       $('#durationPair .time').timepicker({
           'showDuration': true,
           'timeFormat': 'g:ia',
-          'step': 15,
+          'step': 30,
           'forceRoundTime': true
           
       });
       
-      $('#durationPair .date').datepicker({
-          'format': 'yyyy-m-d',
-          'autoclose': true
-      });
-      
       // initialize datepair
-      $('#durationPair').datepair();
+      $('#durationPair').datepair().on('rangeSelected', function(){
+        started_at = $('#started_at').timepicker('getTime');
+        ended_at = $('#ended_at').timepicker('getTime');
+        hours = (ended_at - started_at ) /  3600000; // in hours
+        $('#duration_hours').val( Number(hours) );
+      });
       
     },
   },
