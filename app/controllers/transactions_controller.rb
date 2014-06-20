@@ -42,7 +42,7 @@ class TransactionsController < ApplicationController
   end
   
   def seeker_params
-    params.require(:transaction).permit(:zip, :email)
+    params.require(:seeker).permit(:zip, :email)
   end
   
 end
