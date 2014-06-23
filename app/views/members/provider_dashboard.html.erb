@@ -7,6 +7,7 @@
       <% if @member.merchant_account_id.nil? %>
         <%= link_to("Add bank account", bank_account_member_path(@member), :class => "btn btn-primary") %>
       <% else %>
+        <%= link_to("Invite Parents to Join", invite_parent_member_path(@member), :class => "btn btn-primary") %>
         <%= link_to("Wrap up and get paid", settle_up_member_path(@member), :class => "btn btn-primary") %>
       <% end %>
     </p>
