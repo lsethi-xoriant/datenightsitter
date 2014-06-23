@@ -1,6 +1,6 @@
 class Provider < Member
   has_many :transactions
-  
+  has_many :messages
   
   def request_payment_now(seeker, started_at, duration, rate)
     t = transactions.create(:merchant_account_id => self.merchant_account_id)
@@ -11,12 +11,23 @@ class Provider < Member
     t
   end
   
+
+  def notify_payment_complete(trans)
+    logger.debug "payment complete notification started"
+    type = phone.nil? ? "EmailMessage" : "SmsMessage"
+    m = messages.create(:provider => self, :seeker => trans.seeker, :direction => "to_provider", :type => type)
+    m.build_payment_complete_notification(trans)
+    m.dispatch
+    logger.debug "#{full_name.titleize} notified of payment"
+  end
+
+  
   #get merchant account
   def merchant_account
     ma = Braintree::MerchantAccount.find(self.merchant_account_id) unless self.merchant_account_id.nil?
     ma if ma && ma.status == "active" #only return an active merchant account, otherwise nil
   end
-  #end merchant_account
+
   
   #create a merchant account for the provider
   def create_merchant_account(account_number, routing_number, tos_accepted)
@@ -65,13 +76,14 @@ class Provider < Member
     logger.debug "seeker notification started"
     type = seeker.phone.nil? ? "EmailMessage" : "SmsMessage"
     
-    m = Message.create(:provider => self, :seeker => seeker, :direction => "to_seeker", :type => type )
+    m = messages.create(:seeker => seeker, :direction => "to_seeker", :type => type )
     
     m.build_payment_request_notification(trans)
     m.dispatch
     logger.debug "#{seeker.last_name.titleize} family notified"
     
   end
+  
   
 
 end
