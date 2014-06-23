@@ -15,8 +15,7 @@ class Provider < Member
 
   def notify_payment_complete(trans)
     logger.debug "payment complete notification started"
-    type = phone.nil? ? "EmailMessage" : "SmsMessage"
-    m = messages.create(:provider => self, :seeker => trans.seeker, :direction => "to_provider", :type => type)
+    m = messages.create(:seeker => trans.seeker, :direction => "to_provider", :type => message_type_preference)
     m.build_payment_complete_notification(trans)
     m.dispatch
     logger.debug "#{full_name.titleize} notified of payment"
@@ -75,9 +74,8 @@ class Provider < Member
   
   def notify_seeker(seeker, trans)
     logger.debug "seeker notification started"
-    type = seeker.phone.nil? ? "EmailMessage" : "SmsMessage"
     
-    m = messages.create(:seeker => seeker, :direction => "to_seeker", :type => type )
+    m = messages.create(:seeker => seeker, :direction => "to_seeker", :type => message_type_preference )
     
     m.build_payment_request_notification(trans)
     m.dispatch

@@ -24,6 +24,10 @@ class Member < ActiveRecord::Base
   def full_name
     [first_name, last_name].join(" ")
   end
+  
+  def message_type_preference
+    phone.nil? ? EmailMessage.name : SmsMessage.name
+  end
 
 
   #determines if there is a merchant account
