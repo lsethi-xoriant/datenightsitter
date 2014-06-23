@@ -15,7 +15,7 @@ class Message < ActiveRecord::Base
   
   def build_payment_complete_notification(trans)
     self.reference_url = dashboard_url(trans).to_s
-    self.body = "Hey #{provider.first_name.titleize}, #{provider.last_name.titleize} just paid you #{trans.amount}. #{shortened_url}"
+    self.body = "Looks like the #{seeker.last_name.titleize} family just paid you #{trans.amount}. #{shortened_url}"
     self.save
   end
   
