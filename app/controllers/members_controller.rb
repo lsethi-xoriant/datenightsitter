@@ -22,6 +22,29 @@ class MembersController < ApplicationController
     }
   end
   
+  def invite_parent
+    @member = current_member
+    @seeker = Seeker.new
+  end
+  
+  def add_seeker
+    @member = current_member
+    @seeker = Seeker.new(seeker_params)
+    if @seeker.save
+      #msg = @member.messages.create(:seeker => seeker, :direction => "to_seeker", :type => @seeker.message_type_preference )
+      #msg.
+      redirect_to(dashboard_member_path(@member),
+                  :flash => { :success => "The parent #{@seeker.full_name} has been added" })
+    else
+      @seeker.errors.full_messages.each do |m|
+        flash[:danger] = m.to_s
+      end
+      render :invite_parent
+    end
+    
+  end
+  
+  
   def dashboard
     @member = current_member
     render :provider_dashboard if @member.is_a? Provider
@@ -111,6 +134,10 @@ class MembersController < ApplicationController
   
   def member_params
     params.require(:member).permit(:first_name, :last_name, :email, :password, :address, :city, :state, :zip, :type, :phone, :date_of_birth)
+  end
+  
+  def seeker_params
+    params.require(:seeker).permit(:first_name, :last_name, :email, :type, :phone )
   end
   
   

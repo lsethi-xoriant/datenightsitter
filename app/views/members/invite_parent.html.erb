@@ -1,0 +1,14 @@
+  <h3>Add a new Family</h3>
+  
+    <div class='col-sm-12'>
+    <%= form_tag(add_seeker_member_path(@member), :method => :post, :class => "form-horizontal") do %>
+      <%= simple_fields_for(@seeker) do |f| %>
+        <%= f.input :first_name, placeholder: 'Paula' %>
+        <%= f.input :last_name, placeholder: 'Smith' %>
+        <%= f.input :email, placeholder: 'user@domain.com' %>
+        <%= f.input :phone, placeholder: '312.555.1212' %>
+        <%= f.button :submit %>
+      <% end %>
+    <% end %>
+    </div>
+

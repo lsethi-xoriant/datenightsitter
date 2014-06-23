@@ -11,10 +11,12 @@ Rails.application.routes.draw do
       get :autocomplete_search_connections_by_last_name
       get :bank_account
       get :dashboard
+      get :invite_parent
       get :provider_dashboard
       get :seeker_dashboard
       get :settle_up
       post :add_bank_account
+      post :add_seeker
       post :submit_bill
     end
   end
