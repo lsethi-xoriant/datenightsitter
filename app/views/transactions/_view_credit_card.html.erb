@@ -1,0 +1,12 @@
+    <!-- begin view_credit_card -->
+    <div class="form-group row">
+      <div class="col-xs-6">
+        <%= label_tag(:credit_card, "Credit Card") %>
+        <%= text_field_tag(:card, ["************",@seeker.credit_card_last_4].join, :disabled => true ) %>
+      </div>
+      <div class="col-xs-6">
+        <%= label_tag(:use_card_on_file, "Use Existing Card?") %><br/>
+        <%= check_box_tag(:use_card_on_file, true, true, {:readonly => true} ) %>
+      </div>
+    </div>
+    <!-- end view_credit_card -->

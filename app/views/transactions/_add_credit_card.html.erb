@@ -1,0 +1,40 @@
+    <!-- begin add_credit_card -->
+    <div class="form-group row">
+      <div class="col-xs-8">
+        <%= label_tag(:credit_card, "Credit Card") %>
+        <%= text_field_tag(:card, nil, :data => {:encrypted_name => "number"}, :required => true,
+                           :maxlength => 16, :hint => "3722111122223333",
+                           :title => "Credit Card Number", :pattern => "[0-9]*",
+                           :inputmode => "numeric" ) %>
+      </div>
+      <div class="col-xs-4">
+        <%= label_tag(:cvv, "CVV") %>
+        <%= text_field_tag(:cvv, nil, :data => {:encrypted_name => "cvv"}, :required => true,
+                           :maxlength => 4, :title => "CCV:  The 3-4 digit security number on your CC",
+                           :pattern => "[0-9]*", :inputmode => "numeric") %>
+      </div>
+    </div>
+    <%= simple_fields_for @trans.seeker, :class => "form-inline" do |f| %>
+    <div class="form-group row">
+      <div class="col-xs-8">
+        <%= label_tag(:date, "Expiration Date") %></br>
+        <%= select_month(Time.now, { }, { :data => {:encrypted_name => "month"} })  %> / 
+        <%= select_year(Date.today.next_year,
+                        {:start_year => Date.today.year },
+                        { :data => {:encrypted_name => "year"}})  %>
+      </div>
+      <div class="col-xs-4">
+        <%= f.label :zip, "Zip Code" %>
+        <%= f.input_field :zip, :required => true, :maxlength => 5 ,
+                          :title => "Billing Zipcode",
+                           :pattern => "[0-9]*", :inputmode => "numeric" %>
+      </div>
+    </div>
+    <div class="form-group row">
+      <div class="col-xs-12">
+        <%= f.label :email, "Email Address" %> (so we can send you a receipt)
+        <%= f.input_field :email, :required => true, :maxlength => 50, :pattern => ".*" %>
+      </div>
+    </div>
+    <% end %>
+    <!-- end add_credit_card -->
