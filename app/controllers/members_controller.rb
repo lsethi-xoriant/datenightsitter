@@ -7,7 +7,8 @@ class MembersController < ApplicationController
   def create
     @member = Member.new(member_params)
     if @member.save
-      redirect_to(root_url,
+      authorize(@member)
+      redirect_to(dashboard_member_path(@member),
                   :flash => { :success => "Signed up!" })
     else
       render "new"
@@ -45,26 +46,31 @@ class MembersController < ApplicationController
       @account_number = @fd ? ["**********",@fd.account_number_last_4].join : nil
       render :bank_account
     else
-      redirect_to(dashboard_member_path(@provider),
-                  :flash => { :danger => "Your account can not add a bank account at this time."})
+      if @provider.is_a?(Member)
+        redirect_to(dashboard_member_path(@provider),
+                    :flash => { :danger => "Your account can not add a bank account at this time."})
+      else
+        redirect_to(log_in_path,
+                    :flash => { :danger => "Please Log In."})
+      end
     end
   end
   
   def add_bank_account
     @provider = current_member
     
-    if params["account_number"] &&  params["routing_number"] && params["tos"]
+    if params["account_number"] && params["routing_number"] && params["tos"]
       @provider.create_merchant_account(params["account_number"],  params["routing_number"],  params["tos"])
-      if @provider.merchant_account
+      if @provider.has_merchant_account?
         redirect_to(dashboard_member_path(@provider),
                     :flash => { :success => "Your Account successfully added a merchant account"})
       else
         flash[:danger] = "There was an error submitting your account details.  Please try again."
-        redirect_to bank_account_member_path(@provider)
+        render :bank_account
       end
     else
-      redirect_to(bank_account_member_path(@provider),
-                  :flash => { :danger => "Something was wrong with the merchant account data you supplied."})
+      flash[:danger] = "Something was wrong with the bank account data you supplied."
+      render :bank_account
     end
   end
   
@@ -90,7 +96,7 @@ class MembersController < ApplicationController
   private
   
   def member_params
-    params.require(:member).permit(:first_name, :last_name, :email, :password, :address, :city, :state, :zip)
+    params.require(:member).permit(:first_name, :last_name, :email, :password, :address, :city, :state, :zip, :type, :phone, :date_of_birth)
   end
     
 end

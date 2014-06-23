@@ -6,7 +6,7 @@ class SessionsController < ApplicationController
   def create
     @member = Member.authenticate(params[:email], params[:password])
     if @member
-      session[:member_id] = @member.id
+      authorize(@member)
       redirect_to dashboard_member_path(@member), :flash => {:success => "Logged in!" }
     else
       flash[:danger] = "Invalid email or password"

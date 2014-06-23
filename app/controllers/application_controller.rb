@@ -5,6 +5,7 @@ class ApplicationController < ActionController::Base
 
   helper_method :current_member
   helper_method :member_signed_in?
+  helper_method :authorize
   
   private
   
@@ -14,5 +15,9 @@ class ApplicationController < ActionController::Base
   
   def member_signed_in?
     current_member.is_a? Member
+  end
+  
+  def authorize(member)
+      session[:member_id] = member.id if member.is_a?(Member)
   end
 end
