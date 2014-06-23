@@ -13,6 +13,11 @@ class Message < ActiveRecord::Base
     self.save
   end
   
+  def build_payment_complete_notification(trans)
+    self.reference_url = dashboard_url(trans).to_s
+    self.body = "Hey #{provider.first_name.titleize}, #{provider.last_name.titleize} just paid you #{trans.amount}. #{shortened_url}"
+    self.save
+  end
   
   def recipient
     to_provider? ? provider : seeker
@@ -28,6 +33,10 @@ class Message < ActiveRecord::Base
   
   def transaction_url(trans)
     "http://www.sittercitypay.us/settle_up/#{trans.id}/review"
+  end
+  
+  def dashboard_url(member)
+    "http://www.sittercitypay.us/members/#{member.id}/dashboard"
   end
   
 end
