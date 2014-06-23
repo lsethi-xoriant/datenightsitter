@@ -3,6 +3,8 @@ require "faker"
 
 FactoryGirl.define do
   factory :transaction do
-    status "MyString"
+    started_at { DateTime.now }
+    duration { rand(8) }
+    rate { rand(25) }
   end
 end
