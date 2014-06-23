@@ -5,7 +5,7 @@ RSpec.describe MembersController, :type => :controller do
   describe "GET #new" do
     subject{ get :new }
     it "responds with an HTTP SUCCESS" do
-      expect(subject).to have_http_status(:success)
+      expect(subject).to be_success
     end
     
     it "displays a new user sign-up page" do
@@ -81,7 +81,7 @@ RSpec.describe MembersController, :type => :controller do
       end
       
       it "responds with an HTTP SUCCESS" do
-        expect(response).to have_http_status(:success)
+        expect(response).to be_success
       end
     end
   end
@@ -100,7 +100,7 @@ RSpec.describe MembersController, :type => :controller do
       end
       
       it "responds with an HTTP SUCCESS" do
-        expect(response).to have_http_status(:success)
+        expect(response).to be_success
       end
     end
     
@@ -201,7 +201,7 @@ RSpec.describe MembersController, :type => :controller do
     context "when a provider is logged in and the seeker exists" do
       let(:provider) {FactoryGirl.create(:provider)}
       let(:seeker) {FactoryGirl.create(:seeker, :phone => "3129700557")}
-      let(:trans) { FactoryGirl.attributes_for(:transaction) }
+      let(:trans) { FactoryGirl.attributes_for(:trans_initiate) }
       
       before(:each) do
         session[:member_id] = provider.id
@@ -224,7 +224,7 @@ RSpec.describe MembersController, :type => :controller do
     
     context "when a provider is logged in and the seeker does not exist" do
       let(:provider) { FactoryGirl.create(:provider) }
-      let(:trans) { FactoryGirl.attributes_for(:transaction) }
+      let(:trans) { FactoryGirl.attributes_for(:trans_initiate) }
       
       before(:each) do
         session[:member_id] = provider.id

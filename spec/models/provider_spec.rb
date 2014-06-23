@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe Provider, :type => :model do
 
   context "after being created" do
-    let!(:provider) { FactoryGirl.create(:provider) }
+    let(:provider) { FactoryGirl.create(:provider) }
     
     
     it "is a Provider object" do
@@ -32,7 +32,7 @@ RSpec.describe Provider, :type => :model do
     
     it "can request payment now" do
       seeker = FactoryGirl.create(:seeker, :phone => '+13129700557')   #this phone definitely works with twitter
-      seeker.create_payment_account("4111111111111111", "333", "11/2017")
+      seeker.create_payment_account("4111111111111111", "333", "11","", seeker.zip)
       t = @provider.request_payment_now(seeker, (DateTime.now - (4.0 / 24.0 )), 4.5, 15)
       expect(t).to be_a(Transaction)
       expect(t.seeker).to eq(seeker)

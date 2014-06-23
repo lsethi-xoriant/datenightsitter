@@ -14,19 +14,39 @@ FactoryGirl.define do
     phone {"(312) 555-#{rand(1000..9999)}"}
     password { Faker::Internet.password(8) }
     date_of_birth { Date.new(1978, 5, 23) }
-    
-    factory :provider, class: Provider do |p|
-      p.first_name 'approve_me'
-    end
-    
-    factory :provider_fail, class: Provider do |pf|
-      pf.first_name '82626' 
-    end
-
-    factory :seeker, class: Seeker, parent: :member do |s|
-      s.type "Seeker"
-      s.date_of_birth nil
-    end
-    
   end
+  
+  factory :provider, :parent => :member, :class => Provider do |p|
+    p.first_name 'approve_me'
+    p.phone "6174708045"
+  end
+  
+  factory :provider_fail, :parent => :member, :class => Provider do |p|
+    p.first_name '82626' 
+    p.phone "6174708045"
+  end
+    
+  factory :provider_with_merchant_account, :parent => :member, :class => Provider do |p|
+    p.merchant_account_id "approve_me_conrad_instant_k6njfjxy"
+    p.phone "6174708045"
+  end
+
+  factory :seeker, class: Seeker, :parent => :member, :class => Seeker do |s|
+    s.type "Seeker"
+    s.date_of_birth nil
+    s.phone "3129700557"
+  end
+  
+  factory :seeker_with_payment_account, :parent => :member, :class => Seeker do |s|
+    s.type "Seeker"
+    s.payment_account_id "40886601"
+    s.phone "3129700557"
+  end
+    
+  factory :seeker_trans_update, :class => Seeker do |s|
+    s.zip  { Faker::Address.zip }
+    s.email { Faker::Internet.email } 
+  end
+    
+  
 end
