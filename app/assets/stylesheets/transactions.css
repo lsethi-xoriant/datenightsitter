@@ -1,0 +1,43 @@
+/*
+ * Transactions Look & Feel V0.0.2
+ *
+ *
+ */
+
+
+.settle_up-review {
+  font-size: 16px;
+}
+
+.settle_up-review .amount {
+  font-size: 32px;
+}
+.settle_up-review #transaction_amount {
+  width: 70px;
+  text-align: center;
+}
+
+.settle_up-review #credit_card {
+  width: 150px;
+}
+
+.settle_up-review #cvv {
+  width: 75px;
+}
+
+.settle_up-review #zipcode {
+  width: 75px;
+}
+
+.settle_up-review #email {
+  width: 225px;
+}
+
+hr.thin-divider {
+  margin-top: 2px;
+  margin-bottom: 2px;
+}
+
+.row-amount {
+  
+}
