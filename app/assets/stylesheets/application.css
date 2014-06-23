@@ -13,6 +13,7 @@
  *= require_tree .
  *= require bootstrap
  *= require font-awesome
+ *= require jquery.ui.all
  *= require jquery.timepicker
  *= require_self
  */

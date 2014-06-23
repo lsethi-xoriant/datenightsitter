@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140618052903) do
+ActiveRecord::Schema.define(version: 20140622010101) do
 
   create_table "members", force: true do |t|
     t.string   "type"
@@ -36,6 +36,11 @@ ActiveRecord::Schema.define(version: 20140618052903) do
   add_index "members", ["payment_account_id"], name: "index_members_on_payment_account_id", unique: true, using: :btree
   add_index "members", ["phone"], name: "index_members_on_phone", unique: true, using: :btree
 
+  create_table "members_members", force: true do |t|
+    t.integer "provider_id"
+    t.integer "seeker_id"
+  end
+
   create_table "messages", force: true do |t|
     t.string   "type"
     t.integer  "provider_id"
@@ -51,13 +56,17 @@ ActiveRecord::Schema.define(version: 20140618052903) do
   add_index "messages", ["provider_id"], name: "index_messages_on_provider_id", using: :btree
   add_index "messages", ["seeker_id"], name: "index_messages_on_seeker_id", using: :btree
 
+  create_table "providers_seekers_temp", id: false, force: true do |t|
+    t.integer "provider_id"
+    t.integer "seeker_id"
+  end
+
   create_table "transactions", force: true do |t|
     t.integer  "seeker_id"
     t.integer  "provider_id"
     t.string   "merchant_account_id"
     t.string   "payment_token"
-    t.string   "type"
-    t.string   "status"
+    t.integer  "status"
     t.integer  "amount_cents",                                         default: 0,     null: false
     t.string   "amount_currency",                                      default: "USD", null: false
     t.integer  "rate_cents",                                           default: 0,     null: false

@@ -7,6 +7,8 @@ Rails.application.routes.draw do
   
   resources :members do
     member do
+      get :autocomplete_search_connections_by_phone
+      get :autocomplete_search_connections_by_last_name
       get :bank_account
       get :dashboard
       get :provider_dashboard

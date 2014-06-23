@@ -1,4 +1,5 @@
 class MembersController < ApplicationController
+  respond_to :html, :json
 
   def new
     @member = Member.new
@@ -93,10 +94,32 @@ class MembersController < ApplicationController
                 :flash => { :success => "Thanks! the #{seeker.last_name.titleize} family has been notified."})
   end
   
+  
+  def autocomplete_search_connections_by_phone
+    @member = current_member
+    @members = search_connections(@member, :phone, params[:term])
+    respond_with(@members)
+  end
+  
+  def autocomplete_search_connections_by_last_name
+    @member = current_member
+    @members = search_connections(@member, :last_name, params[:term])
+    respond_with(@members)
+  end
+  
   private
   
   def member_params
     params.require(:member).permit(:first_name, :last_name, :email, :password, :address, :city, :state, :zip, :type, :phone, :date_of_birth)
+  end
+  
+  
+  def search_connections(member, field, val)
+    if member.is_a?(Provider)
+      member.seekers.search_by(field, val)
+    else
+      member.providers.search_by(field, val)
+    end
   end
     
 end

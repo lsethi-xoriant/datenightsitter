@@ -1,6 +1,7 @@
 class Provider < Member
   has_many :transactions
   has_many :messages
+  has_and_belongs_to_many :seekers
   
   def request_payment_now(seeker, started_at, duration, rate)
     t = transactions.create(:merchant_account_id => self.merchant_account_id)

@@ -104,6 +104,19 @@ class Member < ActiveRecord::Base
   end
   
   
+  def self.search_by(field, val)
+    case field
+    when :phone, "phone"
+      search_field = 'phone'
+    when :last_name, "last_name"
+      search_field = "last_name"
+    else
+      search_field = "phone"
+    end
+    
+    where("#{search_field} like ?", [val.to_s,"%"].join)
+  end
+  
   protected
 
   def check_password

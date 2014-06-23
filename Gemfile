@@ -21,6 +21,8 @@ gem 'jquery-ui-rails', '~> 4.2.0'
 gem 'bootstrap-sass', '~> 3.1.1'
 gem 'font-awesome-rails', '~> 4.0'
 gem 'simple_form', '~> 3.0.2'
+gem 'rails3-jquery-autocomplete', '~> 1.0.14'
+gem 'rabl', '~> 0.10'
 
 gem 'turbolinks', '~> 2.2.2'  # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 
@@ -29,6 +31,7 @@ gem 'turbolinks', '~> 2.2.2'  # Turbolinks makes following links in your web app
 gem 'money-rails', '~> 0.11'
 gem 'braintree', '~> 2.30'
 gem 'twilio-ruby', '~> 3.11.5'
+gem 'sendgrid_toolkit', '~> 1.4.0'
 gem 'bcrypt', '~> 3.1'
 gem 'rest-client', '~> 1.6.7'
 
