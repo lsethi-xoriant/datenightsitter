@@ -15,12 +15,12 @@
   <body data-controller="<%= controller_name %>" data-action="<%= action_name %>" >
     <%= render :partial => "/layouts/header" %>
     
-    <div class="row-fluid">
+    <div class="container-fluid">
       <!-- placeholder for flash messages -->
       <%= render :partial => 'layouts/flash', :locals => {:flash => flash} %>
     </div>
       
-    <div class="container">
+    <div class="container-fluid">
       <!-- placeholder for core app functionality -->
       <%= yield %>
     </div>

@@ -1,12 +1,13 @@
-  <h1>Dashboard</h1>
-  
-  <div class='col-sm-12'>
-    <p>Welcome <%= @member.first_name %>:<br />
-    </p>
-    <p>
-      <%= link_to "Add Sitters", log_in_path %>
-    </p>
-    <p>
-      <%= link_to "Request Babysitting", log_in_path %>
-    </p>
+  <div class='container-fluid'>
+    <h3 style="margin-top: 0px;">Payments Dashboard</h3>
+    <p>Welcome <%= @member.last_name.titleize %> family</p>
+    <div class='col-sm-12'>
+      <div class='row col-sm-12'>
+      <%= link_to "Add Sitters", log_in_path, :class => "btn btn-lg btn-primary max-width" %>
+      </div>
+      <div class='row col-sm-12'>
+      <%= link_to "Request Babysitting", log_in_path, :class => "btn btn-lg btn-primary max-width" %>
+      </div>
+      <%= render :partial => "transactions" %>
+    </div>
   </div>

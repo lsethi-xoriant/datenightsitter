@@ -47,18 +47,9 @@ class MembersController < ApplicationController
   
   def dashboard
     @member = current_member
+    @trans = @member.transactions.order(:started_at => :desc).paginate(:per_page => 3, :page => params[:page])
     render :provider_dashboard if @member.is_a? Provider
     render :seeker_dashboard if @member.is_a? Seeker
-  end
-  
-  def provider_dashboard
-    @member = current_member
-    render :provider_dashboard
-  end
-  
-  def seeker_dashboard
-    @member = current_member
-    render :seeker_dashboard
   end
   
   def bank_account
