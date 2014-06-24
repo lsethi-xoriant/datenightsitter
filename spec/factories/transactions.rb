@@ -3,10 +3,10 @@ require "faker"
 
 FactoryGirl.define do
   factory :transaction do
-    
+    status :started
   end
   
-  factory :trans_awaiting_completion, :class => Transaction do |t|
+  factory :trans_awaiting_completion, :class => Transaction, :parent => :transaction do |t|
     t.seeker { FactoryGirl.create(:seeker_with_payment_account)}
     t.provider { FactoryGirl.create(:provider_with_merchant_account)}
     t.merchant_account_id { Provider.last.merchant_account_id }

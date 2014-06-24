@@ -6,9 +6,42 @@ class Transaction < ActiveRecord::Base
   monetize :service_fee_amount_cents
   monetize :rate_cents
   
+  state_machine :status, :initial => :started do
+    
+    state :started
+    state :requested
+    state :authorized
+    state :paid
+    state :failed
+    
+    event :submit_request do
+      transition any - [:paid,:requested] => :requested
+      transition :requested => same
+    end
+    
+    event :authorize_payment do
+      transition all - [:paid] => :authorized, :if => :has_payment_token?
+    end
+    
+    event :complete_payment do
+      transition all => :paid
+    end
+    
+    event :fail_payment do
+      transition all - :paid => :failed
+    end
+    
+  end
+  
+  def has_payment_token?
+    !payment_token.nil?
+  end
+  
+  
   def authorize(payment_token)
     self.payment_token = payment_token
-    t = self.submit
+    self.authorize_payment
+    t = submit
     send_completion_notifications if t   #send notifications
     t
   end
@@ -38,25 +71,7 @@ class Transaction < ActiveRecord::Base
     temp_hash.merge!(Hash['duration',duration.to_f])
     
   end
-  
-  
-  def authorized?
-    !payment_token.nil?
-  end
-  
-  def submitable?
-    !payment_token.nil? && !amount_cents.nil? && !service_fee_amount_cents.nil? 
-  end
-  
-  #submit transaction if possible
-  def submit
-    if submitable?
-      process_transaction 
-    else
-      raise "Not a valid Transaction to submit"
-    end
-  end
-  #end submit
+
   
   def transaction_from_processor
     Braintree::Transaction.find(self.processor_transaction_id) unless self.processor_transaction_id.nil?
@@ -68,9 +83,15 @@ class Transaction < ActiveRecord::Base
                       :started_at => started_at,
                       :duration => duration,
                       :rate => rate)
-    
+    self.submit_request
     send_request_notification
   end
+  
+  ##########################
+  #
+  #  Communications
+  #
+  ##########################
   
   #send request to seeker for payment
   def send_request_notification
@@ -87,7 +108,7 @@ class Transaction < ActiveRecord::Base
     #send confirmation to sitter
     m = Message.create(:provider => provider, :seeker => seeker, :direction => "to_provider", :type => provider.message_type_preference )
     m.send_payment_confirmation(self)
-    logger.debug "#{provider.full_name.titleize}notified"    
+    logger.debug "#{provider.full_name.titleize} notified"    
     
     #send email receipt to parent
     m = EmailMessage.create(:seeker => seeker, :provider => provider, :direction => "to_seeker")
@@ -95,8 +116,27 @@ class Transaction < ActiveRecord::Base
     logger.debug "#{seeker.last_name.titleize} notified"
   end
   
+  ##########################
+  #
+  #  Private
+  #
+  ##########################
   private
   
+  #submit transaction if possible
+  def submit
+    if submitable?
+      process_transaction 
+    else
+      raise "Not a valid Transaction to submit"
+    end
+  end
+  
+  def submitable?
+    authorized? && !amount_cents.nil? && !service_fee_amount_cents.nil? 
+  end
+  
+  #process the transaction
   def process_transaction
     result = Braintree::Transaction.sale(
       :amount => self.amount,
@@ -113,10 +153,12 @@ class Transaction < ActiveRecord::Base
       t = result.transaction
       logger.debug "Processing transaction succeeded. transaction.id = #{t.id}"
       self.processor_transaction_id = t.id
+      self.complete_payment
       self.save
     else
       logger.debug "Processing transaction failed failed.\n #{result.errors.to_s}"
       t = result.errors
+      self.fail_payment
     end
     t
   end

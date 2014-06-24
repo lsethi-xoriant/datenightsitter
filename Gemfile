@@ -21,6 +21,7 @@ gem 'jquery-ui-rails', '~> 4.2.0'
 gem 'bootstrap-sass', '~> 3.1.1'
 gem 'font-awesome-rails', '~> 4.0'
 gem 'simple_form', '~> 3.0.2'
+gem 'will_paginate', '~> 3.0.5'
 gem 'rails3-jquery-autocomplete', '~> 1.0.14'
 gem 'rabl', '~> 0.10'
 
@@ -34,6 +35,7 @@ gem 'twilio-ruby', '~> 3.11.5'
 gem 'sendgrid_toolkit', '~> 1.4.0'
 gem 'bcrypt', '~> 3.1'
 gem 'rest-client', '~> 1.6.7'
+gem 'state_machine', '~> 1.2.0'
 
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'

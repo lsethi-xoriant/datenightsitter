@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140624062604) do
+ActiveRecord::Schema.define(version: 20140624210422) do
 
   create_table "members", force: true do |t|
     t.string   "type"
@@ -67,15 +67,15 @@ ActiveRecord::Schema.define(version: 20140624062604) do
     t.integer  "provider_id"
     t.string   "merchant_account_id"
     t.string   "payment_token"
-    t.integer  "status"
-    t.integer  "amount_cents",                                         default: 0,     null: false
-    t.string   "amount_currency",                                      default: "USD", null: false
-    t.integer  "rate_cents",                                           default: 0,     null: false
-    t.string   "rate_currency",                                        default: "USD", null: false
+    t.string   "status",                      limit: 15
+    t.integer  "amount_cents",                                                    default: 0,     null: false
+    t.string   "amount_currency",                                                 default: "USD", null: false
+    t.integer  "rate_cents",                                                      default: 0,     null: false
+    t.string   "rate_currency",                                                   default: "USD", null: false
     t.datetime "started_at"
-    t.decimal  "duration",                    precision: 10, scale: 4
-    t.integer  "service_fee_amount_cents",                             default: 0,     null: false
-    t.string   "service_fee_amount_currency",                          default: "USD", null: false
+    t.decimal  "duration",                               precision: 10, scale: 4
+    t.integer  "service_fee_amount_cents",                                        default: 0,     null: false
+    t.string   "service_fee_amount_currency",                                     default: "USD", null: false
     t.string   "processor_transaction_id"
     t.datetime "created_at"
     t.datetime "updated_at"
