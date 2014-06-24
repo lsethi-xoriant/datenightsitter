@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140622010101) do
+ActiveRecord::Schema.define(version: 20140624062604) do
 
   create_table "members", force: true do |t|
     t.string   "type"
@@ -51,6 +51,7 @@ ActiveRecord::Schema.define(version: 20140622010101) do
     t.string   "reference_url"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "template"
   end
 
   add_index "messages", ["provider_id"], name: "index_messages_on_provider_id", using: :btree

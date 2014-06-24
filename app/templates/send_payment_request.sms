@@ -1,0 +1,1 @@
+{{recipient.last_name}} family, your babysitter ({{sender.first_name}}) just wrapped up babysitting for you. To settle up with her, go to: {{shortened_url}}

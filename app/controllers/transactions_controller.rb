@@ -34,7 +34,6 @@ class TransactionsController < ApplicationController
     result = @trans.authorize(@seeker.payment_token) if @seeker.has_payment_account?  #which means the Payment Account didn't update
     
     if result
-      @trans.provider.notify_payment_complete(@trans)
       flash[:success] = "Success! You just paid #{@trans.provider.first_name.titleize} #{@trans.amount} and you should receive a receipt shortly."
       redirect_to root_path
     else

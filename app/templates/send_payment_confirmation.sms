@@ -1,0 +1,1 @@
+Great News! The {{sender.last_name}} family just paid you {{transaction.amount}}. {{shortened_url}}

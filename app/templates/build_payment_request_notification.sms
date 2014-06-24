@@ -1,0 +1,1 @@
+Hey {{seeker.last_name.titleize}} family, {{provider.first_name.titleize}} is done babysitting. To settle up, go to: {{shortened_url}}

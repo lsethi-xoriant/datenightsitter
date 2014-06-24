@@ -1,4 +1,7 @@
 class SmsMessage < Message
+  belongs_to :seeker
+  belongs_to :provider
+  enum direction: [:to_provider, :to_seeker]
   
   def dispatch
     # put your own credentials here 
@@ -16,4 +19,21 @@ class SmsMessage < Message
     })
   end
 
+  #inherited submission types
+  def send_payment_request(trans)
+    super(trans)
+    dispatch
+  end
+
+  def send_payment_confirmation(trans)
+    super(trans)
+    dispatch
+  end
+
+  def send_babysitting_receipt(trans)
+    raise "#{__method__.upcase}() is not implemented in this clas #{self.class}"
+  end
+
+
+  
 end

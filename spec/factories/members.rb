@@ -31,21 +31,27 @@ FactoryGirl.define do
     p.phone "6174708045"
   end
 
-  factory :seeker, class: Seeker, :parent => :member, :class => Seeker do |s|
+  factory :seeker, class: Seeker, :parent => :member do |s|
+    s.type "Seeker"
+    s.date_of_birth nil
+  end
+  
+  factory :seeker_for_comm, class: Seeker, :parent => :seeker do |s|
     s.type "Seeker"
     s.date_of_birth nil
     s.phone "3129700557"
+    s.email "andrewconrad.shop@gmail.com"
   end
-  
   factory :seeker_with_payment_account, :parent => :member, :class => Seeker do |s|
     s.type "Seeker"
     s.payment_account_id "40886601"
     s.phone "3129700557"
+    s.email "andrewconrad.shop@gmail.com"
   end
     
   factory :seeker_trans_update, :class => Seeker do |s|
     s.zip  { Faker::Address.zip }
-    s.email { Faker::Internet.email } 
+    s.email "andrewconrad.shop@gmail.com"
   end
     
   

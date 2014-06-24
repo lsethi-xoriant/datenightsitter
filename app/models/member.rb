@@ -35,6 +35,16 @@ class Member < ActiveRecord::Base
     !merchant_account_id.nil?
   end
   
+  #to sanitized hash
+  def to_h
+    temp_hash = attributes
+    temp_hash.delete('password_hash')
+    temp_hash.delete('merchant_account_id')
+    temp_hash.delete('payment_account_id')
+    temp_hash.merge!(Hash['credit_card_last_4',credit_card_last_4]) if has_payment_account?
+    temp_hash
+  end
+  
   #############################
   #  PAYMENT ACCOUNT FEATURES
   #############################

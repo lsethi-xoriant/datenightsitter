@@ -1,26 +1,14 @@
 class Provider < Member
-  has_many :transactions
-  has_many :messages
+  has_many :transactions, :dependent => :destroy
+  has_many :messages, :dependent => :destroy
   has_and_belongs_to_many :seekers
   
   def request_payment_now(seeker, started_at, duration, rate)
     t = transactions.create(:merchant_account_id => self.merchant_account_id)
     t.request_payment_now(seeker, started_at, duration, rate)
     
-    notify_seeker(seeker, t)
-    
     t
   end
-  
-
-  def notify_payment_complete(trans)
-    logger.debug "payment complete notification started"
-    m = messages.create(:seeker => trans.seeker, :direction => "to_provider", :type => message_type_preference)
-    m.build_payment_complete_notification(trans)
-    m.dispatch
-    logger.debug "#{full_name.titleize} notified of payment"
-  end
-
   
   #get merchant account
   def merchant_account
@@ -69,20 +57,4 @@ class Provider < Member
     ma
   end
   
-  private
-  
-  
-  def notify_seeker(seeker, trans)
-    logger.debug "seeker notification started"
-    
-    m = messages.create(:seeker => seeker, :direction => "to_seeker", :type => message_type_preference )
-    
-    m.build_payment_request_notification(trans)
-    m.dispatch
-    logger.debug "#{seeker.last_name.titleize} family notified"
-    
-  end
-  
-  
-
 end

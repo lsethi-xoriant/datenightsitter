@@ -200,7 +200,7 @@ RSpec.describe MembersController, :type => :controller do
   describe "POST #submit_bill" do
     context "when a provider is logged in and the seeker exists" do
       let(:provider) {FactoryGirl.create(:provider)}
-      let(:seeker) {FactoryGirl.create(:seeker, :phone => "3129700557")}
+      let(:seeker) {FactoryGirl.create(:seeker_for_comm)}
       let(:trans) { FactoryGirl.attributes_for(:trans_initiate) }
       
       before(:each) do
