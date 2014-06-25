@@ -30,11 +30,6 @@ class Member < ActiveRecord::Base
   end
 
 
-  #determines if there is a merchant account
-  def has_merchant_account?
-    !merchant_account_id.nil?
-  end
-  
   #to sanitized hash
   def to_h
     temp_hash = attributes
@@ -44,6 +39,19 @@ class Member < ActiveRecord::Base
     temp_hash.merge!(Hash['credit_card_last_4',credit_card_last_4]) if has_payment_account?
     temp_hash
   end
+  
+  def network
+    raise "not implemented"
+  
+  #############################
+  #  MERCHANT ACCOUNT FEATURES
+  #############################
+
+  #determines if there is a merchant account
+  def has_merchant_account?
+    !merchant_account_id.nil?
+  end
+  
   
   #############################
   #  PAYMENT ACCOUNT FEATURES
@@ -125,7 +133,7 @@ class Member < ActiveRecord::Base
     when :last_name, "last_name"
       search_field = "last_name"
     else
-      search_field = "phone"
+      search_field = "nil"
     end
     
     where("#{search_field} like ?", [val.to_s,"%"].join)

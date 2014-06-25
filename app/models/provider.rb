@@ -8,6 +8,10 @@ class Provider < Member
     t.request_payment_now(seeker, started_at, duration, rate)
     
     t
+  #alias to support searching network for connections
+  def network
+    self.seekers
+  end
   end
   
   #get merchant account
