@@ -31,8 +31,6 @@ class MembersController < ApplicationController
     @member = current_member
     @seeker = Seeker.new(seeker_params)
     if @seeker.save
-      #msg = @member.messages.create(:seeker => seeker, :direction => "to_seeker", :type => @seeker.message_type_preference )
-      #msg.
       redirect_to(dashboard_member_path(@member),
                   :flash => { :success => "The parent #{@seeker.full_name} has been added" })
     else
@@ -91,11 +89,15 @@ class MembersController < ApplicationController
   
   def settle_up
     @provider = current_member
+    @seeker = Seeker.new
+    @transaction = Transaction.new
+    @network = @provider.network
+    
     if @provider.is_a?(Provider)
       render :settle_up
     else
       redirect_to(parent_dashboard_member_path(@provider),
-                  :flash => { :danger => "Your account can not open settle up."})
+                  :flash => { :danger => "Your account can not open this page"})
     end
   end
   
@@ -110,14 +112,12 @@ class MembersController < ApplicationController
   
   
   def autocomplete_search_connections_by_phone
-    @member = current_member
-    @members = search_connections(@member, :phone, params[:term])
+    @members = current_member.network.search_by(:phone, params[:term])
     respond_with(@members)
   end
   
   def autocomplete_search_connections_by_last_name
-    @member = current_member
-    @members = search_connections(@member, :last_name, params[:term])
+    @members = current_member.network.search_by(:last_name, params[:term])
     respond_with(@members)
   end
   
@@ -131,13 +131,9 @@ class MembersController < ApplicationController
     params.require(:seeker).permit(:first_name, :last_name, :email, :type, :phone )
   end
   
-  
-  def search_connections(member, field, val)
-    if member.is_a?(Provider)
-      member.seekers.search_by(field, val)
-    else
-      member.providers.search_by(field, val)
-    end
+  def trans_params
+    params.require(:transaction).permit(:started_at, :duration_hours, :rate, :id )
   end
+  
     
 end
