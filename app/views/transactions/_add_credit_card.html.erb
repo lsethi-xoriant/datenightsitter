@@ -1,4 +1,5 @@
     <!-- begin add_credit_card -->
+    <p><%=link_to("Use existing card", review_settle_up_path(@trans) ) if @seeker.has_payment_account? %></p>
     <div class="form-group row">
       <div class="col-xs-8">
         <%= label_tag(:credit_card, "Credit Card") %>

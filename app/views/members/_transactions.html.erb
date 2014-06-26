@@ -1,15 +1,18 @@
       <h4>Babysitting Events</h4>
       <% @trans.each do |t| %>
-        <div class='row-fluid col-xs-12 dashboard-trans'>
-          <div class='col-xs-1 dashboard-trans-field'><%=number_to_currency(t.amount.to_f, :precision => 0)%></div>
-          <div class='col-xs-4 dashboard-trans-field'> - <%=t.seeker.last_name.titleize %> family</div>
-          <div class='col-xs-3 dashboard-trans-field'><%=t.started_at.in_time_zone().strftime('%m/%y') %></div>
-          <div class='col-xs-3 dashboard-trans-field'><%=t.status %></div>
-          <div class='col-xs-12 dashboard-trans-field'>
-            <%=t.duration.to_f %> hours @ <%=number_to_currency(t.rate.to_f, :precision => 0) %> rate
+        <div class='row-fluid col-xs-12 dash-trans-record'>
+          <div class='col-xs-2 dash-trans-emphasize'><%=number_to_currency(t.estimated_amount, :precision => 0)%></div>
+          <div class='col-xs-6 dash-trans-base'>
+            <%=t.seeker.last_name.titleize %> family
           </div>
-          <div class='col-xs-12 dashboard-trans-field'>
-            <%=link_to( "Resend to Family", log_in_path, :class => "btn btn-lg btn-warning max-width") if @member.is_a?(Provider) && !t.paid? %>
+          <div class='col-xs-4 dash-trans-base'><%=t.status.titleize %></div>
+          <div class='col-xs-10 dash-trans-base'>
+            <%=t.started_at.in_time_zone().strftime('%a %-m/%-d') %>:
+            <%=t.duration.to_f %> hours
+            @ ~<%=number_to_currency(t.estimated_rate, :precision => 0) %> hr.
+          </div>
+          <div class='col-xs-12 dashboard-trans-base'>
+            <%=link_to( "Resend to Family", log_in_path, :class => "btn btn-lg btn-default max-width active") if @member.is_a?(Provider) && !t.paid? %>
           </div>
         </div>
       <% end %>

@@ -2,7 +2,7 @@
   var BRAINTREE_PAYMENT_CSE = "<%= Rails.application.secrets.braintree_cse %>"
 </script>
 <div class='col-xs-12 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4 settle_up-review' style="padding-left: 0px; padding-right: 0px; font-size: 12px;">
-  <h3 style="margin-top: 0px;">Settle-up with <%= @trans.provider.first_name.titleize %> </h3>
+  <h4 style="margin-top: 0px;">Settle-up with <%= @trans.provider.first_name.titleize %> </h4>
 
   <p>Hi <%= @trans.seeker.last_name.titleize %> family,
   <%= @trans.provider.first_name.titleize %> is using Sittercity Payments and it saves you a trip to the ATM.  It's easy:
@@ -14,7 +14,7 @@
     <div class="form-group row row-amountCreating merchant account succeeded. merchant_account.id ">
       <div class="col-xs-6">
         <span><%= f.label :amount, "Pay" %></span>&nbsp;&nbsp;
-          <span class='amount'>$<%= f.input_field :amount, :value => number_with_precision(@proposed_amount , precision: 0), :title => "Amount to be paid tot he sitter", :pattern => "[0-9]*", :inputmode => "numeric" %></span>
+          <span class='amount'>$<%= f.input_field :amount, :value => number_with_precision(@proposed_amount , precision: 0), :title => "Amount to be paid to the sitter", :pattern => "[0-9]*", :inputmode => "numeric" %></span>
       </div>
       <div class="col-xs-6">
           <button id='round-up' type='button' data-amount='<%=@round_up %>' class="btn btn-info btn-sm btn-round-up">
@@ -29,15 +29,15 @@
     <% end %>
     <div class="col-xs-12">
       <hr class="thin-divider">
-      start: <%= @trans.started_at.strftime('%m/%d @ %l:%M%P %Z') %> | duration: <%= number_with_precision(@trans.duration, :precision => 2) %> hrs<br/>
+      start: <%= @trans.started_at.localtime.strftime('%m/%d @ %l:%M%P %Z') %> | duration: <%= number_with_precision(@trans.duration, :precision => 2) %> hrs<br/>
       ** Don't forget any expenses and travel home **
       <hr class="thin-divider">
     </div>
     <h4>Credit card details</h4>
-      <% if @seeker.has_payment_account? %>
-        <%= render :partial => "view_credit_card" %>
-      <% else %>
+      <% if !@seeker.has_payment_account? || params[:new_card] %>
         <%= render :partial => "add_credit_card" %>
+      <% else %>
+        <%= render :partial => "view_credit_card" %>
       <% end %>
     <hr class='thin-divider' >
     <div class="row-fluid">

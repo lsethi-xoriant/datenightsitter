@@ -33,12 +33,10 @@ FactoryGirl.define do
 
   factory :seeker, class: Seeker, :parent => :member do |s|
     s.type "Seeker"
-    s.date_of_birth nil
   end
   
   factory :seeker_for_comm, class: Seeker, :parent => :seeker do |s|
     s.type "Seeker"
-    s.date_of_birth nil
     s.phone "3129700557"
     s.email "andrewconrad.shop@gmail.com"
   end
@@ -52,6 +50,12 @@ FactoryGirl.define do
   factory :seeker_trans_update, :class => Seeker do |s|
     s.zip  { Faker::Address.zip }
     s.email "andrewconrad.shop@gmail.com"
+  end
+  
+  factory :seeker_base_attr, :class => Seeker do |s|
+    email { Faker::Internet.email }
+    phone {"(312) 555-#{rand(1000..9999)}"}
+    last_name { Faker::Name.last_name }
   end
     
   
