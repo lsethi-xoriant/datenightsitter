@@ -42,6 +42,26 @@ class Member < ActiveRecord::Base
   
   def network
     raise "not implemented"
+  end
+  
+  # look for a member and either add them to our network, or create them.
+  # to find a member, an :id, :phone, or :email param needs to be provided
+  def find_or_create_in_network(params)
+    #find the member if he exists
+    @member = Member.find_by_id(params[:id]) unless params[:id].nil?
+    @member ||= Member.find_by_phone(params[:phone]) unless params[:phone].nil?
+    @member ||= Member.find_by_email(params[:email]) unless params[:email].nil?
+    
+    if @member
+      #add existing member to network if necessary
+      @member.update!(params)
+      network << @member unless network.find_by_id(@member.id).nil?
+    else
+      #otherwise create
+      @member = network.create(params)
+    end
+    @member
+  end
   
   #############################
   #  MERCHANT ACCOUNT FEATURES
