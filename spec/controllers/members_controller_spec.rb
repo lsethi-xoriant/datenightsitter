@@ -198,20 +198,38 @@ RSpec.describe MembersController, :type => :controller do
   end
   
   describe "POST #submit_bill" do
-    context "when a provider is logged in and the seeker exists" do
+    context "when a provider is logged in and the seeker exists but not in the providers network" do
       let(:provider) {FactoryGirl.create(:provider)}
       let(:seeker) {FactoryGirl.create(:seeker_for_comm)}
-      let(:trans) { FactoryGirl.attributes_for(:trans_initiate) }
+      let(:trans) { FactoryGirl.attributes_for(:trans_request_params) }
       
       before(:each) do
         session[:member_id] = provider.id
         post :submit_bill, :id => provider,
-                            :seeker_phone => seeker.phone,
-                            :seeker_last_name => seeker.last_name,
-                            :started_at => trans[:started_at],
-                            :duration_hours => trans[:duration],
-                            :rate => trans[:rate]
+                            :seeker => {:phone => seeker.phone, :last_name => seeker.last_name},
+                            :transaction => trans
         @seeker = Seeker.find_by(:phone => seeker.phone)
+      end
+      
+      it "creates a transaction with the existing seeker" do
+        last_trans = provider.transactions.last
+        expect(last_trans).to be_valid
+        expect(last_trans.duration).to eq(trans[:duration])
+        expect(last_trans.rate).to eq(trans[:rate])
+      end
+    end
+    
+    context "when a provider is logged in and the seeker exists and in the providers network" do
+      let(:provider) {FactoryGirl.create(:provider)}
+      let(:seeker) {FactoryGirl.create(:seeker_for_comm)}
+      let(:trans) { FactoryGirl.attributes_for(:trans_request_params) }
+      
+      before(:each) do
+        session[:member_id] = provider.id
+        post :submit_bill, :id => provider,
+                            :seeker => {:id => seeker.id },
+                            :transaction => trans
+        @seeker = Seeker.find_by(:id => seeker.id)
       end
       
       it "creates a transaction with the existing seeker" do
@@ -224,16 +242,13 @@ RSpec.describe MembersController, :type => :controller do
     
     context "when a provider is logged in and the seeker does not exist" do
       let(:provider) { FactoryGirl.create(:provider) }
-      let(:trans) { FactoryGirl.attributes_for(:trans_initiate) }
+      let(:trans) { FactoryGirl.attributes_for(:trans_request_params) }
       
       before(:each) do
         session[:member_id] = provider.id
         post :submit_bill, :id => provider,
-                            :seeker_phone => "3129700557",
-                            :seeker_last_name => Faker::Name.last_name,
-                            :started_at => trans[:started_at],
-                            :duration_hours => trans[:duration],
-                            :rate => trans[:rate]
+                            :seeker => {:phone => "3129700557", :last_name => Faker::Name.last_name},
+                            :transaction => trans
         @seeker = Seeker.find_by(:phone => "3129700557")
       end
       
