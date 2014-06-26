@@ -6,29 +6,39 @@ class Transaction < ActiveRecord::Base
   monetize :service_fee_amount_cents
   monetize :rate_cents
   
+  #set/manage status logic
   state_machine :status, :initial => :started do
+    before_transition :on => :process_payment, :do => :submit_payment
     
     state :started
     state :requested
+    state :validated
     state :authorized
+    state :submitable
     state :paid
     state :failed
     
+    
+    event :update_submission_status do
+      transition any - [:paid] => :submitable, :if => :all_details_valid?
+      transition any - [:paid] => :authorized, :if => :has_payment_token?
+      transition any - [:paid] => :validated, :if => :has_valid_amounts?
+      transition any - [:paid] => :requested, :if => :has_merchant_account?
+      transition any => same
+    end
+    
     event :submit_request do
-      transition any - [:paid,:requested] => :requested
+      transition any - [:paid,:requested] => :requested, :if => :has_merchant_account?
       transition :requested => same
     end
     
-    event :authorize_payment do
+    event :authorize do
       transition all - [:paid] => :authorized, :if => :has_payment_token?
     end
     
-    event :complete_payment do
-      transition all => :paid
-    end
-    
-    event :fail_payment do
-      transition all - :paid => :failed
+    event :process_payment do
+      transition :submitable => :failed, :if => :transaction_processed?
+      transition :submitable => :paid
     end
     
   end
@@ -37,14 +47,33 @@ class Transaction < ActiveRecord::Base
     !payment_token.nil?
   end
   
-  
-  def authorize(payment_token)
-    self.payment_token = payment_token
-    self.authorize_payment
-    t = submit
-    send_completion_notifications if t   #send notifications
-    t
+  def has_merchant_account?
+    !merchant_account_id.nil?
   end
+  
+  #helper method to determine if amounts are valid for submission
+  def has_valid_amounts?
+    amount_cents > 0 && service_fee_amount_cents >= 0
+  end
+    
+  #helper method to determine if something is submitable
+  def all_details_valid?
+    has_payment_token? && has_merchant_account? && has_valid_amounts?
+  end
+  
+  def transaction_processed?
+    !processor_transaction_id.nil?
+  end
+  
+  #helper function to 
+  def estimated_rate
+    (paid?) ? (amount.to_f / duration.to_f) : (rate.to_f)
+  end
+  
+  def estimated_amount
+    (paid?) ? (amount.to_f) : (rate.to_f * duration.to_f)
+  end
+
   
   #sanitized_hash
   def to_h
@@ -77,15 +106,35 @@ class Transaction < ActiveRecord::Base
     Braintree::Transaction.find(self.processor_transaction_id) unless self.processor_transaction_id.nil?
   end
   
-  #request payment to as soon as possible
-  def request_payment_now(seeker, started_at, duration, rate)
-    update_attributes(:seeker => seeker,
-                      :started_at => started_at,
-                      :duration => duration,
-                      :rate => rate)
+  #request payment
+  def request_payment(seeker, trans_params)
+    update_attributes(trans_params.merge({:seeker_id => seeker.id}))
     self.submit_request
     send_request_notification
   end
+
+  #authorize payment and pay if all items are complete
+  def authorize_and_pay(payment_token, trans_params)
+    update_attributes(trans_params.merge({:payment_token => payment_token}))
+
+    update_submission_status   #update status with payment token
+    
+    process_payment if self.submitable?
+    
+    send_completion_notifications if paid?   #send notifications
+
+    paid?   #return true if paid
+  end
+  
+  #submit transaction if possible
+  def submit_payment
+    if submitable?
+      process_transaction 
+    else
+      raise "Not a valid Transaction to submit"
+    end
+  end
+  
   
   ##########################
   #
@@ -115,6 +164,20 @@ class Transaction < ActiveRecord::Base
     m.send_babysitting_receipt(self)
     logger.debug "#{seeker.last_name.titleize} notified"
   end
+
+  
+  
+  ##########################
+  #
+  #  Classs methods
+  #
+  ##########################
+  
+  def self.request_payment(provider, seeker, trans_params)
+    t = Transaction.create(:provider => provider, :merchant_account_id => provider.merchant_account_id)
+    t.request_payment(seeker, trans_params)
+    t
+  end
   
   ##########################
   #
@@ -122,19 +185,6 @@ class Transaction < ActiveRecord::Base
   #
   ##########################
   private
-  
-  #submit transaction if possible
-  def submit
-    if submitable?
-      process_transaction 
-    else
-      raise "Not a valid Transaction to submit"
-    end
-  end
-  
-  def submitable?
-    authorized? && !amount_cents.nil? && !service_fee_amount_cents.nil? 
-  end
   
   #process the transaction
   def process_transaction
@@ -153,12 +203,10 @@ class Transaction < ActiveRecord::Base
       t = result.transaction
       logger.debug "Processing transaction succeeded. transaction.id = #{t.id}"
       self.processor_transaction_id = t.id
-      self.complete_payment
       self.save
     else
       logger.debug "Processing transaction failed failed.\n #{result.errors.to_s}"
       t = result.errors
-      self.fail_payment
     end
     t
   end

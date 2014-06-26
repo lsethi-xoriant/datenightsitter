@@ -13,12 +13,6 @@ class TransactionsController < ApplicationController
     @provider = @trans.provider
     @seeker = @trans.seeker
     
-    #update the transaction details
-    unless @trans.update!(trans_params) 
-      flash[:danger] = "Yikes! something went wrong setting your transaction amount"
-      redirect_to review_settle_up_path(@trans)
-    end
-    
     #update seeker's information
     if params[:seeker]
       unless @seeker.update!(seeker_params)
@@ -31,9 +25,9 @@ class TransactionsController < ApplicationController
       @seeker.create_payment_account(params["number"], params["cvv"], params["month"], params["year"], @seeker.zip)
     end
     
-    result = @trans.authorize(@seeker.payment_token) if @seeker.has_payment_account?  #which means the Payment Account didn't update
+    @trans.authorize_and_pay(@seeker.payment_token, trans_params) if @seeker.has_payment_account?  #which means the Payment Account didn't update
     
-    if result
+    if @trans.paid?
       flash[:success] = "Success! You just paid #{@trans.provider.first_name.titleize} #{@trans.amount} and you should receive a receipt shortly."
       redirect_to root_path
     else

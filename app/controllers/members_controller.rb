@@ -29,8 +29,9 @@ class MembersController < ApplicationController
   
   def add_seeker
     @member = current_member
-    @seeker = Seeker.new(seeker_params)
-    if @seeker.save
+    @seeker = @member.find_or_create_in_network(seeker_params)
+    
+    if @seeker
       redirect_to(dashboard_member_path(@member),
                   :flash => { :success => "The parent #{@seeker.full_name} has been added" })
     else
@@ -89,8 +90,9 @@ class MembersController < ApplicationController
   
   def settle_up
     @provider = current_member
+    start_time = Time.at(((Time.now.to_f/3600).floor-4) * 3600)
     @seeker = Seeker.new
-    @transaction = Transaction.new
+    @transaction = Transaction.new({:started_at => start_time, :duration => 4, :rate => 10.0 }) 
     @network = @provider.network
     
     if @provider.is_a?(Provider)
@@ -103,23 +105,19 @@ class MembersController < ApplicationController
   
   def submit_bill
     @provider = current_member
-    seeker = Seeker.find_or_create_by(:phone => params[:seeker_phone])
-    seeker.update_attributes(:last_name => params[:seeker_last_name]) if seeker.last_name.nil?
-    @provider.request_payment_now(seeker, params["started_at"], params["duration_hours"], params["rate"])
-    redirect_to(dashboard_member_path(@provider),
-                :flash => { :success => "Thanks! the #{seeker.last_name.titleize} family has been notified."})
+    @seeker = @provider.find_or_create_in_network(seeker_params)
+    
+    result = @provider.request_payment(@seeker, trans_params) unless @seeker.nil?
+    
+    if @seeker && result
+      redirect_to(dashboard_member_path(@provider),
+                  :flash => { :success => "Thanks! the #{@seeker.last_name.titleize} family has been notified."})
+    else
+      flash[:danger] = "There was something wrong with your request.  please try again"
+      render :settle_up
+    end
   end
   
-  
-  def autocomplete_search_connections_by_phone
-    @members = current_member.network.search_by(:phone, params[:term])
-    respond_with(@members)
-  end
-  
-  def autocomplete_search_connections_by_last_name
-    @members = current_member.network.search_by(:last_name, params[:term])
-    respond_with(@members)
-  end
   
   private
   
@@ -128,11 +126,11 @@ class MembersController < ApplicationController
   end
   
   def seeker_params
-    params.require(:seeker).permit(:first_name, :last_name, :email, :type, :phone )
+    params.require(:seeker).permit(:first_name, :last_name, :email, :type, :phone, :id )
   end
   
   def trans_params
-    params.require(:transaction).permit(:started_at, :duration_hours, :rate, :id )
+    params.require(:transaction).permit(:started_at, :duration, :rate )
   end
   
     
