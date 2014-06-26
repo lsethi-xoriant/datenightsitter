@@ -53,6 +53,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.4.1'
   gem 'database_cleaner', '~> 1.2'
   gem 'faker', '~> 1.3.0'
+  gem 'simplecov', '~> 0.7.1'
   #gem 'debugger', '~> 1.6.8'
 end
 

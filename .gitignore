@@ -22,4 +22,7 @@
 /*.komodoproject
 
 # ignore DB files
-/z_db/**/*.*
+z_db
+
+# ignore SimpleCov coverage files
+coverage
