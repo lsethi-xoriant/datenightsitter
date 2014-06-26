@@ -27,18 +27,36 @@ DOC_LOAD_ACTIONS_CONFIG = {
           'showDuration': true,
           'timeFormat': 'g:ia',
           'step': 30,
-          'forceRoundTime': true
-          
+          'forceRoundTime': true,
+          'scrollDefaultNow': true,
+          'disableTouchKeyboard':true
       });
       
       // initialize datepair
-      $('#durationPair').datepair().on('rangeSelected', function(){
-        started_at = $('#started_at').timepicker('getTime');
-        ended_at = $('#ended_at').timepicker('getTime');
-        hours = (ended_at - started_at ) /  3600000; // in hours
-        $('#duration_hours').val( Number(hours) );
+      $("#durationPair").datepair( {"defaultTimeDelta":14400000 } );
+
+      //add datepair event handlers
+      $('#durationPair').on('rangeSelected', function() {
+        hours = $("#durationPair").datepair('getTimeDiff') /  3600000; // in hours
+        $('#transaction_duration').val( Number(hours) );  //update duration
       });
       
+      //add started at event handlers
+      $('#started_at').change(function() {
+        v = $('#started_at').timepicker('getTime');
+        $('#transaction_started_at').val( v );
+      });
+      
+      //set default values
+      if ( $('#transaction_started_at').val().length > 1 ){
+        dStart = new Date( Date.parse( $('#transaction_started_at').val() ) );
+        iDuration = Number ( $('#transaction_duration').val() );
+        dEnd = new Date(dStart);
+        dEnd.setHours(dEnd.getHours() + iDuration );
+        
+        $('#started_at').timepicker('setTime', dStart);
+        $('#ended_at').timepicker('setTime', dEnd);
+      }
     },
   },
   

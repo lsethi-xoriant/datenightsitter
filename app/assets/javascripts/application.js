@@ -18,5 +18,4 @@
 //= require jquery.datepair
 //= require bootstrap
 //= require braintree
-//= require turbolinks
 //= require_tree .
