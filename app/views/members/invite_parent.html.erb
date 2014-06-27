@@ -7,7 +7,7 @@
         <%= f.input :last_name, placeholder: 'Smith' %>
         <%= f.input :email, placeholder: 'user@domain.com' %>
         <%= f.input :phone, placeholder: '312.555.1212' %>
-        <%= f.button :submit, :class => 'btn btn-primary' %>
+        <%= f.button :submit, "Add Parent", :class => 'btn btn-primary', :data => { :disable_with => "Adding..."} %>
       <% end %>
     <% end %>
     </div>

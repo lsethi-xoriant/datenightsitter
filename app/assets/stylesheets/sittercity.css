@@ -26,6 +26,11 @@ div.dash-trans-record {
   padding-right: 2px;
 }
 
+div.std-template {
+  padding-left: 0px;
+  padding-right: 0px;
+}
+
 div.dash-trans-emphasize {
   font-size: 22px;
   text-align: center;
@@ -40,6 +45,11 @@ div.dash-trans-base {
   vertical-align: middle;
   padding-left: 2px;
   padding-right: 2px;
+}
+
+.centre {
+  text-align: center;
+  vertical-align: middle;
 }
 
 

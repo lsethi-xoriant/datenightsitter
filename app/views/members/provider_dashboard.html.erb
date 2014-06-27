@@ -1,18 +1,24 @@
-    <div class='container-fluid'>
+    <div class='col-xs-12 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4'>
       <h3 style="margin-top: 0px;">Payments Dashboard</h3>
       <p>Welcome <%= @member.full_name.titleize %></p>
-      <div class='row well'>
-        <div class='col-xs-4 col-xs-offset-1'>
-          <span style="font-size: x-large; font-weight: 500;">
-            <%= @member.transactions.where(:status => :paid).count %>
-            </span>
-          jobs paid
+      <div class='row well' style="padding: 5px 0px;">
+        <div class='col-xs-4 centre'>
+          <p>Jobs</p>
+          <p style="font-size: x-large; font-weight: 500;">
+            <%= @ttl_paid_jobs %>
+          </p>
         </div>
-        <div class='col-xs-6 col-xs-offset-1'>
-          <span style="font-size: x-large; font-weight: 500;">
-            <%= number_to_currency(@member.transactions.where(:status => :paid).pluck(:amount_cents).reduce(0, :+) / 100.to_f, :precision => 0) %>
-            </span>
-          earned
+        <div class='col-xs-4 centre'>
+          <p>Earnings</p>
+          <p style="font-size: x-large; font-weight: 500;">
+            <%= number_to_currency(@ttl_amt, :precision => 0) %>
+          </p>
+        </div>
+        <div class='col-xs-4 centre'>
+          <p>Avg. Rate</p>
+          <p style="font-size: x-large; font-weight: 500;">
+            <%= number_to_currency(@avg_rate, :precision => 0) %>
+          </p>
         </div>
       </div>
       <% if @member.merchant_account_id.nil? %>

@@ -42,7 +42,7 @@
     <hr class='thin-divider' >
     <div class="row-fluid">
       <div class="col-xs-6 col-xs-offset-3">
-        <%= submit_tag("Send to #{@trans.provider.first_name.titleize}", :class=>"btn btn-primary") %>
+        <%= submit_tag("Send to #{@trans.provider.first_name.titleize}", :class=>"btn btn-primary", :data => { :disable_with => "Sending..."}) %>
       </div>
     </div>
   <% end %>
