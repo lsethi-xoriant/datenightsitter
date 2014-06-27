@@ -1,15 +1,27 @@
-  <h1>Log in</h1>
+    <div class='col-xs-12 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4 std-template'>
+      <h3>Log in</h3>
 
-  <%= form_tag sessions_path do %>
-  <div class='col-sm-12'>
-    <p>
-      <%= label_tag :email %><br />
-      <%= text_field_tag :email, params[:email] %>
-    </p>
-    <p>
-      <%= label_tag :password %><br />
-      <%= password_field_tag :password %>
-    </p>
-    <p class="button"><%= submit_tag "Log in" %></p>
-  <% end %>
-  </div>
+      <%= form_tag sessions_path do %>
+        <div class='row'>
+          <div class='col-xs-3'><%= label_tag :email %></div>
+          <div class='col-xs-9'><%= text_field_tag :email, params[:email] %></div>
+        </div>
+        <div class='row'>
+          <div class='col-xs-3'><%= label_tag :password %></div>
+          <div class='col-xs-9'>
+            <%= password_field_tag :password %>
+          <p>
+            <%= link_to "forgot password?", forgot_password_sessions_path %>
+          </p>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-xs-9 col-xs-offset-3'>
+            <%= submit_tag( "Log in", :class => "btn btn-primary", :data => { :disable_with => "Logging in..."} ) %>
+          </div>
+        </div>
+        <div class='row'>
+          <div class='col-xs-9 col-xs-offset-3'><%= check_box_tag :save_password %><%= label_tag :save_password %></div>
+        </div>
+      <% end %>
+    </div>
