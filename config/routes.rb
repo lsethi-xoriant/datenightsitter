@@ -19,7 +19,13 @@ Rails.application.routes.draw do
     end
   end
   
-  resources :sessions
+  resources :sessions do
+    collection do
+      get :forgot_password
+      post :verify_member
+      post :change_password
+    end
+  end
   
   resources :transactions do
     member do

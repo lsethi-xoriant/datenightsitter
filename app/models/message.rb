@@ -9,6 +9,12 @@ class Message < ActiveRecord::Base
     to_provider? ? provider : seeker
   end
   
+  def recipient=(member)
+      self.provider = member if member.is_a?(Provider)
+      self.seeker = member if member.is_a?(Seeker)
+      self.direction = member.is_a?(Provider) ? "to_provider" : "to_seeker"
+  end
+  
   def sender
     to_provider? ? seeker : provider
   end
@@ -25,15 +31,27 @@ class Message < ActiveRecord::Base
     "http://www.sittercitypay.us/members/#{member.id}/dashboard"
   end
   
-  def add_key_val(key, value)
-    @template_obj.add_key_val(key, value)
-  end
+  ##########################
+  #  class Methods
+  ##########################
   
-  def process_template
-    @template_obj.process
-  end
+
+  
+  ##########################
+  #  Private Methods
+  ##########################
   
   private
+  
+  def send_verification_code(code)
+    set_template __method__    #filename send_babysitting_receipt.email
+    
+    #add values to the template
+    add_key_val("code",code)
+    
+    self.update_attributes(:subject => 'Verify Account', :body => process_template)
+  end
+  
   
   def send_payment_request(trans)
     self.reference_url = transaction_url(trans).to_s
@@ -93,6 +111,18 @@ class Message < ActiveRecord::Base
   def get_template_filepath
     message_type = self.class.name.downcase.split('message').first
     [TEMPLATE_FOLDER, self.template,".",message_type].join   # eg app/templates/function.type file path
+  end
+  
+  def add_key_val(key, value)
+    @template_obj.add_key_val(key, value)
+  end
+  
+  def process_template
+    @template_obj.process
+  end
+  
+  def raise_error(method_name)
+    raise "#{method_name.upcase}() is not implemented in this class #{self.class}"
   end
   
 end

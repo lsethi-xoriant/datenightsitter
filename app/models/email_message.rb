@@ -35,4 +35,8 @@ class EmailMessage < Message
     dispatch
   end
   
+  def send_verification_code(code)
+    raise_error(__method__)
+  end
+
 end

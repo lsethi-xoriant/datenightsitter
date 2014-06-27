@@ -19,7 +19,10 @@ class SmsMessage < Message
     })
   end
 
-  #inherited submission types
+  ##########################
+  #  Inherited submissions
+  ##########################
+  
   def send_payment_request(trans)
     super(trans)
     dispatch
@@ -31,7 +34,22 @@ class SmsMessage < Message
   end
 
   def send_babysitting_receipt(trans)
-    raise "#{__method__.upcase}() is not implemented in this clas #{self.class}"
+    raise_error(__method__)
+  end
+
+  def send_verification_code(code)
+    super(code)
+    dispatch
+  end
+
+  ##########################
+  #  class Methods
+  ##########################
+  
+  def self.createSystemMsg(recipient)
+    SmsMessage.create do |m|
+      m.recipient = recipient
+    end
   end
 
 
