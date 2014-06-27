@@ -8,7 +8,7 @@ class MembersController < ApplicationController
   def create
     @member = Member.new(member_params)
     if @member.save
-      authorize(@member)
+      authenticate(@member.email, member_params[:password])
       redirect_to(dashboard_member_path(@member),
                   :flash => { :success => "Signed up!" })
     else
@@ -55,6 +55,12 @@ class MembersController < ApplicationController
   def dashboard
     @member = current_member
     @trans = @member.transactions.order(:started_at => :desc).paginate(:per_page => 3, :page => params[:page])
+
+    @ttl_paid_jobs = @member.transactions.where(:status => :paid).count
+    @ttl_amt = @member.transactions.where(:status => :paid).pluck(:amount_cents).reduce(0, :+) / 100.to_f
+    @ttl_hrs = @member.transactions.where(:status => :paid).pluck(:duration).reduce(0, :+)
+    @avg_rate = @ttl_amt / @ttl_hrs.to_f
+
     render :provider_dashboard if @member.is_a? Provider
     render :seeker_dashboard if @member.is_a? Seeker
   end
