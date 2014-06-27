@@ -39,6 +39,7 @@ Rails.application.routes.draw do
     member do
       get :review
       put :update
+      get :resend_request
     end
   end
 

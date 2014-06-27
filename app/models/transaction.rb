@@ -148,6 +148,7 @@ class Transaction < ActiveRecord::Base
     m = Message.create(:provider => provider, :seeker => seeker, :direction => "to_seeker", :type => seeker.message_type_preference )
     m.send_payment_request(self)
     logger.debug "#{seeker.last_name.titleize} family notified"
+    m
   end
   
   #sends notifications to both parties that the payment has processed successfully
@@ -163,6 +164,7 @@ class Transaction < ActiveRecord::Base
     m = EmailMessage.create(:seeker => seeker, :provider => provider, :direction => "to_seeker")
     m.send_babysitting_receipt(self)
     logger.debug "#{seeker.last_name.titleize} notified"
+    m
   end
 
   

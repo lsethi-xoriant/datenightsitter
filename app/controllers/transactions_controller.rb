@@ -37,6 +37,13 @@ class TransactionsController < ApplicationController
     
   end
   
+  def resend_request
+    @trans = Transaction.find(params[:id])
+    @trans.send_request_notification
+    flash[:success] = "Your request was resent to the #{@trans.seeker.last_name.titleize} family"
+    redirect_to dashboard_member_path(current_member)
+  end
+  
   private 
   
   def trans_params

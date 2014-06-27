@@ -16,8 +16,11 @@
             @ ~<%=number_to_currency(t.estimated_rate, :precision => 0) %> hr.
           </div>
           <div class='col-xs-12 dashboard-trans-base'>
-            <%=link_to( "Resend to Family", log_in_path, :class => "btn btn-lg btn-default max-width active") if @member.is_a?(Provider) && !t.paid? %>
-            <%=link_to( "Pay Babysitter", review_settle_up_path(t), :class => "btn btn-lg btn-default max-width active") if @member.is_a?(Seeker) && !t.paid? %>
+            <% if @member.is_a?(Provider) && !t.paid? %>
+              <%=link_to( "Resend to Family", resend_request_settle_up_path(t), :class => "btn btn-lg btn-default max-width active") %>
+            <% else %>
+              <%=link_to( "Pay Babysitter", review_settle_up_path(t), :class => "btn btn-lg btn-default max-width active") %>
+            <% end %>
           </div>
         </div>
       <% end %>
