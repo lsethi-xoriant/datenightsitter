@@ -10,14 +10,21 @@ class Message < ActiveRecord::Base
   end
   
   def recipient=(member)
-      self.provider = member if member.is_a?(Provider)
-      self.seeker = member if member.is_a?(Seeker)
-      self.direction = member.is_a?(Provider) ? "to_provider" : "to_seeker"
+    self.provider = member if member.is_a?(Provider)
+    self.seeker = member if member.is_a?(Seeker)
+    self.direction = member.is_a?(Provider) ? "to_provider" : "to_seeker"
   end
   
   def sender
     to_provider? ? seeker : provider
   end
+
+  def sender=(member)
+    self.provider = member if member.is_a?(Provider)
+    self.seeker = member if member.is_a?(Seeker)
+  end
+
+
   
   def shortened_url
     UrlShortener.shorten(reference_url).short_url
@@ -31,6 +38,10 @@ class Message < ActiveRecord::Base
     "http://www.sittercitypay.us/members/#{member.id}/dashboard"
   end
   
+  def invitation_url(member)
+    "http://www.sittercitypay.us/members/#{member.id}/invited"
+  end
+  
   ##########################
   #  class Methods
   ##########################
@@ -42,6 +53,18 @@ class Message < ActiveRecord::Base
   ##########################
   
   private
+  def invite_to_join
+    set_template __method__    #filename send_babysitting_receipt.email
+    self.reference_url = invitation_url(recipient)
+    
+    #add values to the template
+    add_key_val("recipient",recipient.to_h)
+    add_key_val("sender",sender.to_h)
+    add_key_val("shortened_url", shortened_url)
+    
+    self.update_attributes(:subject => 'Verify Account', :body => process_template)
+  end
+
   
   def send_verification_code(code)
     set_template __method__    #filename send_babysitting_receipt.email

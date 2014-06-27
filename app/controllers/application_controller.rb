@@ -12,7 +12,8 @@ class ApplicationController < ActionController::Base
   end
   
   def authenticate(unique_id, password, save = false)
-    member = Member.authenticate(params[:email], params[:password])
+    logger.debug "authentication called for #{unique_id}"
+    member = Member.authenticate(unique_id, password)
     authorize(member, save)
   end
   

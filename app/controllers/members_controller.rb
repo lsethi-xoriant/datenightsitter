@@ -30,9 +30,29 @@ class MembersController < ApplicationController
     end
   end
   
+  def enrollment
+    @member = Seeker.find(params[:id])
+    if @member.update(member_params)
+      authenticate(@member.email, member_params[:password])      
+      redirect_to(dashboard_member_path(@member),
+                  :flash => { :success => "You've been enrolled" })
+    else
+      redirect_to invited_member_path(@member)
+    end
+  end
+  
   def invite_parent
     @member = current_member
     @seeker = Seeker.new
+  end
+  
+  def invited
+    @seeker = Seeker.find(params[:id])
+    @provider = @seeker.network.first
+  end
+  
+  def enroll
+    @seeker = Seeker.find(params[:id])
   end
   
   def add_seeker
@@ -40,6 +60,7 @@ class MembersController < ApplicationController
     @seeker = @member.find_or_create_in_network(seeker_params)
     
     if @seeker
+      SmsMessage.createPeerToPeerMsg(@member, @seeker).invite_to_join
       redirect_to(dashboard_member_path(@member),
                   :flash => { :success => "The parent #{@seeker.full_name} has been added" })
     else

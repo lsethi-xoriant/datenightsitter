@@ -12,6 +12,9 @@ Rails.application.routes.draw do
       get :bank_account
       get :dashboard
       get :invite_parent
+      get :invited
+      get :enroll
+      put :enrollment
       get :settle_up
       get :profile
       post :add_bank_account

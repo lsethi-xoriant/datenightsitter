@@ -23,6 +23,11 @@ class SmsMessage < Message
   #  Inherited submissions
   ##########################
   
+  def invite_to_join
+    super
+    dispatch
+  end
+
   def send_payment_request(trans)
     super(trans)
     dispatch
@@ -51,7 +56,13 @@ class SmsMessage < Message
       m.recipient = recipient
     end
   end
-
-
+  
+  def self.createPeerToPeerMsg(sender, recipient)
+    SmsMessage.create do |m|
+      m.sender = sender
+      m.recipient = recipient
+    end
+    
+  end
   
 end
