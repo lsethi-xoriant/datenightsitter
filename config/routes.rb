@@ -13,6 +13,7 @@ Rails.application.routes.draw do
       get :dashboard
       get :invite_parent
       get :settle_up
+      get :profile
       post :add_bank_account
       post :add_seeker
       post :submit_bill

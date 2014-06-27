@@ -16,10 +16,18 @@ class MembersController < ApplicationController
     end
   end
   
+  def profile
+    @member = current_member  
+  end
+  
   def update
-    redirect_to current_member.members.find(params[:id]).tap { |member|
-      member.update!(member_params)
-    }
+    @member = current_member
+    if @member.update(member_params)
+      redirect_to(dashboard_member_path(@member),
+                  :flash => { :success => "Profile updated" })
+    else
+      render :profile
+    end
   end
   
   def invite_parent
