@@ -10,20 +10,20 @@
     <%= t.input :started_at, :as => :hidden  %>
     <%= t.input :duration, :as => :hidden %>
     <div id="durationPair" class="form-group row-fluid">
-      <div class="col-xs-6">
+      <div class="col-xs-5">
         <%= label_tag(:started_at, "Started At:") %>
         <%= text_field_tag(:started_at, nil, :required => true, :class => "time start") %>
       </div>
-      <div class="col-xs-6">
+      <div class="col-xs-5">
         <%= label_tag(:ended_at, "Ended At:") %>
         <%= text_field_tag(:ended_at, nil, :required => true, :class => "time end") %>
       </div>
     </div>
     <div class="form-group row-fluid">
-      <div class="col-xs-6">
+      <div class="col-xs-5">
         <%= t.label :rate, "Your typical rate" %>
       </div>
-      <div class="col-xs-6">
+      <div class="col-xs-5">
         <%= t.input_field :rate, :as => :decimal,
               :input_html => {  :required => true,
                                 :maxlength => 2,
