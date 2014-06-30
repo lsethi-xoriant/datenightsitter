@@ -4,27 +4,32 @@
     <p>
       All finished babysitting?  Great!  let's wrap up with your family, so they can pay you.
     </p>
+    <style>
+      input.adjust-size {
+        width: 90%;
+      }
+    </style>
 
   <%= form_tag(submit_bill_member_path(@provider), :method => :post, :class => "form-horizontal") do %>
     <%= simple_fields_for(@transaction) do |t| %>
     <%= t.input :started_at, :as => :hidden  %>
     <%= t.input :duration, :as => :hidden %>
     <div id="durationPair" class="form-group row-fluid">
-      <div class="col-xs-5">
+      <div class="col-xs-6">
         <%= label_tag(:started_at, "Started At:") %>
-        <%= text_field_tag(:started_at, nil, :required => true, :class => "time start") %>
+        <%= text_field_tag(:started_at, nil, :required => true, :class => "time start adjust-size") %>
       </div>
-      <div class="col-xs-5">
+      <div class="col-xs-6">
         <%= label_tag(:ended_at, "Ended At:") %>
-        <%= text_field_tag(:ended_at, nil, :required => true, :class => "time end") %>
+        <%= text_field_tag(:ended_at, nil, :required => true, :class => "time end adjust-size") %>
       </div>
     </div>
     <div class="form-group row-fluid">
-      <div class="col-xs-5">
+      <div class="col-xs-6">
         <%= t.label :rate, "Your typical rate" %>
       </div>
-      <div class="col-xs-5">
-        <%= t.input_field :rate, :as => :decimal,
+      <div class="col-xs-6">
+        <%= t.input_field :rate, :as => :decimal, :class => "adjust-size",
               :input_html => {  :required => true,
                                 :maxlength => 2,
                                 :in => 5.0..30.0,
