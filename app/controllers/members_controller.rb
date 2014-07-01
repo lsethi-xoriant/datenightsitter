@@ -80,7 +80,7 @@ class MembersController < ApplicationController
     @ttl_paid_jobs = @member.transactions.where(:status => :paid).count
     @ttl_amt = @member.transactions.where(:status => :paid).pluck(:amount_cents).reduce(0, :+) / 100.to_f
     @ttl_hrs = @member.transactions.where(:status => :paid).pluck(:duration).reduce(0, :+)
-    @avg_rate = @ttl_amt / @ttl_hrs.to_f
+    @avg_rate = ( @ttl_hrs > 0) ? @ttl_amt / @ttl_hrs.to_f : 0
 
     render :provider_dashboard if @member.is_a? Provider
     render :seeker_dashboard if @member.is_a? Seeker
