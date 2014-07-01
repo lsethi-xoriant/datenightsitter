@@ -18,6 +18,11 @@ DOC_LOAD_ACTIONS_CONFIG = {
       // controller-wide code
     },
     
+    bank_account: function() {
+      var braintree = Braintree.create(BRAINTREE_PAYMENT_CSE);
+      braintree.onSubmitEncryptForm('braintree-merchant-form');
+    },
+    
     settle_up: function() {
       //  http://jonthornton.github.io/jquery-timepicker/
       //  http://jonthornton.github.io/jquery-datepair/

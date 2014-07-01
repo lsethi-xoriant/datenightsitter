@@ -1,6 +1,3 @@
-<script>
-  var BRAINTREE_PAYMENT_CSE = "<%= Rails.application.secrets.braintree_cse %>"
-</script>
 <div class='col-xs-12 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4 settle_up-review' style="padding-left: 0px; padding-right: 0px; font-size: 12px;">
   <h4 style="margin-top: 0px;">Settle-up with <%= @trans.provider.first_name.titleize %> </h4>
 
@@ -14,7 +11,12 @@
     <div class="form-group row row-amountCreating merchant account succeeded. merchant_account.id ">
       <div class="col-xs-6">
         <span><%= f.label :amount, "Pay" %></span>&nbsp;&nbsp;
-          <span class='amount'>$<%= f.input_field :amount, :value => number_with_precision(@proposed_amount , precision: 0), :title => "Amount to be paid to the sitter", :pattern => "[0-9]*", :inputmode => "numeric" %></span>
+          <span class='amount'>$<%= f.input_field :amount,
+                                                  :value => number_with_precision(@proposed_amount , precision: 0),
+                                                  :title => "Amount to be paid to the sitter (not to exceed $150)",
+                                                  :in => 5..150,
+                                                  :pattern => "[0-9]*",
+                                                  :inputmode => "numeric" %></span>
       </div>
       <div class="col-xs-6">
           <button id='round-up' type='button' data-amount='<%=@round_up %>' class="btn btn-info btn-sm btn-round-up">
