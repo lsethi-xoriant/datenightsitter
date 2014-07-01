@@ -27,9 +27,14 @@
         </div>
       <% else %>
         <div class='row col-sm-12'>
-          <%= link_to("Invite Parents to Join", invite_parent_member_path(@member), :class => "btn btn-lg btn-primary max-width") %>
+          <%= form_tag invite_parent_member_path(@member), :method => :get do %>
+            <%= submit_tag "Invite Parents to Join", :class=>"btn btn-lg btn-primary max-width" %>
+          <% end %>
         </div>
         <div class='row col-sm-12'>
+          <%= form_tag invite_parent_member_path(@member), :method => :get do %>
+            <%= submit_tag "Wrap up and get paid", :class=>"btn btn-lg btn-primary max-width" %>
+          <% end %>
           <%= link_to("Wrap up and get paid", settle_up_member_path(@member), :class => "btn btn-lg btn-info max-width") %>
         </div>
       <% end %>
