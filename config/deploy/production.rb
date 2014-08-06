@@ -17,7 +17,7 @@ set :bundle_flags, "--deployment"
 # This can be used to drop a more detailed server definition into the
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
-server 'www.sittercitypay.us', user: 'ec2-user', roles: %w{web app db}
+server 'web01.datenightsitter.net', user: 'ec2-user', roles: %w{web app db}
 
 
 # Custom SSH Options

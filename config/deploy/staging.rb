@@ -9,4 +9,4 @@ set :bundle_flags, "--deployment"
 # server list. The second argument is a, or duck-types, Hash and is
 # used to set extended properties on the server.
 
-server 'example.com', user: 'deploy', roles: %w{web app db}
+server 'web02.datenightsitter.net', user: 'ec2-user', roles: %w{web app db}
