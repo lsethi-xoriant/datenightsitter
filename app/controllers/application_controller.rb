@@ -3,35 +3,51 @@ class ApplicationController < ActionController::Base
   # For APIs, you may want to use :null_session instead.
   protect_from_forgery with: :exception
 
-  helper_method :current_member, :authenticate, :authenticated?, :reauthorize
+  #require authentication on most pages
+  before_action :require_authentication
+
+  helper_method :current_member, :authenticate_member, :member_authenticated?, :reauthorize, :require_authentication
   
   private
   
   def current_member
-    @current_member ||= Member.find(session[:member_id]) if session[:member_id]
+    logger.debug "sittercity_account session variable is #{session[:sittercity_account]}" if @current_member.nil?
+    @current_member ||= session[:sittercity_account].member if session[:sittercity_account]
   end
   
-  def authenticate(unique_id, password, save = false)
-    logger.debug "authentication called for #{unique_id}"
-    member = Member.authenticate(unique_id, password)
-    authorize(member, save)
-  end
-  
-  def authenticated?
-    current_member.is_a? Member
+  #authenticate 
+  def authenticate_member(email, password, save = false)
+    logger.debug "authentication called for #{email}"
+    
+    #authenticate user given params
+    s = Sittercity::API::Client.new( Rails.application.secrets.sittercity_api_endpoint )
+    s.register(:application_type => Rails.application.secrets.sittercity_api_application_type ,
+               :name => Rails.application.secrets.sittercity_api_application_name )
+    s.authenticate!(:email => email, :password => password)
+    
+    #create and store SittercityAccount if member authenticates
+    session[:sittercity_account] = SittercityAccount.new(s) if s.token
+    
+  rescue Sittercity::API::Client::Unauthorized => e
+        logger.error "Unable to login user - User not authorized"
   end
 
-  def reauthorize(member)
-    #should we do any other checks?
-    authorize(member, false)
-  end
-  
-  
-  def authorize(member, save = false)
-    if member.is_a?(Member)
-      session[:member_id] = member.id
-      cookies.encrypted[:member_id] = { value: member.id, expires: 1.month.from_now } if save
+  def member_authenticated?
+    result = false
+    acct = session[:sittercity_account]
+    if acct.is_a?(SittercityAccount)
+      if acct.has_expired?
+        result = (acct.refresh_authentication == true)
+      else
+        result = true
+      end
     end
   end
-
+  
+  def require_authentication
+    unless member_authenticated?
+      flash[:error] = "You must be logged in to access this section"
+      redirect_to log_in_path # halts request cycle
+    end
+  end
 end

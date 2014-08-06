@@ -13,7 +13,7 @@
     </div>
     <div class="navbar-collapse collapse" style="height: auto;">
       <ul class="nav navbar-nav">
-        <% if authenticated? %>
+        <% if member_authenticated? %>
           <li>
             <%= link_to "Dashboard", dashboard_member_path(current_member) %>
           </li>
@@ -37,7 +37,7 @@
         <% end %>
       </ul>
       <ul class="nav navbar-nav navbar-right">
-        <% if authenticated? %>
+        <% if member_authenticated? %>
           <li class="active"><%= link_to 'Log out', log_out_path %></li>
         <% else %>
           <!--

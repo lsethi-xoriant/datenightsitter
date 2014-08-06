@@ -1,4 +1,5 @@
 source 'https://rubygems.org'
+source 'https://p5OJA9otWmV:7pmGhbSudbCNjFHAIh5DpAfs@gems.sittercity.com/'
 
 
 gem 'rails', '~> 4.1.1'
@@ -20,7 +21,7 @@ gem 'jquery-rails', '~> 3.1'    # Use jquery as the JavaScript library
 gem 'jquery-ui-rails', '~> 4.2.0'
 gem 'bootstrap-sass', '~> 3.1.1'
 gem 'font-awesome-rails', '~> 4.0'
-gem 'simple_form', '~> 3.1.0.rc1', github: 'plataformatec/simple_form', branch: 'master'
+gem 'simple_form', '~> 3.1.0.rc2', github: 'plataformatec/simple_form', branch: 'master'
 gem 'will_paginate', '~> 3.0.5'
 gem 'rails3-jquery-autocomplete', '~> 1.0.14'
 gem 'rabl', '~> 0.10'
@@ -44,9 +45,12 @@ gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',  group: :doc
 
-
 # Use unicorn as the app server
 # gem 'unicorn'
+
+#Sittercity-gems
+gem 'sa3p', '~> 0.1.2'
+gem 'sittercity-api-client', '~> 0.9.0'
 
 group :development, :test do
   gem 'rspec-rails', '~> 3.0.0'
