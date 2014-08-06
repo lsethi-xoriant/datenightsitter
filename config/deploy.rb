@@ -1,14 +1,14 @@
 # config valid only for Capistrano 3.1
 lock '3.2.1'
 
-set :application, 'Sittercity_Marketplace'
+set :application, 'DateNightSitter'
 set :scm, :git     #Default :git
-set :repo_url, 'git@github.com:ac21/sittermarketplace.git'
+set :repo_url, 'git@github.com:ac21/datenightsitter.git'
 
 # Set :branch in Stage files (production/staging/etc)
 # ask :branch, proc { `git rev-parse --abbrev-ref HEAD`.chomp }.call   # Default branch is :master
 
-set :deploy_to, '/www/sites/sittermarketplace/'
+set :deploy_to, '/www/sites/datenightsitter/'
 set :format, :pretty     #Default  :pretty
 set :log_level, :info   #Default  :debug
 set :pty, true    #Default false

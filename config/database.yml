@@ -13,7 +13,7 @@ default: &default
 development:
   <<: *default
   host: localhost
-  database: sit_mkt_dev
+  database: marketplace_dev
   username: sittercity_dev
   password: sitter123
 
@@ -23,14 +23,23 @@ development:
 test:
   <<: *default
   host: localhost
-  database: sit_mkt_test
+  database: marketplace_test
   username: sittercity_test
   password: sitter123
 
 #TODO: (AC 2014Jun17) - NEED TO REMOVE FROM GIT AND LOAD FROM ENVIRONMENT
 production:
   <<: *default
-  host: db.sittercitypay.us
-  database: sit_mkt
+  host: db01.datenightsitter.net
+  database: marketplace
   username: sittercity
   password: sitter123
+  
+  #TODO: (AC 2014Jun17) - NEED TO REMOVE FROM GIT AND LOAD FROM ENVIRONMENT
+staging:
+  <<: *default
+  host: db.datenightsitter.net
+  database: marketplace_staging
+  username: sittercity
+  password: sitter123
+
