@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140624210422) do
+ActiveRecord::Schema.define(version: 20140801010101) do
 
   create_table "members", force: true do |t|
     t.string   "type"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20140624210422) do
     t.string   "payment_account_id"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.datetime "accepted_tou_at"
   end
 
   add_index "members", ["email"], name: "index_members_on_email", unique: true, using: :btree

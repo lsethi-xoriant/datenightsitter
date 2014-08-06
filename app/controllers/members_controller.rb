@@ -20,11 +20,15 @@ class MembersController < ApplicationController
     @member = current_member  
   end
   
+  def terms_of_use
+    @member = current_member  
+  end
+  
   def update
     @member = current_member
     if @member.update(member_params)
       redirect_to(dashboard_member_path(@member),
-                  :flash => { :success => "Profile updated" })
+                  :flash => { :success => "Account updated" })
     else
       render :profile
     end
@@ -81,9 +85,13 @@ class MembersController < ApplicationController
     @ttl_amt = @member.transactions.where(:status => :paid).pluck(:amount_cents).reduce(0, :+) / 100.to_f
     @ttl_hrs = @member.transactions.where(:status => :paid).pluck(:duration).reduce(0, :+)
     @avg_rate = ( @ttl_hrs > 0) ? @ttl_amt / @ttl_hrs.to_f : 0
-
-    render :provider_dashboard if @member.is_a? Provider
-    render :seeker_dashboard if @member.is_a? Seeker
+    
+    if @member.accepted_tou_at.nil? || @member.accepted_tou_at < Time.parse(Rails.application.secrets.sittercity_current_tou)   #TODO FIX:  move to config file
+      redirect_to terms_of_use_member_path
+    else
+      render :provider_dashboard if @member.is_a? Provider
+      render :seeker_dashboard if @member.is_a? Seeker
+    end
   end
   
   def bank_account
@@ -157,7 +165,7 @@ class MembersController < ApplicationController
   private
   
   def member_params
-    params.require(:member).permit(:first_name, :last_name, :email, :password, :address, :city, :state, :zip, :type, :phone, :date_of_birth)
+    params.require(:member).permit(:first_name, :last_name, :email, :password, :address, :city, :state, :zip, :type, :phone, :date_of_birth, :accepted_tou_at)
   end
   
   def seeker_params

@@ -6,13 +6,17 @@ class ApplicationController < ActionController::Base
   #require authentication on most pages
   before_action :require_authentication
 
-  helper_method :current_member, :authenticate_member, :member_authenticated?, :reauthorize, :require_authentication
+  helper_method :current_member, :current_sittercity_account, :authenticate_member, :member_authenticated?, :reauthorize, :require_authentication
   
   private
   
   def current_member
     logger.debug "sittercity_account session variable is #{session[:sittercity_account]}" if @current_member.nil?
     @current_member ||= session[:sittercity_account].member if session[:sittercity_account]
+  end
+  
+  def current_sittercity_account
+    session[:sittercity_account] if session[:sittercity_account]
   end
   
   #authenticate 

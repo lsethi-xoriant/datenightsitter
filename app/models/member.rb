@@ -136,7 +136,14 @@ class Member < ActiveRecord::Base
   #  CLASS METHODS
   #############################
 
-  
+  def self.create_from_sittercity_account(acct)
+    type = acct.is_provider? ? "Provider" : "Seeker"
+    Member.create(:type => type,
+                  :email => acct.email,
+                  :first_name => acct.first_name,
+                  :last_name => acct.last_name,
+                  :phone => acct.mobile_phone)
+  end
   
   def self.authenticate(email, password)
     user = find_by_email(email)

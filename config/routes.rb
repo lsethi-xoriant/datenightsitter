@@ -17,6 +17,7 @@ Rails.application.routes.draw do
       put :enrollment
       get :settle_up
       get :profile
+      get :terms_of_use
       post :add_bank_account
       post :add_seeker
       post :submit_bill
