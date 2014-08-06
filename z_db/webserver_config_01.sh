@@ -1,7 +1,3 @@
-# ensure spinup.shopvizr.com points to new server
-# set up an additional authorized keys file
-# start from local machine
-cat /Volumes/Crypto/andrew.pub | ssh -i /Volumes/Crypto/andrew.pem ec2-user@spinup.shopvizr.com "cat >> ~/.ssh/authorized_keys"
 
 #update system
 sudo yum -y update
@@ -25,6 +21,8 @@ sudo yum -y install curl-devel httpd-devel apr-devel apr-util-devel ruby-devel
 #add users to groups as specified
 sudo usermod -a -G rvm ec2-user
 
+#logged out and logged back in
+
 
 #  Exit shell(s) and reload
 source /etc/profile.d/rvm.sh
@@ -32,9 +30,6 @@ source /etc/profile.d/rvm.sh
 #logged out and logged back in
 
 
-#update certs to support RVM download
-#sudo mv /etc/pki/tls/certs/ca-bundle.crt /etc/pki/tls/certs/ca-bundle_2013-10-09.crt
-#sudo curl http://curl.haxx.se/ca/cacert.pem -o /etc/pki/tls/certs/ca-bundle.crt
 
 #  install ruby for RVM
 rvm install 2.1.2
@@ -51,7 +46,7 @@ exit
 # *********************************
 #      setting up MySQL and postgresql
 # *********************************
-#install mysql, however no need to have it running as we are using AWS RDS
+#install db engines, however no need to have it running as we are using AWS RDS
 sudo yum -y install mysql mysql-server mysql-devel postgresql-devel
 
 
@@ -89,19 +84,29 @@ sudo echo "<html><header></header><body><h1>test page</h1></body></html>" > /var
 
 
 #install passenger
-sudo gem install passenger
-sudo passenger-install-apache2-module
+sudo -s
+    gem install passenger
+    passenger-install-apache2-module
+exit
 
-#load passenger params into /etc/httpd/conf/httpd.conf as identified in passenger installation;  For example:
+#add LoadModule and virtual host config into httpd.conf and import
 
-#   LoadModule passenger_module /usr/local/rvm/gems/ruby-2.1.2/gems/passenger-4.0.45/buildout/apache2/mod_passenger.so
+#   LoadModule passenger_module /usr/local/rvm/gems/ruby-2.1.2/gems/passenger-4.0.48/buildout/apache2/mod_passenger.so
 #   
 #  <IfModule mod_passenger.c>
-#     PassengerRoot /usr/local/rvm/gems/ruby-2.1.2/gems/passenger-4.0.45
+#     PassengerRoot /usr/local/rvm/gems/ruby-2.1.2/gems/passenger-4.0.48
 #     PassengerDefaultRuby /usr/local/rvm/gems/ruby-2.1.2/wrappers/ruby
 #   </IfModule>
-#
-#
+
+# *********************************
+#      Configure Apache for app
+# *********************************
+sudo chmod 777 /etc/httpd/conf/httpd.conf
+#EXIT AWS SHELL
+cd ~/sites/datenightsitter/z_db/etc/httpd/conf
+scp ~/sites/datenightsitter/z_db/etc/httpd/conf/httpd.conf web01.datenightsitter.net:/etc/httpd/conf/httpd.conf
+
+#re-enter shell
 
 
 # *********************************
@@ -114,7 +119,7 @@ sudo chown -R ec2-user:ec2-user /www
 sudo chmod -R g+rwx /www
 
 mkdir /www/sites
-mkdir /www/sites/sittermarketplace
+mkdir /www/sites/datenightsitter
 
 
 # *********************************
@@ -124,30 +129,9 @@ mkdir /www/sites/sittermarketplace
 # test ssh forwardagent and get RSA fingerprint
 ssh -T git@github.com
 
-# *********************************
-#      Configure Apache for app
-# *********************************
-sudo chmod 777 /etc/httpd/conf/httpd.conf
-
-#EXIT AWS SHELL
-exit
-
-cd ~/sites/sittermarketplace/z_db/etc/httpd/conf
-scp ~/sites/sittermarketplace/z_db/etc/httpd/conf/httpd.conf sitmkt:/etc/httpd/conf/httpd.conf
-
 
 
 # *********************************
 #     restart Apache
 # *********************************
 sudo service httpd restart
-
-# *********************************
-#     load apps via capistrano locally
-# *********************************
-#goose-api folder
-#cap staging deploy
-#do something with buindle exec rake db:migrate
-#goose-frontend folder
-#cap staging deploy
-
