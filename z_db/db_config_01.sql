@@ -26,11 +26,11 @@ Backup Retention Period:   5 Days
 */
 
 /* *********************************
-      Configure production and staging databases
+      Configure production and staging databases on AWS
  ********************************* */
 
 /*delete test data */
-DROP DATABASE test;
+DROP DATABASE IF EXISTS `test`;
 DELETE FROM mysql.user WHERE user = '';
 
 
@@ -38,15 +38,20 @@ DELETE FROM mysql.user WHERE user = '';
 CREATE DATABASE marketplace CHARACTER SET utf8;
 CREATE DATABASE marketplace_staging CHARACTER SET utf8;
 
-/* create user */
-CREATE USER 'sittercity'@'localhost';
+/* create user and permissions*/
+CREATE USER `sittercity`@`%`;
+GRANT ALL PRIVILEGES ON marketplace.* to `sittercity`@`%`;
 
-UPDATE mysql.user SET password=password('sitter123') WHERE user like ('sittercit%') and host = 'localhost';
 
-GRANT ALL PRIVILEGES ON marketplace.* to 'sittercity'@'localhost';
-GRANT ALL PRIVILEGES ON *.* to 'root';
+CREATE USER `sittercity_stag`@`%`;
+GRANT ALL PRIVILEGES ON marketplace_staging.* to `sittercity_stag`@`%`;
+
 
 FLUSH PRIVILEGES;
+
+/* set common password;  probably need something more secure at some point  */
+UPDATE mysql.user SET password=password('sitter123') WHERE user like 'sittercit%' and host = '%';
+
 
 /* *********************************
       Configure dev and test databases

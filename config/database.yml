@@ -38,8 +38,8 @@ production:
   #TODO: (AC 2014Jun17) - NEED TO REMOVE FROM GIT AND LOAD FROM ENVIRONMENT
 staging:
   <<: *default
-  host: db.datenightsitter.net
+  host: db01.datenightsitter.net
   database: marketplace_staging
-  username: sittercity
+  username: sittercity_stag
   password: sitter123
 
