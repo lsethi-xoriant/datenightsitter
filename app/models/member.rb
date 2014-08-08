@@ -142,7 +142,8 @@ class Member < ActiveRecord::Base
                   :email => acct.email,
                   :first_name => acct.first_name,
                   :last_name => acct.last_name,
-                  :phone => acct.mobile_phone)
+                  :phone => acct.mobile_phone,
+                  :sso_uuid => acct.sso_uuid)
   end
   
   def self.authenticate(email, password)
