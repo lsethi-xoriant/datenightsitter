@@ -60,6 +60,16 @@ class SittercityAccount
   def authentication_expires_at
     api_client.token.issued_at + api_client.token.expires_in
   end
+  
+  def provider_profile
+    if is_provider?
+      response = @api_client.provider_profile(sso_uuid).deep_stringify_keys    #s
+      SittercityProfile.new ( response["com.sittercity.profile:Provider"]  )
+    else
+      nil
+    end
+  end
+    
 
   private
   
