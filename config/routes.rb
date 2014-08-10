@@ -7,10 +7,9 @@ Rails.application.routes.draw do
   
   resources :members do
     member do
-      get :autocomplete_search_connections_by_phone
-      get :autocomplete_search_connections_by_last_name
       get :bank_account
       get :dashboard
+      get :date_night_availability
       get :invite_parent
       get :invited
       get :enroll
@@ -18,12 +17,15 @@ Rails.application.routes.draw do
       get :settle_up
       get :profile
       get :terms_of_use
+      post :update_date_night_availability
       post :add_bank_account
       post :add_seeker
       post :submit_bill
     end
   end
   
+  resources :date_night_sitting
+
   resources :sessions do
     collection do
       get :forgot_password

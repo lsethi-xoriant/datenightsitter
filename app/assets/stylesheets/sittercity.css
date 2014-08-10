@@ -9,6 +9,31 @@
   margin: 6px 0px;
 }
 
+div.datenight-record {
+  border-style: solid;
+  border-width: thin;
+  border-color: #c5c5c5;
+  border-radius: 10px;
+  padding: 5px;
+  margin: 10px 0px;
+  text-align: center;
+  vertical-align: middle;
+  width: 100%;
+  color:#464646;
+  font-family:"Open Sans","Lucida Sans Unicode",Arial,sans-serif;
+  font-size: 14px;
+  line-height:1.4;
+}
+
+div.date_night-record input {
+  font-size: 14px;
+}
+
+select.phone-visible, input.phone-visible {
+  font-size: 14px;
+}
+
+
 div.dash-trans-record {
   border-style: solid;
   border-width: thin;

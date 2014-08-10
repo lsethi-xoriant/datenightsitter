@@ -161,6 +161,13 @@ class MembersController < ApplicationController
     end
   end
   
+  def date_night_availability
+    @provider = current_member
+    @slots = DateNightSlot.where("available_on >= ?", Date.today).paginate(:per_page => 6, :page => params[:page])
+
+
+  end
+  
   
   private
   

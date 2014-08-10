@@ -23,6 +23,26 @@ DOC_LOAD_ACTIONS_CONFIG = {
       braintree.onSubmitEncryptForm('braintree-merchant-form');
     },
     
+    date_night_availability: function() {
+      //trigger the parent form submit on select field change
+      $("form.new_date_night_sitting select").change( function() {
+        $(this).closest("form").submit();  
+      });
+      
+      //hide the submit button
+      $("form.new_date_night_sitting input[type='submit']").hide();
+      
+      //on successful submission, reload page
+      $('form.new_date_night_sitting').on(
+        'ajax:success',
+        function(event, data, status, xhr) {
+          console.log(data);
+          document.location.href = "date_night_availability";
+          return false;
+        });
+        
+    },
+    
     settle_up: function() {
       //  http://jonthornton.github.io/jquery-timepicker/
       //  http://jonthornton.github.io/jquery-datepair/
@@ -89,6 +109,19 @@ DOC_LOAD_ACTIONS_CONFIG = {
         return true;
       });
     }
+  },
+  
+  date_night_sittings: {
+    init: function() {
+      //controller-wide code
+    },
+    
+    create: function() {
+      
+    }
+    
+    
+    
   }
 };
  
