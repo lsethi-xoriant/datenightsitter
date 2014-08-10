@@ -13,7 +13,6 @@
 //= require jquery
 //= require jquery_ujs
 //= require jquery.ui.all
-//= require autocomplete-rails
 //= require jquery.timepicker
 //= require jquery.datepair
 //= require bootstrap
