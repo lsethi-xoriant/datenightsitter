@@ -11,7 +11,15 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140802010101) do
+ActiveRecord::Schema.define(version: 20140808061826) do
+
+  create_table "date_night_slots", force: true do |t|
+    t.date     "available_on"
+    t.datetime "starting_at"
+    t.integer  "guaranteed_openings"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
 
   create_table "members", force: true do |t|
     t.string   "type"
@@ -63,6 +71,34 @@ ActiveRecord::Schema.define(version: 20140802010101) do
     t.integer "provider_id"
     t.integer "seeker_id"
   end
+
+  create_table "sitting_status_transitions", force: true do |t|
+    t.integer  "sitting_id"
+    t.string   "event"
+    t.string   "from"
+    t.string   "to"
+    t.string   "calling_member_id"
+    t.string   "integer"
+    t.datetime "created_at"
+  end
+
+  add_index "sitting_status_transitions", ["sitting_id"], name: "index_sitting_status_transitions_on_sitting_id", using: :btree
+
+  create_table "sittings", force: true do |t|
+    t.string   "type"
+    t.string   "status"
+    t.integer  "provider_id"
+    t.integer  "seeker_id"
+    t.datetime "started_at"
+    t.datetime "ended_at"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.integer  "date_night_slot_id"
+  end
+
+  add_index "sittings", ["date_night_slot_id"], name: "index_sittings_on_date_night_slot_id", using: :btree
+  add_index "sittings", ["provider_id"], name: "index_sittings_on_provider_id", using: :btree
+  add_index "sittings", ["seeker_id"], name: "index_sittings_on_seeker_id", using: :btree
 
   create_table "transactions", force: true do |t|
     t.integer  "seeker_id"
