@@ -27,10 +27,13 @@
         </div>
       <% else %>
         <div class='row col-sm-12'>
-          <%= link_to("Invite Parents to Join",  invite_parent_member_path(@member), :class => "btn btn-lg btn-primary max-width") %>
+          <%= link_to("Update DateNight Availability",  date_night_availability_member_path(@member), :class => "btn btn-lg btn-primary max-width") %>
         </div>
         <div class='row col-sm-12'>
           <%= link_to("Wrap up and get paid", settle_up_member_path(@member), :class => "btn btn-lg btn-info max-width") %>
+        </div>
+        <div class='row col-sm-12'>
+          <%= link_to("Invite Parents to Join",  invite_parent_member_path(@member), :class => "btn btn-lg btn-info max-width") %>
         </div>
       <% end %>
       <%= render :partial => "transactions" %>

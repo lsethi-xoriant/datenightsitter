@@ -11,7 +11,7 @@
           <div class='col-xs-9'>
             <%= password_field_tag :password %>
           <p>
-            <%= link_to "forgot password?", forgot_password_sessions_path %>
+            <%= link_to "forgot password?", "https://www.sittercity.com/account/password/reset" %>
           </p>
           </div>
         </div>
@@ -19,9 +19,6 @@
           <div class='col-xs-9 col-xs-offset-3'>
             <%= submit_tag( "Log in", :class => "btn btn-primary", :data => { :disable_with => "Logging in..."} ) %>
           </div>
-        </div>
-        <div class='row'>
-          <div class='col-xs-9 col-xs-offset-3'><%= check_box_tag :save_password %><%= label_tag :save_password %></div>
         </div>
       <% end %>
     </div>
