@@ -11,7 +11,6 @@ class Sitting < ActiveRecord::Base
     state :available
     state :unavailable
     state :guaranteed
-    state :reserved
     state :booked
     state :completed
     state :cancelled
@@ -46,7 +45,7 @@ class Sitting < ActiveRecord::Base
     end
     
     event :book do
-      transition [:requested, :available, :guaranteed, :reserved] => :booked
+      transition [:requested, :available, :guaranteed] => :booked
     end
     
     event :complete do
@@ -55,12 +54,7 @@ class Sitting < ActiveRecord::Base
     
     #seekers can :cancel
     event :cancel do
-      transition [:requested, :available, :guaranteed, :booked] => :cancelled
-    end
-    
-    #providers can :rescind
-    event :rescind do
-      transition [:available, :guaranteed, :reserved, :booked] => :unavailable
+      transition [:requested, :guaranteed, :booked] => :cancelled
     end
     
     event :not_completed do
