@@ -12,11 +12,12 @@ class ApplicationController < ActionController::Base
   
   def current_member
     logger.debug "sittercity_account session variable is #{session[:sittercity_account]}" if @current_member.nil?
+    logger.debug "sittercity_account session[].member is #{session[:sittercity_account].member}" if @current_member.nil?
     @current_member ||= session[:sittercity_account].member if session[:sittercity_account]
   end
   
   def current_sittercity_account
-    session[:sittercity_account] if session[:sittercity_account]
+    session[:sittercity_account]
   end
   
   #authenticate 

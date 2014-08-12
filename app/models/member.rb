@@ -1,6 +1,6 @@
 class Member < ActiveRecord::Base
   include BCrypt
-  validates_format_of :email, :allow_nil => true, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i, :on => :create
+  validates_format_of :email, :allow_nil => true, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
   validates_uniqueness_of :email, :allow_nil => true
   validates_uniqueness_of :phone, :allow_nil => true
 
@@ -48,21 +48,19 @@ class Member < ActiveRecord::Base
   # to find a member, an :id, :phone, or :email param needs to be provided
   def find_or_create_in_network(params)
     #find the member if he exists
-    @member = Member.find_by_id(params[:id])
-    @member ||= Member.find_by_phone(params[:phone]) 
-    @member ||= Member.find_by_email(params[:email])
+    member = Member.find_by_id(params[:id])
+    member ||= Member.find_by_phone(params[:phone]) 
+    member ||= Member.find_by_email(params[:email])
     
-    logger.debug "the member found is $#{@member}"
-    
-    if @member
+    if member
       #add existing member to network if necessary
-      @member.update!(params)
-      network << @member if network.find_by_id(@member.id).nil?
+      member.update!(params)
+      network << member if network.find_by_id(member.id).nil?
     else
       #otherwise create
-      @member = network.create(params)
+      member = network.create(params)
     end
-    @member
+    member
   end
   
   #############################
@@ -92,12 +90,12 @@ class Member < ActiveRecord::Base
   
   #gets the  payment token for the default payment method
   def payment_token
-      payment_account.default_credit_card.token if has_payment_account?
+      payment_account.default_payment_method.token if has_payment_account?
   end
   
   #gets the last 4 digits of the default payment method
   def credit_card_last_4
-      payment_account.default_credit_card.last_4 if has_payment_account?
+      payment_account.default_payment_method.last_4 if has_payment_account?
   end
   
   #create a payment account with Braintree;  ONLY A SEEKER CAN CURRENTLY CREATE A PAYMENT ACCOUNT
