@@ -12,8 +12,6 @@ Rails.application.routes.draw do
       get :date_night_availability
       get :invite_parent
       get :invited
-      get :enroll
-      put :enrollment
       get :settle_up
       get :profile
       get :terms_of_use

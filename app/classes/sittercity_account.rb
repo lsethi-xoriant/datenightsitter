@@ -7,6 +7,7 @@ class SittercityAccount
     account = JSON.parse(api_client.my_account.response_body)["com.sittercity.account:Account"]
     @contact = account["com.sittercity.account:Contact"]
     @roles = account["com.sittercity.rbac:Roles"]
+    @member = Member.find_by_email(email)
   end
 
   def sso_uuid
@@ -42,11 +43,11 @@ class SittercityAccount
   end
   
   def is_member?
-    !member.nil?
+    !@member.nil?
   end
   
   def member
-    Member.find_by_email(email)
+    @member ||= Member.find_by_email(email)
   end
   
   def has_expired?

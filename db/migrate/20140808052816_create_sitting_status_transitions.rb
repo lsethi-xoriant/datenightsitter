@@ -5,7 +5,7 @@ class CreateSittingStatusTransitions < ActiveRecord::Migration
       t.string :event
       t.string :from
       t.string :to
-      t.string :calling_member_id, :integer
+      t.string :calling_member_id
       t.timestamp :created_at
     end
   end

@@ -25,10 +25,6 @@ class SessionsController < ApplicationController
     session[:sittercity_account] = nil
     redirect_to log_in_path, :flash => {:notice => "Logged out!"}
   end
-  
-
-
-
 
   
 end

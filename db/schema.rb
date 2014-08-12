@@ -77,8 +77,7 @@ ActiveRecord::Schema.define(version: 20140808061826) do
     t.string   "event"
     t.string   "from"
     t.string   "to"
-    t.string   "calling_member_id"
-    t.string   "integer"
+    t.integer  "calling_member_id"
     t.datetime "created_at"
   end
 

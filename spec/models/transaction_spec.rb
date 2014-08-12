@@ -7,7 +7,7 @@ RSpec.describe Transaction, :type => :model do
     let(:trans) { FactoryGirl.create(:transaction) }
     
     
-    it "is a Status object" do
+    it "is a Transaction object" do
       expect(trans).to be_valid
       expect(trans).to be_a(Transaction)
     end
