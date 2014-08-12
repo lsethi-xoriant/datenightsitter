@@ -9,7 +9,9 @@ class DateNightSittingController < ApplicationController
   def update
     @dns = DateNightSitting.find(params[:id])
     @dns.toggle_availability if params[:date_night_sitting][:status]
-    respond_with @dns
+    respond_with @dns do |format|
+      format.json { render json: @dns.to_json, status: :ok }  #required because default PUT/PATCH behavior is a 204 response with no data
+    end
   end
   
   private
