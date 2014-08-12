@@ -1,21 +1,8 @@
 class MembersController < ApplicationController
+  skip_before_action :require_authentication, only: [:new, :create, :invited]
   respond_to :html, :json
 
-  def new
-    @member = Member.new
-  end
-  
-  def create
-    @member = Member.new(member_params)
-    if @member.save
-      authenticate(@member.email, member_params[:password])
-      redirect_to(dashboard_member_path(@member),
-                  :flash => { :success => "Signed up!" })
-    else
-      render "new"
-    end
-  end
-  
+
   def profile
     @member = current_member  
   end
@@ -34,17 +21,6 @@ class MembersController < ApplicationController
     end
   end
   
-  def enrollment
-    @member = Seeker.find(params[:id])
-    if @member.update(member_params)
-      authenticate(@member.email, member_params[:password])      
-      redirect_to(dashboard_member_path(@member),
-                  :flash => { :success => "You've been enrolled" })
-    else
-      redirect_to invited_member_path(@member)
-    end
-  end
-  
   def invite_parent
     @member = current_member
     @seeker = Seeker.new
@@ -55,15 +31,11 @@ class MembersController < ApplicationController
     @provider = @seeker.network.first
   end
   
-  def enroll
-    @seeker = Seeker.find(params[:id])
-  end
-  
   def add_seeker
     @member = current_member
     @seeker = @member.find_or_create_in_network(seeker_params)
-    
-    if @seeker
+
+    unless @seeker.errors.any?
       SmsMessage.createPeerToPeerMsg(@member, @seeker).invite_to_join
       redirect_to(dashboard_member_path(@member),
                   :flash => { :success => "The parent #{@seeker.full_name} has been added" })
