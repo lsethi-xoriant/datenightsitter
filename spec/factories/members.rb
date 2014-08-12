@@ -19,6 +19,7 @@ FactoryGirl.define do
   factory :provider, :parent => :member, :class => Provider do |p|
     p.first_name 'approve_me'
     p.phone "6174708045"
+    p.accepted_tou_at { Date.today }
   end
   
   factory :provider_fail, :parent => :member, :class => Provider do |p|
@@ -33,6 +34,8 @@ FactoryGirl.define do
 
   factory :seeker, class: Seeker, :parent => :member do |s|
     s.type "Seeker"
+    last_name { Faker::Name.last_name }
+    s.accepted_tou_at { Date.today }
   end
   
   factory :seeker_for_comm, class: Seeker, :parent => :seeker do |s|

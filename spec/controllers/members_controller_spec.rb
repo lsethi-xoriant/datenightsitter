@@ -1,97 +1,153 @@
 require 'rails_helper'
 
 RSpec.describe MembersController, :type => :controller do
-  
-  describe "GET #new" do
-    subject{ get :new }
+  RSpec.shared_examples 'a protected page' do |method, template|
+    subject { get method, :id => member }
+    
+    before(:each) do
+      sign_in member
+    end
+    
     it "responds with an HTTP SUCCESS" do
       expect(subject).to be_success
     end
     
-    it "displays a new user sign-up page" do
-      expect(subject).to render_template("members/new")
-      expect(subject).to render_template(:new)
+    it "displays the template: #{template}" do
+      expect(subject).to render_template(template)
+    end     
+  end
+
+  RSpec.shared_examples 'an unprotected page' do |method, template|
+    subject { get method, :id => member }
+    
+    it "responds with an HTTP SUCCESS" do
+      expect(subject).to be_success
     end
     
+    it "displays the template: #{template}" do
+      expect(subject).to render_template(template)
+    end     
   end
   
-  describe "POST #create" do
-    context "with valid seeker attributes" do
-      let (:seeker) { FactoryGirl.attributes_for(:seeker) }
-      
-      before(:each) do
-        post :create, member: seeker
-        @last_seeker = Seeker.last
-      end
-      
-      it "redirects to the dashboard" do
-        expect(response).to redirect_to(dashboard_member_path(@last_seeker))
-      end
-      
-       it "creates a seeker matching the attributes posted" do
-        @last_seeker = Seeker.last
-        expect(@last_seeker).to be_a(Seeker)
-        expect(@last_seeker.first_name).to eq(seeker[:first_name])
-        expect(@last_seeker.address).to eq(seeker[:address])
-      end
-    end
-    
-    context "with valid provider attributes" do
-      let (:provider) { FactoryGirl.attributes_for(:provider) }
-      
-      before(:each) do
-        post :create, member: provider
-        @last_provider = Provider.last
-      end
-      
-      it "redirects to the dashboard" do
-        expect(response).to redirect_to(dashboard_member_path(@last_provider))
-      end
-      
-       it "creates a provider matching the attributes posted" do
-        expect(@last_provider).to be_a(Provider)
-        expect(@last_provider.first_name).to eq(provider[:first_name])
-        expect(@last_provider.address).to eq(provider[:address])
-        expect(@last_provider.date_of_birth).to eq(provider[:date_of_birth])
-      end
-    end
-  end
-  
+
   describe "GET #dashboard" do
-    context "when a provider is logged in" do
-      let(:provider) {FactoryGirl.create(:provider)}
-      
-      before(:each) do
-        session[:member_id] = provider.id
-        get :dashboard, :id => provider
-      end
-      
-      it "displays the providers dashbboard" do
-        expect(response).to render_template(:provider_dashboard)
+    method = "dashboard"
+    
+    context "as a provider" do
+      it_behaves_like "a protected page", method, "provider_#{method}" do
+        let(:member) {FactoryGirl.create(:provider)}
       end
     end
     
-    context "when a seeker is logged in" do
-      let(:seeker) {FactoryGirl.create(:seeker)}
-      
-      it "displays dashboard for seekers(parents)" do
-        session[:member_id] = seeker.id
-        get :dashboard, :id => seeker
-        expect(response).to render_template(:seeker_dashboard)
-      end
-      
-      it "responds with an HTTP SUCCESS" do
-        expect(response).to be_success
+    context "as a seeker" do
+      it_behaves_like "a protected page", method, "seeker_#{method}" do
+        let(:member) {FactoryGirl.create(:seeker)}
       end
     end
+  end
+
+  describe "GET #profile" do
+    method = "profile"
+    
+    context "as a provider" do
+      it_behaves_like "a protected page", method, method do 
+        let(:member) {FactoryGirl.create(:provider)}
+      end
+    end
+    
+    context "as a seeker" do
+      it_behaves_like "a protected page", method, method do
+        let(:member) {FactoryGirl.create(:seeker)}
+      end
+    end
+  end
+  
+  describe "GET #terms_of_use" do
+    method = "terms_of_use"
+    
+    context "as a provider" do
+      it_behaves_like "a protected page", method, method do 
+        let(:member) {FactoryGirl.create(:provider)}
+      end
+    end
+    
+    context "as a seeker" do
+      it_behaves_like "a protected page", method, method do
+        let(:member) {FactoryGirl.create(:seeker)}
+      end
+    end
+  end
+  
+  describe "GET #invite_parent" do
+    method = "invite_parent"
+    
+    context "as a provider" do
+      it_behaves_like "a protected page", method, method do 
+        let(:member) {FactoryGirl.create(:provider)}
+      end
+    end
+  end
+  
+  describe "GET #invited" do
+    method = "invited"
+    
+    context "as a seeker" do
+      it_behaves_like "an unprotected page", method, method do
+        let(:member) {FactoryGirl.create(:seeker)}
+      end
+    end
+  end
+  
+  describe "POST #update" do
+    
+  end
+  
+  describe "#POST add_seeker" do
+    let(:provider) {FactoryGirl.create(:provider)}
+    
+    context "with valid seeker parameters" do
+      let(:seeker) { FactoryGirl.attributes_for(:seeker_for_comm)}
+      subject { post :add_seeker, :id => provider, :seeker => seeker }
+      
+      before(:each) do
+        sign_in provider
+      end
+      
+      it "redirects to the dashboard" do
+        expect(subject).to redirect_to(dashboard_member_path(provider))
+      end
+      
+      it "adds a new seeker" do
+        expect(subject).to be_redirect
+        expect(Seeker.last.email).to eq(seeker[:email])
+      end
+    end
+    
+    context "with invalid seeker parameters" do
+      let(:seeker) { FactoryGirl.attributes_for(:seeker_for_comm, :email => "alpha")}
+      subject { post :add_seeker, :id => provider, :seeker => seeker }
+      
+      before(:each) do
+        sign_in provider
+      end
+      
+      it "shows #invite_parent" do
+        expect(subject.code).to eq("200")
+      end
+
+      it "shows #invite_parent" do
+        expect(subject).to render_template("invite_parent")
+      end
+    end
+    
   end
   
   describe "GET #bank_account" do
-    context "when a provider is logged in" do
+    context "as a provider" do
       let(:provider) {FactoryGirl.create(:provider)}
       
       before(:each) do
-        session[:member_id] = provider.id
+        sign_in provider
         get :bank_account, :id => provider
       end
       
@@ -104,11 +160,11 @@ RSpec.describe MembersController, :type => :controller do
       end
     end
     
-    context "when a seeker is logged in" do
+    context "as a seeker" do
       let(:seeker) {FactoryGirl.create(:seeker)}
       
       before(:each) do
-        session[:member_id] = seeker.id
+        sign_in seeker
         get :bank_account, :id => seeker
       end
       
@@ -143,7 +199,7 @@ RSpec.describe MembersController, :type => :controller do
       let(:provider) {FactoryGirl.create(:provider)}
       
       before(:each) do
-        session[:member_id] = provider.id
+        sign_in provider
         post :add_bank_account, :id => provider, :routing_number => "071101307", :account_number => "80735962893222", :tos => true
       end
       
@@ -162,7 +218,7 @@ RSpec.describe MembersController, :type => :controller do
       let(:provider) {FactoryGirl.create(:provider)}
       
       before(:each) do
-        session[:member_id] = provider.id
+        sign_in provider
         post :add_bank_account, :id => provider
       end
 
@@ -183,11 +239,11 @@ RSpec.describe MembersController, :type => :controller do
   end
   
   describe "GET #settle_up" do
-    context "when a provider is logged in" do
+    context "as a provider" do
       let(:provider) {FactoryGirl.create(:provider)}
       
       before(:each) do
-        session[:member_id] = provider.id
+        sign_in provider
         get :settle_up, :id => provider
       end
       
@@ -198,13 +254,13 @@ RSpec.describe MembersController, :type => :controller do
   end
   
   describe "POST #submit_bill" do
-    context "when a provider is logged in and the seeker exists but not in the providers network" do
+    context "as a provider and the seeker exists but not in the providers network" do
       let(:provider) {FactoryGirl.create(:provider)}
       let(:seeker) {FactoryGirl.create(:seeker_for_comm)}
       let(:trans) { FactoryGirl.attributes_for(:trans_request_params) }
       
       before(:each) do
-        session[:member_id] = provider.id
+        sign_in provider
         post :submit_bill, :id => provider,
                             :seeker => {:phone => seeker.phone, :last_name => seeker.last_name},
                             :transaction => trans
@@ -219,13 +275,13 @@ RSpec.describe MembersController, :type => :controller do
       end
     end
     
-    context "when a provider is logged in and the seeker exists and in the providers network" do
+    context "as a provider and the seeker exists and in the providers network" do
       let(:provider) {FactoryGirl.create(:provider)}
       let(:seeker) {FactoryGirl.create(:seeker_for_comm)}
       let(:trans) { FactoryGirl.attributes_for(:trans_request_params) }
       
       before(:each) do
-        session[:member_id] = provider.id
+        sign_in provider
         post :submit_bill, :id => provider,
                             :seeker => {:id => seeker.id },
                             :transaction => trans
@@ -240,12 +296,12 @@ RSpec.describe MembersController, :type => :controller do
       end
     end
     
-    context "when a provider is logged in and the seeker does not exist" do
+    context "as a provider and the seeker does not exist" do
       let(:provider) { FactoryGirl.create(:provider) }
       let(:trans) { FactoryGirl.attributes_for(:trans_request_params) }
       
       before(:each) do
-        session[:member_id] = provider.id
+        sign_in provider
         post :submit_bill, :id => provider,
                             :seeker => {:phone => "3129700557", :last_name => Faker::Name.last_name},
                             :transaction => trans
