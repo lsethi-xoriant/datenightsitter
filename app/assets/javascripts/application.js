@@ -16,5 +16,6 @@
 //= require jquery.timepicker
 //= require jquery.datepair
 //= require bootstrap
+//= require bootstrap-datepicker
 //= require braintree
 //= require_tree .

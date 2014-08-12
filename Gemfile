@@ -25,6 +25,9 @@ gem 'simple_form', '~> 3.1.0.rc2', github: 'plataformatec/simple_form', branch: 
 gem 'will_paginate', '~> 3.0.5'
 gem 'rabl', '~> 0.10'
 
+#jquery plugins
+gem 'bootstrap-datepicker-rails', '~> 1.3.0'
+
 gem 'turbolinks', '~> 2.2.2'  # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 
 
