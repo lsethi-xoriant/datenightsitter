@@ -2,16 +2,10 @@
     <h3 style="margin-top: 0px;">New Date Night Slot</h3>
     <div class='col-sm-12'>
       <%= simple_form_for @date_night_slot, :url => admin_date_night_slots_path do |f| %>
-        <%= f.input :available_on, :as => :string %>
-        <%= f.input :starting_at, :as => :string, :input_html => {:class => "time start adjust-size"} %>
+        <%= f.input :available_on, :as => :string, :input_html => {:class => "date adjust-size"} %>
+        <%= f.input :starting_at, :as => :string, :input_html => {:class => "time adjust-size"} %>
         <%= f.input :guaranteed_openings %>
         <%= f.submit "Submit" %>
       <% end %>
     </div>
-    <script>
-      $('#date_night_slot_available_on').datepicker({
-        daysOfWeekDisabled: "0,1,2,3,4",
-        todayHighlight: true
-      });
-    </script>
   </div>
