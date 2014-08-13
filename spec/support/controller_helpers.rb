@@ -10,5 +10,5 @@ module ControllerHelpers
       allow(controller).to receive(:member_authenticated?).and_return(true)
     end
   end
-
+  
 end

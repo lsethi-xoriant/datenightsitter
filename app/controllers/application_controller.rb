@@ -6,13 +6,17 @@ class ApplicationController < ActionController::Base
   #require authentication on most pages
   before_action :require_authentication
 
-  helper_method :current_member, :current_sittercity_account, :authenticate_member, :member_authenticated?, :reauthorize, :require_authentication
+  helper_method :current_member,
+                :current_sittercity_account,
+                :authenticate_member,
+                :require_authentication,
+                :member_authenticated?,
+                :require_admin_role,
+                :member_admin?
   
   private
   
   def current_member
-    logger.debug "sittercity_account session variable is #{session[:sittercity_account]}" if @current_member.nil?
-    logger.debug "sittercity_account session[].member is #{session[:sittercity_account].member}" if @current_member.nil?
     @current_member ||= session[:sittercity_account].member if session[:sittercity_account]
   end
   
@@ -52,6 +56,18 @@ class ApplicationController < ActionController::Base
   def require_authentication
     unless member_authenticated?
       flash[:error] = "You must be logged in to access this section"
+      redirect_to log_in_path # halts request cycle
+    end
+  end
+  
+  def member_admin?
+    current_member.is_a?(Admin)
+  end
+  
+  
+  def require_admin_role
+    unless member_admin?
+      flash[:error] = "You must be an Admin to access this section"
       redirect_to log_in_path # halts request cycle
     end
   end

@@ -11,11 +11,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140808061826) do
+ActiveRecord::Schema.define(version: 20140812173810) do
 
   create_table "date_night_slots", force: true do |t|
     t.date     "available_on"
-    t.datetime "starting_at"
+    t.time     "starting_at"
     t.integer  "guaranteed_openings"
     t.datetime "created_at"
     t.datetime "updated_at"

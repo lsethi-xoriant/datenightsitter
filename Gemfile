@@ -56,11 +56,8 @@ gem 'sa3p', '~> 0.1.2'
 gem 'sittercity-api-client', '~> 0.9.0'
 
 group :development, :test do
-  gem 'rspec-rails', '~> 3.0.0'
   gem 'factory_girl_rails', '~> 4.4.1'
-  gem 'database_cleaner', '~> 1.2'
   gem 'faker', '~> 1.3.0'
-  gem 'simplecov', '~> 0.8.2'
   #gem 'debugger', '~> 1.6.8'
 end
 
@@ -72,4 +69,9 @@ group :development do
   gem 'binding_of_caller', '~> 0.7'
 end
 
+group :test do
+  gem 'rspec-rails', '~> 3.0.0'
+  gem 'database_cleaner', '~> 1.2'
+  gem 'simplecov', '~> 0.8.2'
+end
 

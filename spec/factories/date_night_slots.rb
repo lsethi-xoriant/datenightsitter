@@ -2,8 +2,8 @@
 
 FactoryGirl.define do
   factory :date_night_slot do
-    available_on "2014-08-08"
-    starting_at "2014-08-08 01:16:11"
+    available_on { Date.today + rand(1..60) }
+    starting_at { Time.now + rand(0..100000) } 
     guaranteed_openings 1
   end
 end

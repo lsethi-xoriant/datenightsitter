@@ -47,4 +47,8 @@ Rails.application.routes.draw do
     end
   end
 
+  namespace :admin do
+    resources :date_night_slots
+  end
+
 end

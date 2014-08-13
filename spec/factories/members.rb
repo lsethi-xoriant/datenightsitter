@@ -60,6 +60,8 @@ FactoryGirl.define do
     phone {"(312) 555-#{rand(1000..9999)}"}
     last_name { Faker::Name.last_name }
   end
-    
+
+  factory :admin, :parent => :member, :class => Admin do |p|
+  end
   
 end

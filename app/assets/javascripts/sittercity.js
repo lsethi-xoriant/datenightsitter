@@ -13,6 +13,29 @@ DOC_LOAD_ACTIONS_CONFIG = {
     }
   },
   
+  date_night_slots: {
+    init: function() {
+      $('.time').timepicker({
+          'timeFormat': 'g:i A',
+          'step': 15,
+          'forceRoundTime': true,
+          'scrollDefaultNow': true,
+          'disableTouchKeyboard':true
+      });
+
+      $('.date').datepicker({
+        format: "yyyy-mm-dd",
+        daysOfWeekDisabled: "0,1,2,3,4",
+        todayHighlight: true
+      });
+    },
+    
+    new: {
+      
+    }
+    
+  },
+  
   members: {
     init: function() {
       // controller-wide code
@@ -50,7 +73,7 @@ DOC_LOAD_ACTIONS_CONFIG = {
       // initialize input widgets first 
       $('#durationPair .time').timepicker({
           'showDuration': true,
-          'timeFormat': 'g:ia',
+          'timeFormat': 'g:i A T',
           'step': 30,
           'forceRoundTime': true,
           'scrollDefaultNow': true,
