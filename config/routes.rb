@@ -48,7 +48,15 @@ Rails.application.routes.draw do
   end
 
   namespace :admin do
-    resources :date_night_slots
+    resources :date_night_slots, :except => :show
+    resources :sittings, :only => [:create, :update, :destroy] do
+      collection do
+        get :date_night_sittings
+      end
+      member do
+        post :fire_status_event
+      end
+    end
   end
 
 end

@@ -1,0 +1,28 @@
+<h4>Sitters Without Responses</h4>
+<table class='table table-hover'>
+  <tr>
+    <th>id</th>
+    <th>Sitter</th>
+    <th>Actions</th>
+  </tr>
+  <% @providers.each do |p| %>
+    <tr>
+      <td><%= p.id %></td>
+      <td><%= p.full_name unless p.full_name.nil? %></td>
+      <td>
+        <%= simple_form_for( DateNightSitting.new,
+                      :url => admin_sittings_path,
+                      :as => "sitting",
+                      :authenticity_token => true,
+                      :html => {
+                          :method => :post,
+                          :remote => true } ) do |f| %>
+            <%= f.input :type, :as => :hidden %>
+            <%= f.input :date_night_slot_id, :as => :hidden, :input_html => {:value => @slot.id } %>
+            <%= f.input :provider_id, :as => :hidden, :input_html => {:value => p.id } %>
+            <%= f.submit "create response" %>
+        <% end %>
+      </td>
+    </tr>
+  <% end %>
+</table>

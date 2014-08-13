@@ -4,7 +4,7 @@ class Sitting < ActiveRecord::Base
   
   
   
-  state_machine :status, :initial => :requested do
+  state_machine :status, :initial => :unavailable do
     store_audit_trail :context_to_log => :calling_member_id
 
     state :requested
@@ -34,9 +34,14 @@ class Sitting < ActiveRecord::Base
       end
     end
     
-    event :toggle_availability do
-      transition :unavailable => :available
+    event :set_unavailable do
       transition :available => :unavailable
+      transition :cancelled => :unavailable
+    end
+    
+    event :set_available do
+      transition :guaranteed => :available
+      transition :unavailable => :available
     end
     
     #sittercity can guarantee a sitter will work
@@ -61,6 +66,7 @@ class Sitting < ActiveRecord::Base
       transition [:available, :guaranteed, :requested] => :unfilled
       transition [:reserved, :booked] => :uncompleted
     end
+    
       
   end
   

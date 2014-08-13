@@ -16,7 +16,7 @@
         <td><%= slot.guaranteed_openings %></td>
         <td><%= slot.date_night_sittings.count %></td>
         <td>
-          <%= link_to "See Sitter Availability",  "/", :method=> :delete, :class => "btn btn-primary" %>
+          <%= link_to "See Sitter Availability",  date_night_sittings_admin_sittings_path(:slot_id=> slot.id), :class => "btn btn-primary" %>
           <%= link_to "Update",  edit_admin_date_night_slot_path(slot), :class => "btn btn-info" %>
           <%= link_to "Delete",  admin_date_night_slot_path(slot), :method=> :delete, :class => "btn btn-warning" %>
         </td>

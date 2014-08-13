@@ -13,6 +13,21 @@ DOC_LOAD_ACTIONS_CONFIG = {
     }
   },
   
+  sittings: {
+    init: function() {
+      // controller-wide code
+    },
+    
+    date_night_sittings: function () {
+      //trigger the parent form submit on select field change; using class to apply to all 
+      $(".submit-onchange").change( function() {
+        $(this).closest("form").submit();  
+      });
+
+      
+    }    
+  },
+  
   date_night_slots: {
     init: function() {
       $('.time').timepicker({
@@ -28,12 +43,7 @@ DOC_LOAD_ACTIONS_CONFIG = {
         daysOfWeekDisabled: "0,1,2,3,4",
         todayHighlight: true
       });
-    },
-    
-    new: {
-      
-    }
-    
+    },    
   },
   
   members: {
