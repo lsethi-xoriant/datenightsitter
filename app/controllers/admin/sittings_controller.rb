@@ -68,6 +68,12 @@ class Admin::SittingsController < Admin::AdminController
     @slot ||= DateNightSlot.last   #if slot is null, grab the last one
     
     @sittings = @slot.date_night_sittings
-    @providers = Provider.where("id NOT IN (?)", @sittings.pluck(:provider_id))
+    
+    if @sittings.count == 0
+      @providers = Provider.all
+    else
+      @providers = Provider.where("id NOT IN (?)", (  ) ) 
+    end
+
   end
 end
