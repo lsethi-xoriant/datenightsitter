@@ -21,20 +21,16 @@
           </p>
         </div>
       </div>
-      <% if @member.merchant_account_id.nil? %>
-        <div class='row col-sm-12'>
-          <%= link_to("Add bank account", bank_account_member_path(@member), :class => "btn btn-lg btn-primary max-width") %>
-        </div>
-      <% else %>
+
         <div class='row col-sm-12'>
           <%= link_to("Update DateNight Availability",  date_night_availability_member_path(@member), :class => "btn btn-lg btn-primary max-width") %>
         </div>
         <div class='row col-sm-12'>
-          <%= link_to("Wrap up and get paid", settle_up_member_path(@member), :class => "btn btn-lg btn-info max-width") %>
+          <%= link_to("Wrap up and get paid", settle_up_member_path(@member), :class => "btn btn-lg btn-info max-width", :disabled => (@member.merchant_account_id.nil?) ) %>
         </div>
         <div class='row col-sm-12'>
-          <%= link_to("Invite Parents to Join",  invite_parent_member_path(@member), :class => "btn btn-lg btn-info max-width") %>
+          <%= #link_to("Invite Parents to Join",  invite_parent_member_path(@member), :class => "btn btn-lg btn-info max-width")
+          %>
         </div>
-      <% end %>
       <%= render :partial => "transactions" %>
     </div>

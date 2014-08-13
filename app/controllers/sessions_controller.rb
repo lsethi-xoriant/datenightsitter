@@ -13,7 +13,7 @@ class SessionsController < ApplicationController
         Member.create_from_sittercity_account(current_sittercity_account)
         redirect_to profile_member_path(current_member), :flash => {:success => "Date Night Account created" }
       else
-        redirect_to dashboard_member_path(current_member), :flash => {:success => "Logged in!" }
+        redirect_to dashboard_member_path(current_member)
       end
     else
       flash[:danger] = "Invalid email or password"
