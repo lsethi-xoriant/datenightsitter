@@ -9,7 +9,7 @@ GIT
 
 GEM
   remote: https://rubygems.org/
-  remote: https://gems.sittercity.com/
+  remote: https://p5OJA9otWmV:7pmGhbSudbCNjFHAIh5DpAfs@gems.sittercity.com/
   specs:
     actionmailer (4.1.4)
       actionpack (= 4.1.4)

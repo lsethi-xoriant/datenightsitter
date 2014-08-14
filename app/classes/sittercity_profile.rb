@@ -18,9 +18,6 @@ class SittercityProfile
     @babysitter = @childcare.delete("com.sittercity.profile:Childcare.Babysitter")
     @location = @details.delete("com.sittercity.location:Position")
     @links = @details.delete("_links")
-
   end
-
-
 
 end

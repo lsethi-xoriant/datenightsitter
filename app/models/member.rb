@@ -4,9 +4,7 @@ class Member < ActiveRecord::Base
   validates_uniqueness_of :email, :allow_nil => true
   validates_uniqueness_of :phone, :allow_nil => true
 
-  
   before_validation :check_password
-  
   
   def password
     @password ||= Password.new(password_hash)
