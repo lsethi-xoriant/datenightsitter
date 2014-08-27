@@ -1,11 +1,11 @@
-        <div class="form-group row-fluid">
-          <div class="col-xs-12">
-            <%= s.label :id, "Existing family" %><br>
-            <%= s.input_field :id,
-                              :collection => @network,
-                              :value_method => :id,
-                              :label_method => lambda {|n| t("#{n.last_name} | #{number_to_phone(n.phone)} | #{n.has_payment_account? ? 'Verified' : 'Pending'}")}
-                              %><br>
-            <%= link_to "new family?", settle_up_member_path(:id => params[:id], :new_family => true) %>
-          </div>
-        </div>
+<div class="form-group row-fluid">
+  <div class="col-xs-12">
+    <%= s.label :id, "Existing family" %><br>
+    <%= s.input_field :id,
+                      :collection => @network,
+                      :value_method => :id,
+                      :label_method => lambda {|n| t("#{n.last_name} | #{number_to_phone(n.phone)} | #{n.has_payment_account? ? 'Verified' : 'Pending'}")}
+                      %><br>
+    <%= link_to "new family?", settle_up_member_path(:id => params[:id], :new_family => true) %>
+  </div>
+</div>

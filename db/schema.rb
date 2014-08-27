@@ -110,7 +110,7 @@ ActiveRecord::Schema.define(version: 20140812173810) do
     t.integer  "rate_cents",                                                      default: 0,     null: false
     t.string   "rate_currency",                                                   default: "USD", null: false
     t.datetime "started_at"
-    t.decimal  "duration",                               precision: 10, scale: 4
+    t.decimal  "duration",                                                        precision: 10, scale: 4
     t.integer  "service_fee_amount_cents",                                        default: 0,     null: false
     t.string   "service_fee_amount_currency",                                     default: "USD", null: false
     t.string   "processor_transaction_id"

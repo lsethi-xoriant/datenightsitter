@@ -12,22 +12,21 @@ DOC_LOAD_ACTIONS_CONFIG = {
     // site-wide code
     }
   },
-  
+
   sittings: {
     init: function() {
       // controller-wide code
     },
-    
+
     date_night_sittings: function () {
-      //trigger the parent form submit on select field change; using class to apply to all 
+      //trigger the parent form submit on select field change; using class to apply to all
       $(".submit-onchange").change( function() {
-        $(this).closest("form").submit();  
+        $(this).closest("form").submit();
       });
 
-      
-    }    
+    }
   },
-  
+
   date_night_slots: {
     init: function() {
       $('.time').timepicker({
@@ -43,28 +42,28 @@ DOC_LOAD_ACTIONS_CONFIG = {
         daysOfWeekDisabled: "0,1,2,3,4",
         todayHighlight: true
       });
-    },    
+    },
   },
-  
+
   members: {
     init: function() {
       // controller-wide code
     },
-    
+
     bank_account: function() {
       var braintree = Braintree.create(BRAINTREE_PAYMENT_CSE);
       braintree.onSubmitEncryptForm('braintree-merchant-form');
     },
-    
+
     date_night_availability: function() {
       //trigger the parent form submit on select field change
       $("form.new_date_night_sitting select").change( function() {
-        $(this).closest("form").submit();  
+        $(this).closest("form").submit();
       });
-      
+
       //hide the submit button
       $("form.new_date_night_sitting input[type='submit']").hide();
-      
+
       //on successful submission, reload page
       $('form.new_date_night_sitting').on(
         'ajax:success',
@@ -73,14 +72,14 @@ DOC_LOAD_ACTIONS_CONFIG = {
           document.location.href = "date_night_availability";
           return false;
         });
-        
+
     },
-    
+
     settle_up: function() {
       //  http://jonthornton.github.io/jquery-timepicker/
       //  http://jonthornton.github.io/jquery-datepair/
 
-      // initialize input widgets first 
+      // initialize input widgets first
       $('#durationPair .time').timepicker({
           'showDuration': true,
           'timeFormat': 'g:i A T',

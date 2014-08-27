@@ -13,7 +13,6 @@ class ApplicationController < ActionController::Base
                 :member_authenticated?,
                 :require_admin_role,
                 :member_admin?
-  
   private
   
   def current_member
@@ -27,13 +26,13 @@ class ApplicationController < ActionController::Base
   #authenticate 
   def authenticate_member(email, password, save = false)
     logger.debug "authentication called for #{email}"
-    
+
     #authenticate user given params
     s = Sittercity::API::Client.new( Rails.application.secrets.sittercity_api_endpoint )
     s.register(:application_type => Rails.application.secrets.sittercity_api_application_type ,
                :name => Rails.application.secrets.sittercity_api_application_name )
     s.authenticate!(:email => email, :password => password)
-    
+
     #create and store SittercityAccount if member authenticates
     session[:sittercity_account] = SittercityAccount.new(s) if s.token
     
@@ -63,7 +62,6 @@ class ApplicationController < ActionController::Base
   def member_admin?
     current_member.is_a?(Admin)
   end
-  
   
   def require_admin_role
     unless member_admin?

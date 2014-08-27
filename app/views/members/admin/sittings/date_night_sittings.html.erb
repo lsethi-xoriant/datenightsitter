@@ -1,0 +1,14 @@
+<div class='col-xs-12 col-sm-10 col-sm-offset-1'>
+  <h3 style="margin-top: 0px;">Review Date Night Sittings</h3>
+  <div class='col-sm-12'>
+    <%= form_tag( date_night_sittings_admin_sittings_path,
+                       { :method => :get, :class => 'form-horizontal' } ) do |f| %> 
+        <%= select_tag "slot_id",
+                    options_from_collection_for_select(@available_slots, "id", "available_on", @slot.id),
+                    :onchange => 'this.form.submit()', :class => "phone-visible" %>
+    <% end %>
+  </div>
+  <div id='response_form' class='row>'>
+    <%= render :partial => "response_form" %>
+  </div>
+</div>

@@ -27,3 +27,6 @@ coverage
 
 # ignore scrach files
 scratch
+
+# Ignore application configuration
+/config/sittercity_settings.yml

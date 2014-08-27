@@ -9,25 +9,15 @@
                         boolean: :horizontal_boolean
                       } ) do |f| %>
     <%= f.error_notification %>
-
     <%= f.input :first_name %>
-
     <%= f.input :last_name %>
-
     <%= f.input :date_of_birth, as: :string, :input_html => { :type => 'date' } %>
-
     <%= f.input :address %>
-
     <%= f.input :city %>
-
     <%= f.input :state %>
-
     <%= f.input :zip %>
-
     <%= f.input :phone %>
-
     <%= f.input :email, placeholder: 'user@domain.com' %>
-
     <%= f.input :password %>
 
     <div class="form-group row centre">

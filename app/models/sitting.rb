@@ -2,8 +2,6 @@ class Sitting < ActiveRecord::Base
   belongs_to :provider
   belongs_to :seeker
   
-  
-  
   state_machine :status, :initial => :unavailable do
     store_audit_trail :context_to_log => :calling_member_id
 

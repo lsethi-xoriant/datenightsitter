@@ -44,7 +44,6 @@ gem 'state_machine-audit_trail', '~> 0.1.8'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 
-
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0',  group: :doc
 
@@ -54,6 +53,9 @@ gem 'sdoc', '~> 0.4.0',  group: :doc
 #Sittercity-gems
 gem 'sa3p', '~> 0.1.2'
 gem 'sittercity-api-client', '~> 0.9.0'
+
+#ENV variables
+gem 'settingslogic', '~> 2.0.9'
 
 group :development, :test do
   gem 'factory_girl_rails', '~> 4.4.1'
@@ -67,6 +69,8 @@ group :development do
   gem 'spring', '~> 1.1.3'
   gem 'better_errors', '~> 1.1'
   gem 'binding_of_caller', '~> 0.7'
+  gem 'hirb'
+  gem 'annotate'
 end
 
 group :test do

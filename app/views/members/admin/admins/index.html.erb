@@ -1,0 +1,32 @@
+<div class='col-xs-12 col-sm-10 col-sm-offset-1'>
+  <h3 style="margin-top: 0px;">Date Night Slots</h3>
+  <h4 style="margin-top: 0px;">Current Slots</h4>
+  <table class="table table-hover table-bordered">
+    <tr>
+      <th>Slot Date</th>
+      <th>Beginning At</th>
+      <th>Guaranteed Openings</th>
+      <th>Sittings Guaranteed to Date</th>
+      <th>Actions</th>
+    </tr>
+    <% @date_night_slots.each do |slot| %>
+    <tr>
+      <td><%= slot.available_on.strftime('%a, %b %e, %Y') %></td>
+      <td><%= slot.starting_at.strftime('%l:%M %p') %></td>
+      <td><%= slot.guaranteed_openings %></td>
+      <td><%= slot.date_night_sittings.count %></td>
+      <td>
+        <%= link_to "See Sitter Availability",  date_night_sittings_admin_sittings_path(:slot_id=> slot.id), :class => "btn btn-primary" %>
+        <%= link_to "Update",  edit_admin_date_night_slot_path(slot), :class => "btn btn-info" %>
+        <%= link_to "Delete",  admin_date_night_slot_path(slot), :method=> :delete, :class => "btn btn-warning" %>
+      </td>
+    </tr>
+    <% end %>
+  </table>
+  <div clas='row'><%= will_paginate(@date_night_slots) %></div>
+    <%= form_tag admin_date_night_slots_path, :method => :get do %>
+      <%= text_field_tag :available_on,  nil, :class => "date adjust-size" %>
+      <%= submit_tag "search", :class => "btn btn-info" %>
+      <%= link_to "clear", admin_date_night_slots_path, :class => "btn btn-info" %>
+    <% end %>
+</div>

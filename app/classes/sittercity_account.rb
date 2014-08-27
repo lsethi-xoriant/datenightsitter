@@ -64,7 +64,7 @@ class SittercityAccount
   
   def provider_profile
     if is_provider?
-      response = @api_client.provider_profile(sso_uuid).deep_stringify_keys    #s
+      response = @api_client.provider_profile(sso_uuid).deep_stringify_keys
       SittercityProfile.new ( response["com.sittercity.profile:Provider"]  )
     else
       nil

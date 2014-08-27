@@ -1,9 +1,9 @@
-      <div class="flash-msg">
-        <% flash.each do |key, msg| %>  
-        <!-- for each flash event -->
-            <div class="alert <%= flash_class(key)%> fade in">
-              <a class="close" data-dismiss="alert">&#215;</a>
-              <%= msg %>
-            </div>
-        <% end %>
+<div class="flash-msg">
+  <% flash.each do |key, msg| %>  
+  <!-- for each flash event -->
+      <div class="alert <%= flash_class(key)%> fade in">
+        <a class="close" data-dismiss="alert">&#215;</a>
+        <%= msg %>
       </div>
+  <% end %>
+</div>

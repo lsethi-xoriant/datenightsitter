@@ -1,15 +1,16 @@
-class MembersController < ApplicationController
+class Provider::ProvidersController < ApplicationController
+  layout 'role_layout/provider'
   skip_before_action :require_authentication, only: [:new, :create, :invited]
   respond_to :html, :json
 
   def profile
-    @member = current_member
+    @member = current_member  
   end
-
+  
   def terms_of_use
-    @member = current_member
+    @member = current_member  
   end
-
+  
   def update
     @member = current_member
     if @member.update(member_params)
@@ -19,17 +20,17 @@ class MembersController < ApplicationController
       render :profile
     end
   end
-
+  
   def invite_parent
     @member = current_member
     @seeker = Seeker.new
   end
-
+  
   def invited
     @seeker = Seeker.find(params[:id])
     @provider = @seeker.network.first
   end
-
+  
   def add_seeker
     @member = current_member
     @seeker = @member.find_or_create_in_network(seeker_params)
@@ -44,33 +45,34 @@ class MembersController < ApplicationController
       end
       render :invite_parent
     end
-
+    
   end
-
+  
   def dashboard
     @member = current_member
-
+    
     if @member.is_a? Admin
       render :admin_dashboard
     else
       if @member.accepted_tou_at.nil? || @member.accepted_tou_at < Time.parse(Rails.application.secrets.sittercity_current_tou)   #TODO FIX:  move to config file
         redirect_to terms_of_use_member_path
       else
-
+        
         @trans = @member.transactions.order(:started_at => :desc).paginate(:per_page => 3, :page => params[:page])
         @ttl_paid_jobs = @member.transactions.where(:status => :paid).count
         @ttl_amt = @member.transactions.where(:status => :paid).pluck(:amount_cents).reduce(0, :+) / 100.to_f
         @ttl_hrs = @member.transactions.where(:status => :paid).pluck(:duration).reduce(0, :+)
         @avg_rate = ( @ttl_hrs > 0) ? @ttl_amt / @ttl_hrs.to_f : 0
-
+        
         render :provider_dashboard if @member.is_a? Provider
         render :seeker_dashboard if @member.is_a? Seeker
       end
     end
   end
-
+  
   def bank_account
     @provider = current_member
+    
     if @provider.is_a?(Provider)
       @fd = @provider.merchant_account_id ? @provider.merchant_account.funding_details : nil
       @routing_number = @fd ? @fd.routing_number : nil
@@ -86,10 +88,10 @@ class MembersController < ApplicationController
       end
     end
   end
-
+  
   def add_bank_account
     @provider = current_member
-
+    
     if params["account_number"] && params["routing_number"] && params["tos"]
       @provider.create_merchant_account(params["account_number"],  params["routing_number"],  params["tos"])
       if @provider.has_merchant_account?
@@ -154,6 +156,4 @@ class MembersController < ApplicationController
   def trans_params
     params.require(:transaction).permit(:started_at, :duration, :rate )
   end
-  
-    
 end

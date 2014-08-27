@@ -21,6 +21,4 @@ class SittercityProfile
 
   end
 
-
-
 end
