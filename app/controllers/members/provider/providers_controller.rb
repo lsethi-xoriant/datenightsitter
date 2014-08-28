@@ -49,13 +49,10 @@ class Provider::ProvidersController < ApplicationController
   end
   
   def dashboard
-    @member = current_member
-    
-    if @member.is_a? Admin
-      render :admin_dashboard
-    else
-      if @member.accepted_tou_at.nil? || @member.accepted_tou_at < Time.parse(Rails.application.secrets.sittercity_current_tou)   #TODO FIX:  move to config file
-        redirect_to terms_of_use_member_path
+    @provider = current_member
+
+      if @member.accepted_tou_at.nil? || @provider.accepted_tou_at < Time.parse(Rails.application.secrets.sittercity_current_tou)   #TODO FIX:  move to config file
+        redirect_to provider_terms_of_use_path
       else
         
         @trans = @member.transactions.order(:started_at => :desc).paginate(:per_page => 3, :page => params[:page])
@@ -64,9 +61,7 @@ class Provider::ProvidersController < ApplicationController
         @ttl_hrs = @member.transactions.where(:status => :paid).pluck(:duration).reduce(0, :+)
         @avg_rate = ( @ttl_hrs > 0) ? @ttl_amt / @ttl_hrs.to_f : 0
         
-        render :provider_dashboard if @member.is_a? Provider
-        render :seeker_dashboard if @member.is_a? Seeker
-      end
+        render :provider_dashboard
     end
   end
   
@@ -147,10 +142,6 @@ class Provider::ProvidersController < ApplicationController
   
   def member_params
     params.require(:member).permit(:first_name, :last_name, :email, :password, :address, :city, :state, :zip, :type, :phone, :date_of_birth, :accepted_tou_at)
-  end
-  
-  def seeker_params
-    params.require(:seeker).permit(:first_name, :last_name, :email, :type, :phone, :id )
   end
   
   def trans_params

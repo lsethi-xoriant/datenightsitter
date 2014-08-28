@@ -1,3 +1,26 @@
+# == Schema Information
+#
+# Table name: transactions
+#
+#  id                          :integer          not null, primary key
+#  seeker_id                   :integer
+#  provider_id                 :integer
+#  merchant_account_id         :string(255)
+#  payment_token               :string(255)
+#  status                      :string(15)
+#  amount_cents                :integer          default(0), not null
+#  amount_currency             :string(255)      default("USD"), not null
+#  rate_cents                  :integer          default(0), not null
+#  rate_currency               :string(255)      default("USD"), not null
+#  started_at                  :datetime
+#  duration                    :decimal(10, 4)
+#  service_fee_amount_cents    :integer          default(0), not null
+#  service_fee_amount_currency :string(255)      default("USD"), not null
+#  processor_transaction_id    :string(255)
+#  created_at                  :datetime
+#  updated_at                  :datetime
+#
+
 require 'rails_helper'
 
 RSpec.describe Transaction, :type => :model do

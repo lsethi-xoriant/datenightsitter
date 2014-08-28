@@ -1,3 +1,27 @@
+# == Schema Information
+#
+# Table name: members
+#
+#  id                  :integer          not null, primary key
+#  type                :string(255)
+#  email               :string(255)
+#  phone               :string(255)
+#  password_hash       :string(255)
+#  first_name          :string(255)
+#  last_name           :string(255)
+#  address             :string(255)
+#  city                :string(255)
+#  state               :string(255)
+#  zip                 :string(255)
+#  date_of_birth       :date
+#  merchant_account_id :string(255)
+#  payment_account_id  :string(255)
+#  created_at          :datetime
+#  updated_at          :datetime
+#  accepted_tou_at     :datetime
+#  sso_uuid            :string(255)
+#
+
 class Member < ActiveRecord::Base
   include BCrypt
   validates_format_of :email, :allow_nil => true, :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\Z/i
@@ -153,16 +177,15 @@ class Member < ActiveRecord::Base
   
   def self.search_by(field, val)
     case field
-    when :phone, "phone"
-      search_field = 'phone'
-    when :last_name, "last_name"
-      search_field = "last_name"
-    else
-      search_field = "nil"
+      when :phone, "phone"
+        search_field = 'phone'
+      when :last_name, "last_name"
+        search_field = "last_name"
+      else
+        search_field = "nil"
     end
-    
-    where("#{search_field} like ?", [val.to_s,"%"].join)
-  end
+  where("#{search_field} like ?", [val.to_s,"%"].join)
+end
   
   protected
 

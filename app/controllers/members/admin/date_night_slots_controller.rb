@@ -1,7 +1,7 @@
 module Members
   module Admin
     class DateNightSlotsController < AdminsController
-      
+  
       def new
         @date_night_slot = DateNightSlot.new
       end
@@ -51,11 +51,10 @@ module Members
         end
       end
 
-
       private
 
       def dns_params
-        params.require(:date_night_slot).permit( :available_on, :starting_at, :guaranteed_openings)
+        params.require(:date_night_slot).permit(:available_on, :starting_at, :guaranteed_openings)
       end
     end
   end

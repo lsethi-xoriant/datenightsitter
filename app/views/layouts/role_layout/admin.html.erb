@@ -15,14 +15,13 @@
     <link rel="apple-touch-icon" sizes='152x152' href="/images/ios-icon_152x152.png" />
     <link rel="apple-touch-icon-precomposed" href="/images/ios-icon_152x152.png">
       
-      
     <title>Sittercity - Marketplace</title>
     <%= stylesheet_link_tag    'application', media: 'all', 'data-turbolinks-track' => true %>
     <%= javascript_include_tag 'application', 'data-turbolinks-track' => true %>
     <%= csrf_meta_tags %>
   </head>
   <body data-controller="<%= controller_name %>" data-action="<%= action_name %>" >
-    <%= render :partial => "/layouts/headers/header_admin" %>
+    <%= render :partial => "/layouts/headers/nav_admin" %>
     
     <div class="container-fluid">
       <!-- placeholder for flash messages -->

@@ -16,9 +16,9 @@
       <td><%= slot.guaranteed_openings %></td>
       <td><%= slot.date_night_sittings.count %></td>
       <td>
-        <%= link_to "See Sitter Availability",  date_night_sittings_admin_sittings_path(:slot_id=> slot.id), :class => "btn btn-primary" %>
-        <%= link_to "Update",  edit_admin_date_night_slot_path(slot), :class => "btn btn-info" %>
-        <%= link_to "Delete",  admin_date_night_slot_path(slot), :method=> :delete, :class => "btn btn-warning" %>
+        <%= nav_link_to "See Sitter Availability", date_night_sittings_admin_sittings_path(:slot_id => slot.id), :class => "btn btn-primary" %>
+        <%= nav_link_to "Update",  edit_admin_date_night_slot_path(slot), :class => "btn btn-info" %>
+        <%= nav_link_to "Delete",  admin_date_night_slot_path(slot), :method=> :delete, :class => "btn btn-warning" %>
       </td>
     </tr>
     <% end %>
@@ -27,6 +27,6 @@
     <%= form_tag admin_date_night_slots_path, :method => :get do %>
       <%= text_field_tag :available_on,  nil, :class => "date adjust-size" %>
       <%= submit_tag "search", :class => "btn btn-info" %>
-      <%= link_to "clear", admin_date_night_slots_path, :class => "btn btn-info" %>
+      <%= nav_link_to "clear", admin_date_night_slots_path, :class => "btn btn-info" %>
     <% end %>
 </div>

@@ -1,0 +1,5 @@
+<% if member_authenticated? %>
+  <li><%= nav_link_to "Add Date Night Slot", new_admin_date_night_slot_path %></li>
+  <li><%= nav_link_to "Show Date Night Slots", admin_date_night_slots_path %></li>
+  <li><%= nav_link_to "Show Date Night Availability", date_night_sittings_admin_sittings_path %></li>
+<% end %>

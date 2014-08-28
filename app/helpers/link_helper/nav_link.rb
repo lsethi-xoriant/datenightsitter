@@ -1,4 +1,4 @@
-module NavLink::NavLink
+module LinkHelper::NavLink
 
   def nav_link_to(*args, &block)
     title = block_given? ? capture(&block) : args.shift
@@ -124,7 +124,7 @@ module NavLink::NavLink
     end
 
     def selected_class
-      @options[:selected_class] || NavLYNX.selected_class
+      @options[:selected_class] || 'active' #change default to something - active, hidden, etc
     end
 
     def wrapper_classes

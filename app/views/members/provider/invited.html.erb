@@ -1,0 +1,15 @@
+<div class='col-xs-12 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 std-template'>
+  <h3>Sittercity Marketplace</h3>
+  <p>Welcome <%= @seeker.last_name %> Family</p>
+  <p>
+    Your babysitter, <%= @provider.full_name %>, has begun to use Sittercity to
+    manage her babysitting work and we think you'll want to join her.
+  </p>
+  <p>Mel's going to make this copy sing, but how about:</p>
+  
+  <p>Guilt-free date night booking <a href="#">learn more</a></p>
+  <p>Last minute opportunities <a href="#">learn more</a></p>
+  <p>Avoid late night ATMs <a href="#">learn more</a></p>
+
+  <div class="col-xs-offset-2 col-xs-8"><%= link_to "Join today", enroll_member_path(@seeker), :class => "btn btn-primary max-width" %></div>  
+</div>

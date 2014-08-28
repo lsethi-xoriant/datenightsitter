@@ -1,0 +1,27 @@
+<div class="row"><h4>Babysitting Events</h4></div>
+<% @trans.each do |t| %>
+  <div class='row-fluid col-xs-12 dash-trans-record'>
+    <div class='col-xs-2 dash-trans-emphasize'><%=number_to_currency(t.estimated_amount, :precision => 0)%></div>
+    <div class='col-xs-6 dash-trans-base'>
+      <% if current_member.is_a?(Provider) %>
+        <%=t.seeker.last_name.titleize %> family
+      <% else %>
+        <%= t.provider.full_name.titleize %>
+      <% end %>
+    </div>
+    <div class='col-xs-4 dash-trans-base'><%=t.status.titleize %></div>
+    <div class='col-xs-10 dash-trans-base'>
+      <%=t.started_at.in_time_zone().strftime('%a %-m/%-d') %>:
+      <%=t.duration.to_f %> hours
+      @ ~<%=number_to_currency(t.estimated_rate, :precision => 0) %> hr.
+    </div>
+    <div class='col-xs-12 dashboard-trans-base'>
+      <% if @member.is_a?(Provider) %>
+        <%=link_to( "Resend to Family", resend_request_settle_up_path(t), :class => "btn btn-lg btn-default max-width active") if !t.paid? %>
+      <% else %>
+        <%=link_to( "Pay Babysitter", review_settle_up_path(t), :class => "btn btn-lg btn-default max-width active") if !t.paid? %>
+      <% end %>
+    </div>
+  </div>
+<% end %>
+<div clas='row-fluid col-xs-12 dashboard-trans'><%= will_paginate(@trans) %></div>

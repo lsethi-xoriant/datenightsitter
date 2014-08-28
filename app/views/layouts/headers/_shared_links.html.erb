@@ -1,0 +1,6 @@
+<% if member_authenticated? %>
+  <%= nav_link_to 'Log out', log_out_path, {}, {:wrapper => 'li', :wrapper_class => 'active'} %>
+<% else %>
+  <%= nav_link_to 'Sign up', sign_up_path, {}, {:wrapper => 'li', :wrapper_class => 'active'} %></li>
+  <%= nav_link_to "Log in", log_in_path, {}, {:wrapper => 'li', :wrapper_class => 'active'} %></li>
+<% end %>

@@ -72,7 +72,7 @@ module Members
         if @sittings.count == 0
           @providers = Provider.all
         else
-          @providers = Provider.where("id NOT IN (?)", @sittings.pluck(:provider_id) ) 
+          @providers = Provider.where("id NOT IN (?)", @sittings.pluck(:provider_id))
         end
 
       end

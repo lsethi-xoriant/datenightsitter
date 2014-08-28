@@ -6,24 +6,30 @@ Rails.application.routes.draw do
   get 'account_check' => "accounts#account_check"
   root :to => "sessions#new"
 
-=begin
-  resources :members do
-    member do
-      get :bank_account
-      get :dashboard
-      get :date_night_availability
-      get :invite_parent
-      get :invited
-      get :settle_up
-      get :profile
-      get :terms_of_use
-      post :update_date_night_availability
-      post :add_bank_account
-      post :add_seeker
-      post :submit_bill
+  resources :date_night_sitting
+
+  resources :sessions do
+    collection do
+      get :forgot_password
+      post :verify_member
+      post :change_password
     end
   end
-=end
+
+  resources :transactions do
+    member do
+      get :review
+      put :update
+    end
+  end
+
+  resources :settle_up, controller:"transactions" do
+    member do
+      get :review
+      put :update
+      get :resend_request
+    end
+  end
 
   scope module: 'members' do
     namespace :admin do
@@ -58,31 +64,6 @@ Rails.application.routes.draw do
         post :add_seeker
         post :submit_bill
       end
-    end
-  end
-
-  resources :date_night_sitting
-
-  resources :sessions do
-    collection do
-      get :forgot_password
-      post :verify_member
-      post :change_password
-    end
-  end
-
-  resources :transactions do
-    member do
-      get :review
-      put :update
-    end
-  end
-
-  resources :settle_up, controller:"transactions" do
-    member do
-      get :review
-      put :update
-      get :resend_request
     end
   end
 
