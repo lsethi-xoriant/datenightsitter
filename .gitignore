@@ -32,4 +32,4 @@ scratch
 /config/sittercity_settings.yml
 
 # Ignore RubyMine
-/.idea
+/.idea/*
