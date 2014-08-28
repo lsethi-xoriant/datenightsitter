@@ -30,3 +30,6 @@ scratch
 
 # Ignore application configuration
 /config/sittercity_settings.yml
+
+# Ignore RubyMine
+/.idea
