@@ -72,7 +72,7 @@ module Members
       def bank_account
         @provider = current_member
         
-        if @provider.is_a?(Provider)
+        if @provider.type == 'Provider'
           @fd = @provider.merchant_account_id ? @provider.merchant_account.funding_details : nil
           @routing_number = @fd ? @fd.routing_number : nil
           @account_number = @fd ? ["**********",@fd.account_number_last_4].join : nil
@@ -131,7 +131,7 @@ module Members
       
       def date_night_availability
         @provider = current_member
-        @slots = DateNightSlot.def_filter.paginate(:per_page => 6, :page => params[:page])
+        @slots = DateNightSlot.def_filter.def_paginate(params[:page])
       end
       
       

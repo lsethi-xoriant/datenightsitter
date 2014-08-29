@@ -29,8 +29,7 @@
       <%= link_to("Wrap up and get paid", provider_settle_up_path(@provider), :class => "btn btn-lg btn-info max-width", :disabled => (@provider.merchant_account_id.nil?) ) %>
     </div>
     <div class='row col-sm-12'>
-      <%= #link_to("Invite Parents to Join",  invite_parent_member_path(@provider), :class => "btn btn-lg btn-info max-width")
-      %>
+      <%= link_to("Invite Parents to Join",  provider_invite_parent_path(@provider), :class => "btn btn-lg btn-info max-width") %>
     </div>
   <%= render :partial => "transactions" %>
 </div>
