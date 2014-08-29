@@ -24,7 +24,9 @@
 class Transaction < ActiveRecord::Base
   belongs_to :seeker
   belongs_to :provider
-  
+
+  include GeneralFilter::GenFilter
+ 
   monetize :amount_cents
   monetize :service_fee_amount_cents
   monetize :rate_cents

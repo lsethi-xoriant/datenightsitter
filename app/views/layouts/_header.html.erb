@@ -21,7 +21,7 @@
             <a href="#" class="dropdown-toggle" data-toggle="dropdown">Tools<b class="caret"></b></a>
             <ul class="dropdown-menu">
               <% if current_member.is_a?(Provider) %>
-                <li><%= link_to "Settle Up", account_check_path %></li>
+                <li><%= link_to "Settle Up", provider_settle_up_path %></li>
               <% end %>
             </ul>
           </li>

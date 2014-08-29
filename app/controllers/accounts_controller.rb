@@ -6,9 +6,9 @@ class AccountsController < ApplicationController
       when 'Admin'
         admin_dashboard_path
       when 'Provider'
-        provider_dashboard_provider_path
+        provider_dashboard_path(@member)
       when 'Seeker'
-        seeker_dashboard_seeker_path
+        seeker_dashboard_path(@member)
       else
         root_path
     end
@@ -16,5 +16,4 @@ class AccountsController < ApplicationController
     redirect_to path
 
   end
-
 end

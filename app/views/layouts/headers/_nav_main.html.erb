@@ -12,24 +12,8 @@
       </a>
     </div>
     <div class="navbar-collapse collapse" style="height: auto;">
-      <ul class="nav navbar-nav">
-          <li>
-            <%= nav_link_to "Dashboard", account_check_path %>
-          </li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Admin Controls<b class="caret"></b></a>
-            <ul class="dropdown-menu">
-              <%= render '/layouts/headers/nav_admin' %>
-            </ul>
-          </li>
-          <li class="dropdown">
-            <a href="#" class="dropdown-toggle" data-toggle="dropdown">Settings<b class="caret"></b></a>
-            <ul class="dropdown-menu">
-            </ul>
-          </li>
-      </ul>
       <ul class="nav navbar-nav navbar-right">
-        <%= render '/layouts/headers/shared/shared_links' %>
+        <%= render '/layouts/headers/shared_links' %>
       </ul>
     </div><!--/.nav-collapse -->
   </div>

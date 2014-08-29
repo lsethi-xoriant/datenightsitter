@@ -21,7 +21,7 @@
     <%= csrf_meta_tags %>
   </head>
   <body data-controller="<%= controller_name %>" data-action="<%= action_name %>" >
-    <%= render :partial => "/layouts/header" %>
+    <%= render :partial => "/layouts/headers/nav_main" %>
     
     <div class="container-fluid">
       <!-- placeholder for flash messages -->
@@ -34,7 +34,7 @@
     </div>
     
     <footer>
-      <%= render :partial => "/layouts/footer" %>
+      <%= render :partial => "/layouts/footers/footer" %>
     </footer>
     
   </body>

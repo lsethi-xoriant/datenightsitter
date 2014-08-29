@@ -1,6 +1,7 @@
 <div class='col-xs-12 col-sm-6 col-sm-offset-3 col-md-6 col-md-offset-3 std-template'>
-  <h3>Sign Up</h3>
-  <%= simple_form_for(@member, :html => {class: "form-horizontal"}, wrapper: :horizontal_form,
+  <h3>Account Profile</h3>
+  <%= simple_form_for(@provider, :url => provider_profile_path(@provider), :as => 'member', :method => :put,
+                      :html => {class: "form-horizontal"}, wrapper: :horizontal_form,
                       wrapper_mappings: {
                         check_boxes: :horizontal_radio_and_checkboxes,
                         radio_buttons: :horizontal_radio_and_checkboxes,
@@ -8,29 +9,15 @@
                         boolean: :horizontal_boolean
                       } ) do |f| %>
     <%= f.error_notification %>
-
-    <%= f.input :type, :as => :radio_buttons,
-                :collection => [["Babysitter", "Provider"],["Parent", "Seeker"]],
-                :prompt =>"Type of Member:" %>
-
     <%= f.input :first_name %>
-
     <%= f.input :last_name %>
-
     <%= f.input :date_of_birth, as: :string, :input_html => { :type => 'date' } %>
-
     <%= f.input :address %>
-
     <%= f.input :city %>
-
     <%= f.input :state %>
-
     <%= f.input :zip %>
-
     <%= f.input :phone %>
-
     <%= f.input :email, placeholder: 'user@domain.com' %>
-
     <%= f.input :password %>
 
     <div class="form-group row centre">
@@ -40,4 +27,3 @@
     </div>
   <% end %>
 </div>
-  

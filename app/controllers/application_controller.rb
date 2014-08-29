@@ -12,7 +12,8 @@ class ApplicationController < ActionController::Base
                 :require_authentication,
                 :member_authenticated?,
                 :require_admin_role,
-                :member_admin?
+                :member_admin?,
+                :set_layout
   private
   
   def current_member
@@ -69,4 +70,9 @@ class ApplicationController < ActionController::Base
       redirect_to log_in_path # halts request cycle
     end
   end
+
+  def set_layout
+
+  end
+
 end

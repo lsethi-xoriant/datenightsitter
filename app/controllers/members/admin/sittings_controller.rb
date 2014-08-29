@@ -55,7 +55,6 @@ module Members
         
       end
 
-     
       private
       
       def sitting_params
@@ -63,7 +62,7 @@ module Members
       end
       
       def set_date_night_sittings(slot_id)
-        @available_slots = DateNightSlot.available_on_today_beyond
+        @available_slots = DateNightSlot.def_filter
         @slot = DateNightSlot.includes(:date_night_sittings).find(slot_id) unless slot_id.nil?
         @slot ||= DateNightSlot.last   #if slot is null, grab the last one
         

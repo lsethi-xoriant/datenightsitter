@@ -23,7 +23,10 @@ gem 'bootstrap-sass', '~> 3.1.1'
 gem 'font-awesome-rails', '~> 4.0'
 gem 'simple_form', '~> 3.1.0.rc2', github: 'plataformatec/simple_form', branch: 'master'
 gem 'will_paginate', '~> 3.0.5'
+
+#serializers
 gem 'rabl', '~> 0.10'
+gem 'active_model_serializers'
 
 #jquery plugins
 gem 'bootstrap-datepicker-rails', '~> 1.3.0'
@@ -78,4 +81,3 @@ group :test do
   gem 'database_cleaner', '~> 1.2'
   gem 'simplecov', '~> 0.8.2'
 end
-

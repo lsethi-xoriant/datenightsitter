@@ -6,6 +6,6 @@
                       :value_method => :id,
                       :label_method => lambda {|n| t("#{n.last_name} | #{number_to_phone(n.phone)} | #{n.has_payment_account? ? 'Verified' : 'Pending'}")}
                       %><br>
-    <%= link_to "new family?", settle_up_member_path(:id => params[:id], :new_family => true) %>
+    <%= link_to "new family?", provider_settle_up_path(:id => params[:id], :new_family => true) %>
   </div>
 </div>

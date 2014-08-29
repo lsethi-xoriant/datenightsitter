@@ -9,7 +9,7 @@ class SessionsController < ApplicationController
     authenticate_member(params[:email], params[:password], false)
     
     if member_authenticated?
-      if current_member.nil?   #then the user is a SC member, but not a date night membe
+      if current_member.nil?   #then the user is a SC member, but not a date night member
         Member.create_from_sittercity_account(current_sittercity_account)
         redirect_to profile_member_path(current_member), :flash => {:success => "Date Night Account created" }
       else

@@ -46,13 +46,14 @@ Rails.application.routes.draw do
     end
     scope module: 'seeker' do
       resources :seekers do
-        get :dashboard, as: 'dashboard_seeker'
+        get :dashboard
+        get :profile
       end
     end
     scope module: 'provider' do
       resources :providers do
         get :bank_account
-        get :dashboard, as: 'dashboard_provider'
+        get :dashboard
         get :date_night_availability
         get :invite_parent
         get :invited

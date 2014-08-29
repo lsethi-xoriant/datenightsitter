@@ -10,7 +10,7 @@
       }
     </style>
 
-  <%= form_tag(submit_bill_member_path(@provider), :method => :post, :class => "form-horizontal") do %>
+  <%= form_tag(provider_submit_bill_path(@provider), :method => :post, :class => "form-horizontal") do %>
     <%= simple_fields_for(@transaction) do |t| %>
     <%= t.input :started_at, :as => :hidden  %>
     <%= t.input :duration, :as => :hidden %>

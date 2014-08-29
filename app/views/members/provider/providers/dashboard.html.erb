@@ -1,6 +1,6 @@
 <div class='col-xs-12 col-sm-6 col-sm-offset-3 col-lg-4 col-lg-offset-4'>
   <h3 style="margin-top: 0px;">Sitter Dashboard</h3>
-  <p>Welcome <%= @member.full_name.titleize %></p>
+  <p>Welcome <%= @provider.full_name.titleize %></p>
   <div class='row well' style="padding: 5px 0px;">
     <div class='col-xs-4 centre'>
       <p>Jobs</p>
@@ -23,13 +23,13 @@
   </div>
 
     <div class='row col-sm-12'>
-      <%= link_to("Update DateNight Availability",  date_night_availability_member_path(@member), :class => "btn btn-lg btn-primary max-width") %>
+      <%= link_to("Update DateNight Availability",  provider_date_night_availability_path(@provider), :class => "btn btn-lg btn-primary max-width") %>
     </div>
     <div class='row col-sm-12'>
-      <%= link_to("Wrap up and get paid", settle_up_member_path(@member), :class => "btn btn-lg btn-info max-width", :disabled => (@member.merchant_account_id.nil?) ) %>
+      <%= link_to("Wrap up and get paid", provider_settle_up_path(@provider), :class => "btn btn-lg btn-info max-width", :disabled => (@provider.merchant_account_id.nil?) ) %>
     </div>
     <div class='row col-sm-12'>
-      <%= #link_to("Invite Parents to Join",  invite_parent_member_path(@member), :class => "btn btn-lg btn-info max-width")
+      <%= #link_to("Invite Parents to Join",  invite_parent_member_path(@provider), :class => "btn btn-lg btn-info max-width")
       %>
     </div>
   <%= render :partial => "transactions" %>

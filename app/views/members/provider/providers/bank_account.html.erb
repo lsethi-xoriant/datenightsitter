@@ -3,7 +3,7 @@
     <p>
       <%= @provider.first_name.titleize %>, We just need a few details to setup your account. (all fields are required)
     </p>
-    <%= form_tag(add_bank_account_member_path(@provider), :method => :post, :class => "form-horizontal", :id=>'braintree-merchant-form') do %>
+    <%= form_tag(provider_add_bank_account_path(@provider), :method => :post, :class => "form-horizontal", :id=>'braintree-merchant-form') do %>
       <%= fields_for(@provider) do |p| %>
       <div class="form-group row">
         <div class="col-xs-5"><%= p.label :first_name, "First Name:" %></div>

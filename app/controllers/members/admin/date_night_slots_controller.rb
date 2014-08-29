@@ -43,12 +43,7 @@ module Members
       end
 
       def index
-        if params[:available_on]
-          @date_night_slots = DateNightSlot.where(:available_on => params[:available_on]).order(:available_on => :desc).includes(:date_night_sittings).paginate(:per_page => 5, :page => params[:page])
-          #code
-        else
-          @date_night_slots = DateNightSlot.all.order(:available_on => :desc).includes(:date_night_sittings).paginate(:per_page => 5, :page => params[:page])
-        end
+        @date_night_slots = DateNightSlot.filter_value(params.slice(:available_on)).order(:available_on => :desc).includes(:date_night_sittings).paginate(:per_page => 5, :page => params[:page])
       end
 
       private
