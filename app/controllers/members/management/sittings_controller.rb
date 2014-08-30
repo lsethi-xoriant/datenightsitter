@@ -1,5 +1,5 @@
 module Members
-  module Admin
+  module Management
     class SittingsController < AdminsController
       respond_to :html, :js
 

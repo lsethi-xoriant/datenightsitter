@@ -1,5 +1,5 @@
 module Members
-  module Admin
+  module Management
     class AdminsController < ApplicationController
       before_action :require_admin_role
       layout 'admin'

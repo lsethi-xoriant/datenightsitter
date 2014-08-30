@@ -1,7 +1,7 @@
 module Members
-  module Admin
+  module Management
     class DateNightSlotsController < AdminsController
-  
+
       def new
         @date_night_slot = DateNightSlot.new
       end

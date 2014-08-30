@@ -1,5 +1,5 @@
 module Members
-  module Seeker
+  module Parent
     class SeekersController < ApplicationController
       layout 'seeker'
       skip_before_action :require_authentication, only: [:new, :create, :invited]

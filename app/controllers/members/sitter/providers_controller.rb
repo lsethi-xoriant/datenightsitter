@@ -1,10 +1,8 @@
 module Members
-  module Provider
+  module Sitter
     class ProvidersController < ApplicationController
       layout 'provider'
       respond_to :html, :json
-
-      require 'seeker.rb' #Seeker is inherited from member and we namespaced member for the role if this is not included calling Seeker.method will fail the object call
 
       skip_before_action :require_authentication, only: [:new, :create, :invited]
 

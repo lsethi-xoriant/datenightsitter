@@ -31,8 +31,8 @@ Rails.application.routes.draw do
     end
   end
 
-  scope module: 'members' do
-    namespace :admin do
+  namespace :members, path: nil, as: nil do
+    namespace :management, as: :admin do
       root to: "admins#index", as: "dashboard", path: "/dashboard"
       resources :date_night_slots, :except => :show
       resources :sittings, only: [:create, :update, :destroy] do
@@ -44,14 +44,14 @@ Rails.application.routes.draw do
         end
       end
     end
-    scope module: 'seeker' do
-      resources :seekers do
+    namespace :parent, path: nil, as: nil do
+      resources :seekers, path: 'parent' do
         get :dashboard
         get :profile
       end
     end
-    scope module: 'provider' do
-      resources :providers do
+    namespace :sitter, path: nil, as: nil do
+      resources :providers, path: 'sitter' do
         get :bank_account
         get :dashboard
         get :date_night_availability

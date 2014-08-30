@@ -12,7 +12,6 @@ gem 'sass-rails', '~> 4.0.3'   # Use SCSS for stylesheets
 gem 'uglifier', '>= 1.3.0'  # Use Uglifier as compressor for JavaScript assets
 gem 'coffee-rails', '~> 4.0.0' # Use CoffeeScript for .js.coffee assets and views
 
-
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 gem 'therubyracer', '~> 0.12.1'
 
@@ -64,6 +63,7 @@ group :development, :test do
   gem 'factory_girl_rails', '~> 4.4.1'
   gem 'faker', '~> 1.3.0'
   #gem 'debugger', '~> 1.6.8'
+  #gem 'jazz_hands'
 end
 
 group :development do
@@ -72,8 +72,11 @@ group :development do
   gem 'spring', '~> 1.1.3'
   gem 'better_errors', '~> 1.1'
   gem 'binding_of_caller', '~> 0.7'
-  gem 'hirb'
   gem 'annotate'
+  gem 'meta_request'
+  gem 'hirb'
+  gem 'pry-rails'
+  gem 'awesome_print'
 end
 
 group :test do
